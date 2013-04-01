@@ -1,17 +1,30 @@
-/*
- * Position.h
- *
- *  Created on: 31 mars 2013
- *      Author: magoa
- */
-#ifndef POSITION_H_
-#define POSITION_H_
-#include <string>
+#ifndef Position_h
+#define Position_h
 
-class Position {
+#include "Position.h"
+#include <map>
+
+using namespace std;
+
+class Position
+{
+
 public:
-	Position();
-	void toString();
+
+	static Position* fabriquePosition(int x, int y);
+	static int codePosition(int x, int y);
+	int getX() const;
+	int getY() const;
+
+private:
+
+	Position(int x, int y);
+
+private:
+	int x;
+	int y;
+	static map<int, Position*> listePosition;
+
 };
 
-#endif /* POSITION_H_ */
+#endif // Position_h

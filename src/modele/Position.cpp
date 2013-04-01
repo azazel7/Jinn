@@ -10,12 +10,44 @@
 
 using namespace std;
 
-Position::Position() {
-	// TODO Auto-generated constructor stub
+Position::Position(int x, int y)
+{
+	this->x = x;
+	this->y = y;
+}
+map<int, Position*> Position::listePosition;
 
+Position* Position::fabriquePosition(int x, int y)
+{
+	int code = codePosition(x, y);
+	if(listePosition[code] == NULL)
+	{
+		listePosition[code] = new Position(x, y);
+	}
+	return listePosition[code];
 }
 
-void Position::toString()
+int Position::codePosition(int x, int y)
 {
-	cout << "plop" << endl;
+	int xx = x * 2;
+	if (x < 0)
+	{
+		xx = -x * 2 + 1;
+	}
+	int yy = y * 2;
+	if (y < 0)
+	{
+		yy = -y * 2 + 1;
+	}
+	return (xx + yy) * (xx + yy + 1) / 2 + yy;
+}
+
+int Position::getX() const
+{
+	return x;
+}
+
+int Position::getY() const
+{
+	return y;
 }

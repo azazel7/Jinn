@@ -11,13 +11,11 @@ OBJ = $(patsubst $(SRCDIR)%.cpp, $(OBJDIR)%.o, $(SRC))
 OBJSUBDIR = $(dir $(OBJ))
 
 
-
+compile: directory $(OBJ)
 
 Jinn: compile 
 	$(CC) -I $(INCDIR) $(OBJ) $(MAINDIR)$@.cpp -o $@ 	
 
-compile: directory $(OBJ)
-	
 
 $(OBJDIR)%.o : $(SRCDIR)%.cpp
 	$(CC) -I $(INCDIR) -c $< -o $@
