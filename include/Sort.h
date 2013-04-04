@@ -27,9 +27,17 @@ public:
 
 	virtual ~Sort();
 
+	static int calculeNouveauTauxReussite(int dissip, int ancienTaux);
+
+	static bool testerReussite(int taux);
+
 	Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite,
 			int nbCible, int att, int duree, int znEffet, int dissip,
 			int nbMaxSortDissip);
+
+	virtual int getPourcentageReussite();
+
+	virtual Joueur* getProprietaire();
 
 private:
 	string nom;
@@ -51,7 +59,7 @@ public:
 	 */
 	std::vector<Effet*> effet;
 
-	Joueur *maitriser;
+	Joueur *proprietaire;
 };
 
 #endif // Sort_h

@@ -3,6 +3,7 @@
 
 #include "Position.h"
 #include <map>
+#include <iostream>
 
 using namespace std;
 
@@ -15,6 +16,8 @@ public:
 	static int codePosition(int x, int y);
 	int getX() const;
 	int getY() const;
+	bool operator==(Position const& a) const;
+	static int distance(Position const& a, Position const& b);
 
 private:
 

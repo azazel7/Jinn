@@ -18,22 +18,23 @@ class Action
 
 public:
 
+	Action(Case *origine, Sort *sort, std::vector<Case*> cible);
 	/**
 	 *  Permet de recupérer le sort lié à une action
 	 */
-	virtual Sort getSort();
+	virtual Sort* getSort();
 
 	/**
 	 *  Récupére l'origine du sort
 	 */
-	virtual Case getOrigine();
+	virtual Case* getOrigine();
 
 	/**
 	 *  Récupére la liste des cibles du sort
 	 */
-	virtual void getCible();
+	virtual std::vector<Case*> getCible();
 
-public:
+protected:
 
 	Case *origine;
 

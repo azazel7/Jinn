@@ -51,3 +51,18 @@ int Position::getY() const
 {
 	return y;
 }
+
+bool Position::operator==(Position const& a) const
+{
+	if(a.getX() == x && a.getY() == y)
+	{
+		return true;
+	}
+	return false;
+}
+
+int Position::distance(Position const& a, Position const& b)
+{
+
+	return a.getX() - b.getY()
+}

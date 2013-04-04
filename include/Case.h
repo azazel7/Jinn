@@ -17,7 +17,37 @@ public:
 	virtual void setProprietaire(Joueur *nouveauProprietaire);
 
 	Case(int defIni, int bonOff, int dissip, int attenu, int mana, int regenDef,
-			int camoufla, Position position);
+			int camoufla, Position* position);
+
+	int getApportMana() const;
+	void setApportMana(int apportMana);
+	int getBonusOffensifActuel() const;
+	void setBonusOffensifActuel(int bonusOffensifActuel);
+	int getBonusOffensifInitial() const;
+	void setBonusOffensifInitial(int bonusOffensifInitial);
+	int getCamouflageInitial() const;
+	void setCamouflageInitial(int camouflageInitial);
+	int getCamouflageReel() const;
+	void setCamouflageReel(int camouflageReel);
+	bool isControlable() const;
+	void setControlable(bool controlable);
+	int getDefenseActuelle() const;
+	void setDefenseActuelle(int defenseActuelle);
+	int getDefenseInitiale() const;
+	void setDefenseInitiale(int defenseInitiale);
+	int getDefenseReel() const;
+	void setDefenseReel(int defenseReel);
+	int getEffetAttenuation() const;
+	void setEffetAttenuation(int effetAttenuation);
+	int getEffetDissipation() const;
+	void setEffetDissipation(int effetDissipation);
+	void setPosition(Position* position);
+	Position* getPosition() const;
+	Joueur* getProprietaire() const;
+	int getRegenerationDefense() const;
+	void setRegenerationDefense(int regenerationDefense);
+
+
 
 private:
 	bool controlable;
@@ -33,7 +63,7 @@ private:
 	int camouflageInitial;
 	int camouflageReel;
 
-public:
+private:
 	Joueur *proprietaire;
 	Position *position;
 };

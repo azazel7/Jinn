@@ -18,9 +18,10 @@ public:
 
 	Joueur();
 
-	Joueur(int gainInit, int manaMax, int abiliteInit);
+	Joueur(int gainInit, int manaMax, int abiliteInit, string nom);
 
 	virtual Action effectuerAction();
+
 
 private:
 	string nom;

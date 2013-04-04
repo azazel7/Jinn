@@ -16,9 +16,9 @@ class Plateau {
 
     Plateau(int largeur, int hauteur);
 
-    virtual Case getCase(int x, int y);
+    virtual Case* getCase(int x, int y);
 
-    virtual void lancerSort(Case origine, Case cible, Sort sort);
+    virtual Case* getCase(Position const& position);
 
     virtual void appliquerAction(Action action);
 
@@ -30,18 +30,15 @@ class Plateau {
 
     virtual ~Plateau();
 
+    virtual void initialiserPlateau();
 
  private:
     int largeur;
     int hauteur;
-
- public:
-
-
     /**
      * @element-type Case
      */
-    std::vector< Case* > constituer;
+    std::vector< Case* > listeCase;
 };
 
 #endif // Plateau_h

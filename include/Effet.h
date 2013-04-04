@@ -8,6 +8,8 @@ class Effet {
 
     Effet(int type, int valeur);
 
+    int getType();
+    int getValeur();
 
  private:
     int typeEffet;

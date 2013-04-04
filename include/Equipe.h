@@ -12,15 +12,15 @@ class Equipe {
 
  public:
 
-    virtual void choisirJoueur();
+    virtual Joueur* choisirJoueur();
 
     Equipe(string nom);
 
 
  private:
     string nom;
-
- public:
+    int joueurChoisi;
+private:
 
     /**
      * @element-type Joueur
