@@ -4,12 +4,15 @@
 #include <vector>
 
 #include "Action.h"
+#include "Equipe.h"
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 
 class Sort;
 class Action;
+class Equipe;
 
 class Joueur
 {
@@ -25,6 +28,15 @@ public:
 	virtual void diminuerMana(int quantite = 1);
 
 	virtual bool estMort();
+
+	virtual void genererStatistique();
+
+	virtual string saisieNom();
+
+	virtual string saisieEquipe(std::vector< Equipe* > & equipe);
+
+	virtual string saisieSort(vector<Sort* > const& sort);
+
 
 private:
 	string nom;

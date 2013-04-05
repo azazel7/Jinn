@@ -12,10 +12,15 @@ class Equipe {
 
  public:
 
-    virtual Joueur* choisirJoueur();
+	Equipe(string nom);
 
-    Equipe(string nom);
+	virtual Joueur* choisirJoueur();
 
+    virtual bool joueurExiste(string & nom);
+
+    virtual string getNom();
+
+    virtual void ajouterJoueur(Joueur* nouveauJoueur);
 
  private:
     string nom;

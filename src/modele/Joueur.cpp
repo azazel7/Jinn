@@ -1,5 +1,5 @@
 #include "Joueur.h"
-
+#include <cstdlib>
 
 
 
@@ -44,7 +44,6 @@ void Joueur::diminuerMana(int quantite)
 	{
 		return;
 	}
-
 }
 
 bool Joueur::estMort()
@@ -55,3 +54,27 @@ bool Joueur::estMort()
 	}
 	return false;
 }
+
+void Joueur::genererStatistique()
+{
+	this->abilite = rand()%10;
+	this->gainInitialMana = rand()%10;
+	this->manaMaximum = 100 + rand()%10;
+	this->manaActuel = this->manaMaximum;
+}
+
+string Joueur::saisieNom()
+{
+
+}
+
+string Joueur::saisieEquipe(std::vector< Equipe* > & equipe)
+{
+
+}
+
+string Joueur::saisieSort(vector<Sort* > const& sort)
+{
+
+}
+

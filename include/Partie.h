@@ -4,10 +4,14 @@
 #include <vector>
 
 #include "Equipe.h"
+#include "Plateau.h"
+#include "Joueur.h"
 
 using namespace std;
 
 class Plateau;
+class Joueur;
+class Equipe;
 
 class Partie {
 
@@ -33,6 +37,16 @@ class Partie {
      */
     virtual void initialiser();
 
+    /**
+     * Permet de saisir un joueur
+     */
+    virtual void nouveauJoueur(Joueur & joueur);
+
+    /**
+     * Liste tous les sorts disponible pour la partie
+     */
+    virtual std::vector<Sort*> listeSort();
+
  public:
     
     /** 
@@ -43,7 +57,7 @@ class Partie {
 
  public:
 
-    Plateau *posseder;
+    Plateau *plateau;
 
     /**
      * @element-type Equipe
