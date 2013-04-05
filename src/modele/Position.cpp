@@ -6,9 +6,7 @@
  */
 
 #include "Position.h"
-#include <iostream>
 
-using namespace std;
 
 Position::Position(int x, int y)
 {
@@ -63,6 +61,8 @@ bool Position::operator==(Position const& a) const
 
 int Position::distance(Position const& a, Position const& b)
 {
-
-	return a.getX() - b.getY()
+	int cote1 = pow(abs(a.getX() - b.getX()), 2);
+	int cote2 = pow(abs(a.getY() - b.getY()), 2);
+	int retour = ceil(sqrt(cote1 + cote2));
+	return retour;
 }

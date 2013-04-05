@@ -22,6 +22,9 @@ public:
 
 	virtual Action effectuerAction();
 
+	virtual void diminuerMana(int quantite = 1);
+
+	virtual bool estMort();
 
 private:
 	string nom;

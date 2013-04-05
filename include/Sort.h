@@ -19,7 +19,7 @@ public:
 
 	virtual void appliquerSortSurCase(Case &cible);
 
-	virtual void modifierSuivantOrigine(Case origine);
+	virtual void modifierSuivantOrigine(Case const& origine);
 
 	virtual void modifierSuivantProprietaire();
 
@@ -36,6 +36,8 @@ public:
 			int nbMaxSortDissip);
 
 	virtual int getPourcentageReussite();
+
+	virtual int getCoupManaParCase();
 
 	virtual Joueur* getProprietaire();
 

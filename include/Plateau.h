@@ -22,8 +22,6 @@ class Plateau {
 
     virtual void appliquerAction(Action action);
 
-    virtual bool effectuerAction();
-
     virtual int nombreCase();
 
     virtual int nombreCaseControlable();
