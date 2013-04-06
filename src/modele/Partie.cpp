@@ -29,7 +29,7 @@ void Partie::demarrerPartie()
     while(enCours == true)
     {
         courant = equipe[equipeCourante]->choisirJoueur();
-        action = courant->effectuerAction();
+        action = courant->effectuerAction(*this);
         //TODO verifier si l'action est valide
         plateau->appliquerAction(action);
         if(finPartie() == true)
@@ -175,4 +175,9 @@ bool Partie::isEnCours()
 void Partie::setEnCours(bool valeur)
 {
     this->enCours = valeur;
+}
+
+Plateau* Partie::getPlateau()
+{
+    return plateau;
 }

@@ -55,6 +55,7 @@ class Partie {
 
     virtual void setEnCours(bool valeur);
 
+    virtual Plateau* getPlateau();
 
  public:
     

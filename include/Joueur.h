@@ -6,6 +6,8 @@
 #include "Action.h"
 #include "Equipe.h"
 #include "Sort.h"
+#include "Partie.h"
+#include "UsineSort.h"
 #include <iostream>
 #include <cstdlib>
 
@@ -14,6 +16,7 @@ using namespace std;
 class Sort;
 class Action;
 class Equipe;
+class Partie;
 
 class Joueur
 {
@@ -24,7 +27,7 @@ public:
 
 	Joueur(int gainInit, int manaMax, int abiliteInit, string nom);
 
-	virtual Action effectuerAction();
+    virtual Action effectuerAction(Partie & partie);
 
 	virtual void diminuerMana(int quantite = 1);
 

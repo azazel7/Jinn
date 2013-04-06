@@ -36,6 +36,12 @@ public:
 	 */
 	virtual std::vector<Case*> getCible();
 
+    virtual void setOrigine(Case* origine);
+
+    virtual void setSort(Sort* sort);
+
+    virtual void ajouterCible(Case* nouvelleCase);
+
 protected:
 
 	Case *origine;
