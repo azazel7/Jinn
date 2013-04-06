@@ -94,7 +94,9 @@ void Partie::initialiser()
 
 std::vector<Sort*> Partie::listeSort()
 {
+   vector<Sort*> retour;
 
+   return retour;
 }
 
 void Partie::nouveauJoueur(Joueur & joueur)

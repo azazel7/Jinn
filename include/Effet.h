@@ -1,6 +1,7 @@
 #ifndef Effet_h
 #define Effet_h
 
+enum { POURCENTAGE, FIXE };
 
 class Effet {
 
