@@ -63,7 +63,12 @@ int Sort::getPourcentageReussite()
 
 bool Sort::testerReussite(int taux)
 {
-	return true;
+    int nb = rand()%100;
+    if(nb <= taux)
+    {
+        return true;
+    }
+    return false;
 }
 
 Joueur* Sort::getProprietaire()
@@ -74,4 +79,9 @@ Joueur* Sort::getProprietaire()
 int Sort::getCoupManaParCase()
 {
 	return coupManaParCase;
+}
+
+string Sort::getNom()
+{
+    return nom;
 }

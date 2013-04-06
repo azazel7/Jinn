@@ -30,6 +30,10 @@ class Plateau {
 
     virtual void initialiserPlateau();
 
+    virtual int getHauteur();
+
+    virtual int getLargeur();
+
  private:
     int largeur;
     int hauteur;

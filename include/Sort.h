@@ -41,6 +41,8 @@ public:
 
 	virtual Joueur* getProprietaire();
 
+    virtual string getNom();
+
 private:
 	string nom;
 	int coupManaParCase;

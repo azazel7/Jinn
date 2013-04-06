@@ -147,4 +147,14 @@ void Plateau::initialiserPlateau()
 	}
 }
 
+int Plateau::getHauteur()
+{
+    return hauteur;
+}
+
+int Plateau::getLargeur()
+{
+    return largeur;
+}
+
 

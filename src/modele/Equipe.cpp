@@ -30,7 +30,14 @@ Equipe::Equipe(string nom)
 
 bool Equipe::joueurExiste(string & nom)
 {
-	return true; //TODO Faire le traitement
+    for(int i = 0; i < joueur.size(); i++)
+    {
+        if(joueur[i]->getNom() == nom)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 string Equipe::getNom()

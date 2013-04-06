@@ -65,16 +65,39 @@ void Joueur::genererStatistique()
 
 string Joueur::saisieNom()
 {
-
+    string retour;
+    cout << "Choix nom : ";
+    cin >> retour;
+    return retour;
 }
 
 string Joueur::saisieEquipe(std::vector< Equipe* > & equipe)
 {
-
+    string retour;
+    for(int i = 0; i < equipe.size(); i++)
+    {
+        equipe[i]->getNom();
+    }
+    cout << "Choix equipe : ";
+    cin >> retour;
+    return retour;
 }
 
 string Joueur::saisieSort(vector<Sort* > const& sort)
 {
-
+    int choix;
+    for(int i = 0; i < sort.size(); i++)
+    {
+        cout << sort[i]->getNom() <<  "(" << i << ") :" << endl;
+        cout << sort[i]->description() << endl << endl;
+    }
+    cout << "choix numero sort : ";
+    cin >> choix;
+    return sort[choix]->getNom();
 }
 
+
+string Joueur::getNom()
+{
+    return nom;
+}

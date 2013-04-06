@@ -29,7 +29,7 @@ class Partie {
     /** 
      *  Verifie la victoire d'une équipe
      */
-    virtual bool verifierVictoire(Equipe equipe);
+    virtual bool verifierVictoire(Equipe & equipe);
 
 
     /** 

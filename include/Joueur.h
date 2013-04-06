@@ -5,6 +5,7 @@
 
 #include "Action.h"
 #include "Equipe.h"
+#include "Sort.h"
 #include <iostream>
 #include <cstdlib>
 
@@ -36,6 +37,8 @@ public:
 	virtual string saisieEquipe(std::vector< Equipe* > & equipe);
 
 	virtual string saisieSort(vector<Sort* > const& sort);
+
+    virtual string getNom();
 
 
 private:
