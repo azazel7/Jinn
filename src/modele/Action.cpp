@@ -1,5 +1,10 @@
 #include "Action.h"
 
+Action::Action()
+{
+    this->origine = NULL;
+    this->sort = NULL;
+}
 
 Action::Action(Case *origine, Sort *sort, std::vector<Case*> cible)
 {

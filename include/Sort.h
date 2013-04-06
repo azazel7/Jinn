@@ -17,13 +17,15 @@ class Sort
 
 public:
 
-	virtual void appliquerSortSurCase(Case &cible);
+    virtual void appliquerSortSurCase(Case &cible) = 0;
 
-	virtual void modifierSuivantOrigine(Case const& origine);
+    virtual void modifierSuivantOrigine(Case const& origine) = 0;
 
-	virtual void modifierSuivantProprietaire();
+    virtual void modifierSuivantProprietaire() = 0;
 
-	virtual string description();
+    virtual void retirerDeCase(Case &cible) = 0;
+
+    virtual string description() = 0;
 
 	virtual ~Sort();
 

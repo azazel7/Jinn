@@ -25,12 +25,10 @@ class Partie {
      */
     virtual void demarrerPartie();
 
-
     /** 
      *  Verifie la victoire d'une équipe
      */
     virtual bool verifierVictoire(Equipe & equipe);
-
 
     /** 
      *  Initialise la partie, les different joueurs, les differentes equipes et le terrain
@@ -47,6 +45,17 @@ class Partie {
      */
     virtual std::vector<Sort*> listeSort();
 
+    /**
+      * Verifie la fin de la partie
+      */
+    virtual bool finPartie();
+
+
+    virtual bool isEnCours();
+
+    virtual void setEnCours(bool valeur);
+
+
  public:
     
     /** 
@@ -54,6 +63,7 @@ class Partie {
      */
     string nom;
     int nombreDePlace;
+    bool enCours;
 
  public:
 

@@ -18,6 +18,8 @@ class Action
 
 public:
 
+    Action();
+
 	Action(Case *origine, Sort *sort, std::vector<Case*> cible);
 	/**
 	 *  Permet de recupérer le sort lié à une action
