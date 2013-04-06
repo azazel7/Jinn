@@ -9,15 +9,21 @@
 #include <iostream>
 #include "Position.h"
 #include "Case.h"
+#include "Position.h"
+#include "UsineSort.h"
 
 using namespace std;
 
 int main()
 {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
+    Position *a, *b;
+    a = Position::fabriquePosition(0,0);
+    b = Position::fabriquePosition(2,2);
+    cout << Position::distance(*a, *b) << endl;
 
-	cout << Position::fabriquePosition(4, 5) << endl;
-	cout << Position::fabriquePosition(3, 5) << endl;
-	cout << Position::fabriquePosition(4, 5) << endl;
+    Sort* c = UsineSort::fabriqueSort("Sceau de Controle");
+    cout << c->description() << endl;
+    cout << c->getNom() << endl;
 	return 0;
 }
