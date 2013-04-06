@@ -13,7 +13,6 @@
 
 using namespace std;
 
-class Sort;
 class Action;
 class Equipe;
 class Partie;

@@ -9,7 +9,7 @@ Sort* UsineSort::fabriqueSort(string const& nom)
     return NULL;
 }
 
-std::vector<string> liste()
+std::vector<string> UsineSort::liste()
 {
     vector<string> retour;
     retour.push_back("Sceau de Controle");

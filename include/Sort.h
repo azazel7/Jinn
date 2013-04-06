@@ -2,9 +2,8 @@
 #define Sort_h
 
 #include <vector>
-
-#include "Case.h"
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -63,6 +62,8 @@ public:
 	virtual int getCoupManaParCase();
 
 	virtual Joueur* getProprietaire();
+
+    virtual void setProprietaire(Joueur* proprietaire);
 
     virtual string getNom();
 

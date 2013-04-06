@@ -37,8 +37,10 @@ Action Joueur::effectuerAction(Partie & partie)
     Sort* sort = UsineSort::fabriqueSort("Sceau de Controle");
     Plateau* plateau = partie.getPlateau();
 	//TODO a remplir quand j'aurais les sorts
+    sort->setProprietaire(this);
     retour.setSort(sort);
-
+    retour.setOrigine(plateau->getCase(0, 0));
+    retour.ajouterCible(plateau->getCase(1,1));
 
     return retour;
 }

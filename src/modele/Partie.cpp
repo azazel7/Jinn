@@ -95,7 +95,12 @@ void Partie::initialiser()
 std::vector<Sort*> Partie::listeSort()
 {
    vector<Sort*> retour;
-
+   //On liste les sorts
+    vector<string> listeNom = UsineSort::liste();
+    for(int i = 0; i < listeNom.size(); i++)
+    {
+        retour.push_back(UsineSort::fabriqueSort(listeNom[i])); //On créer une liste de sort.
+    }
    return retour;
 }
 
@@ -143,7 +148,7 @@ void Partie::nouveauJoueur(Joueur & joueur)
 	//TODO faire en sorte que le nombre de sort soi variable
 	//TODO Peut-être faire en sorte que la liste des sorts soi stocké
 	vector<Sort*> listeSort = this->listeSort();
-	for(int i = 0; i < 7; i++)
+    for(int i = 0; i < 1; i++)
 	{
 		joueur.saisieSort(listeSort);
 		//TODO Un joueur peut maitriser plusieurs fois le même sort

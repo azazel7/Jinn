@@ -6,12 +6,14 @@
 #include "Equipe.h"
 #include "Plateau.h"
 #include "Joueur.h"
+#include "UsineSort.h"
 
 using namespace std;
 
 class Plateau;
 class Joueur;
 class Equipe;
+class UsineSort;
 
 class Partie {
 

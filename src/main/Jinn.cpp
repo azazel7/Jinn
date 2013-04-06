@@ -28,9 +28,17 @@ int main()
     cout << c->getNom() << endl;
     Partie partie("Partie 1", 2);
     Joueur j1, j2;
-
+    Plateau *pl;
     partie.initialiser();
     partie.nouveauJoueur(j1);
     partie.nouveauJoueur(j2);
+    cout << j1.getNom() << endl;
+    pl = partie.getPlateau();
+    cout << "0;0 " << pl->getCase(0, 0)->getProprietaire() << endl;
+    cout << "1;1 " << pl->getCase(1, 1)->getProprietaire() << endl;
+
+    pl->appliquerAction(j1.effectuerAction(partie));
+    cout << "0;0 " << pl->getCase(0, 0)->getProprietaire() << endl;
+    cout << "1;1 " << pl->getCase(1, 1)->getProprietaire() << endl;
 	return 0;
 }

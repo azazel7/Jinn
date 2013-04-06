@@ -4,7 +4,7 @@
 #include "Sort.h"
 #include "sort/SceauControle.h"
 
-class Sort;
+
 
 class UsineSort
 {

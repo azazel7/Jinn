@@ -4,6 +4,7 @@
 #include "Sort.h"
 #include "Case.h"
 
+
 class SceauControle : public Sort
 {
     public:

@@ -3,15 +3,12 @@
 
 #include <vector>
 
-#include "Case.h"
-#include "Sort.h"
-
 #include <iostream>
 
 using namespace std;
 
-class Sort;
 class Case;
+class Sort;
 
 class Action
 {

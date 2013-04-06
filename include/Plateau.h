@@ -6,7 +6,11 @@
 #include "Action.h"
 #include "Case.h"
 #include "Sort.h"
+#include "Position.h"
 
+class Action;
+class Position;
+class Sort;
 
 class Plateau {
 

@@ -55,3 +55,8 @@ string Sort::getNom()
 {
     return nom;
 }
+
+void Sort::setProprietaire(Joueur* proprietaire)
+{
+    this->proprietaire = proprietaire;
+}
