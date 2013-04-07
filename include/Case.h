@@ -68,4 +68,6 @@ private:
 	Position *position;
 };
 
+ostream& operator<<( ostream &flux, Case const& pos);
+
 #endif // Case_h

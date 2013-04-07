@@ -25,17 +25,17 @@ int main()
     partie.initialiser();
     partie.nouveauJoueur(j1);
     partie.nouveauJoueur(j2);
-    cout << j1.getNom() << endl;
-    cout << j2.getNom() << endl;
+    cout << j1 << endl;
+    cout << j2 << endl;
     pl = partie.getPlateau();
-    cout << "0;0 " << pl->getCase(0, 0)->getProprietaire() << endl;
-    cout << "1;1 " << pl->getCase(1, 1)->getProprietaire() << endl;
+    cout <<  *(pl->getCase(0, 0)) << endl;
+    cout <<  *(pl->getCase(1, 1)) << endl;
     action = j1.effectuerAction(partie);
     cout << action.getSort()->getNom() << endl;
     cout << action.getSort()->getProprietaire()->getNom() << endl;
     cout << action.getCible()[1] << " " << pl->getCase(1, 1) << endl;
     pl->appliquerAction(action);
-    cout << "0;0 " << pl->getCase(0, 0)->getProprietaire() << endl;
-    cout << "1;1 " << pl->getCase(1, 1)->getProprietaire() << endl; //FIXME Le nouveau propri n'est pas correctement mis à jour
+    cout <<  *(pl->getCase(0, 0)) << endl;
+    cout <<  *(pl->getCase(1, 1)) << endl;//FIXME Le nouveau propri n'est pas correctement mis à jour
 	return 0;
 }

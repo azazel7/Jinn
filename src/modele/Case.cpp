@@ -169,3 +169,15 @@ void Case::setRegenerationDefense(int regenerationDefense)
 	this->regenerationDefense = regenerationDefense;
 }
 
+ostream& operator<<( ostream &flux, Case const& pos)
+{
+    string nom = "Sans proprietaire";
+    Joueur *propri;
+    propri = pos.getProprietaire();
+    if(propri != NULL)
+    {
+        nom = propri->getNom();
+    }
+    flux << "(" << *(pos.getPosition()) << " " << nom << ")";
+    return flux;
+}

@@ -55,7 +55,7 @@ void Joueur::diminuerMana(int quantite)
 	}
 }
 
-bool Joueur::estMort()
+bool Joueur::estMort() const
 {
 	if(manaActuel < 0)
 	{
@@ -106,7 +106,7 @@ string Joueur::saisieSort(vector<Sort* > const& sort)
 }
 
 
-string Joueur::getNom()
+string Joueur::getNom() const
 {
     return nom;
 }
@@ -121,4 +121,25 @@ void Joueur::ajouterSort(string nomSort)
     Sort* sort = UsineSort::fabriqueSort(nomSort);
     sort->setProprietaire(this);
     listeSort.push_back(sort);
+}
+
+int Joueur::getManaActuel() const
+{
+    return this->manaActuel;
+}
+
+int Joueur::getManaMaximum() const
+{
+    return this->manaMaximum;
+}
+
+ostream& operator<<( ostream &flux, Joueur const& pos)
+{
+    string mort = "vivant";
+    if(pos.estMort())
+    {
+        mort = "mort";
+    }
+    flux << "[" << pos.getNom() << "," << pos.getManaActuel() << "/" << pos.getManaMaximum() << "," << mort << "]";
+    return flux;
 }

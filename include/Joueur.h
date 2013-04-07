@@ -30,7 +30,7 @@ public:
 
 	virtual void diminuerMana(int quantite = 1);
 
-	virtual bool estMort();
+    virtual bool estMort() const;
 
 	virtual void genererStatistique();
 
@@ -40,11 +40,15 @@ public:
 
 	virtual string saisieSort(vector<Sort* > const& sort);
 
-    virtual string getNom();
+    string getNom() const;
 
     virtual void setNom(string nom);
 
     virtual void ajouterSort(string nomSort);
+
+    int getManaActuel() const;
+
+    int getManaMaximum() const;
 
 private:
 	string nom;
@@ -61,5 +65,7 @@ public:
     std::vector<Sort*> listeSort;
 
 };
+
+ostream& operator<<( ostream &flux, Joueur const& pos);
 
 #endif // Joueur_h
