@@ -40,6 +40,7 @@ Action Joueur::effectuerAction(Partie & partie)
     sort->setProprietaire(this);
     retour.setSort(sort);
     retour.setOrigine(plateau->getCase(0, 0));
+    cout << plateau->getCase(1,1) << endl;
     retour.ajouterCible(plateau->getCase(1,1));
 
     return retour;

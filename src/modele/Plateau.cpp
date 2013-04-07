@@ -83,7 +83,7 @@ void Plateau::appliquerAction(Action action)
 			else
 			{
 				//tester réussite
-				if (Sort::testerReussite(nouveauTaux))
+                if (Sort::testerReussite(nouveauTaux))
 				{
 					sort->appliquerSortSurCase(*(cible[i]));
 					//TODO notifier joueur de la réussite sur une case
@@ -136,12 +136,14 @@ Plateau::~Plateau()
 
 void Plateau::initialiserPlateau()
 {
+    cout << "initialisation" << endl;
 	Case* courante;
 	for(int x = 0; x < largeur; x++)
 	{
 		for(int y = 0; y < hauteur; y++)
 		{
 			courante = new Case(5, 1, 0, 0, 1, 1, 0, Position::fabriquePosition(x, y));
+            cout << x << " " << y << " " << courante << endl;
 			listeCase.push_back(courante);
 		}
 	}

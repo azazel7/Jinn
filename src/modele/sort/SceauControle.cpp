@@ -1,12 +1,14 @@
 #include "sort/SceauControle.h"
 
-SceauControle::SceauControle(): Sort()
+SceauControle::SceauControle(): Sort("Sceau de Controle", 1, false, 5, 100, 1, 0, 0, 0, 0, 0)
 {
-    this->nom = "Sceau de Controle";
+
 }
 
 void SceauControle::appliquerSortSurCase(Case &cible)
 {
+    cout << "propri " << this->proprietaire << endl;
+    cout << "cible : " << cible << endl;
     cible.setProprietaire(this->proprietaire); //On modifie le proprietaire
 }
 

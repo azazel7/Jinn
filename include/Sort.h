@@ -52,7 +52,7 @@ public:
 	static bool testerReussite(int taux);
 
 	Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite,
-			int nbCible, int att, int duree, int znEffet, int dissip,
+            int nbCible, int attaque, int duree, int znEffet, int dissip,
 			int nbMaxSortDissip);
 
     Sort();
