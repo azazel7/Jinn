@@ -30,6 +30,8 @@ public:
 
 	virtual void diminuerMana(int quantite = 1);
 
+    virtual void augmenterMana(int quantite = 1);
+
     virtual bool estMort() const;
 
 	virtual void genererStatistique();
@@ -44,7 +46,7 @@ public:
 
     virtual void setNom(string nom);
 
-    virtual void ajouterSort(string nomSort);
+    virtual void ajouterSort(Sort *sort);
 
     int getManaActuel() const;
 

@@ -148,11 +148,24 @@ void Partie::nouveauJoueur(Joueur & joueur)
 	//TODO faire en sorte que le nombre de sort soi variable
 	//TODO Peut-être faire en sorte que la liste des sorts soi stocké
     vector<Sort*> listeSort = this->listeSort();
+    Sort* sort;
     string nomSort;
+    bool eliteChoisi = false;
     for(int i = 0; i < 1; i++)
 	{
         nomSort = joueur.saisieSort(listeSort);
-        joueur.ajouterSort(nomSort);
+        sort = UsineSort::fabriqueSort(nomSort);
+        if(sort->getElite() == true && eliteChoisi == true)
+        {
+            i--;
+            //TODO notifier le joueur d'une erreur
+            continue;
+        }
+        if(sort->getElite() == true)
+        {
+            eliteChoisi = true;
+        }
+        joueur.ajouterSort(sort);
 		//TODO Un joueur peut maitriser plusieurs fois le même sort
 		//TODO génrer le cas des élites
 	}
@@ -187,4 +200,17 @@ void Partie::setEnCours(bool valeur)
 Plateau* Partie::getPlateau()
 {
     return plateau;
+}
+
+bool Partie::actionValide(Action & action)
+{
+    if(action.getOrigine()->getProprietaire() != action.getSort()->getProprietaire())
+    {
+        return false;
+    }
+    if(action.getSort()->getProprietaire()->estMort())
+    {
+        return false;
+    }
+    return false;
 }

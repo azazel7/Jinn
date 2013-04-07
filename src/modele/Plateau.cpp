@@ -68,6 +68,7 @@ void Plateau::appliquerAction(Action action)
 	int dissipation, nouveauTaux, distance;
 	if(origine != NULL)
 	{
+        //Le sort modifie ses attributs selon la case où il est lancé
 		sort->modifierSuivantOrigine(*origine);
 		cible = action.getCible();
 		for(int i = 0; i < cible.size(); i++)
@@ -75,10 +76,10 @@ void Plateau::appliquerAction(Action action)
 			dissipation = cible[i]->getEffetDissipation();
 			nouveauTaux = Sort::calculeNouveauTauxReussite(dissipation, sort->getPourcentageReussite());
 			distance = Position::distance(*(origine->getPosition()), *(cible[i]->getPosition()));
-			proprietaire->diminuerMana(distance*sort->getCoupManaParCase());
+            proprietaire->diminuerMana( distance * sort->getCoupManaParCase() );
 			if(proprietaire->estMort())
 			{
-				//TODO notifier de la mort du joueur (tous les joueurs doivent l'être)
+                //TODO notifier de la mort du joueur (tous les joueurs doivent l'être) car le joueur s'écroule dans d'atroce souffrance
 			}
 			else
 			{
@@ -136,14 +137,12 @@ Plateau::~Plateau()
 
 void Plateau::initialiserPlateau()
 {
-    cout << "initialisation" << endl;
 	Case* courante;
 	for(int x = 0; x < largeur; x++)
 	{
 		for(int y = 0; y < hauteur; y++)
 		{
-			courante = new Case(5, 1, 0, 0, 1, 1, 0, Position::fabriquePosition(x, y));
-            cout << x << " " << y << " " << courante << endl;
+            courante = new Case(5, 1, 0, 0, 1, 1, 0, Position::fabriquePosition(x, y));
 			listeCase.push_back(courante);
 		}
 	}

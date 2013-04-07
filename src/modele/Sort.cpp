@@ -72,3 +72,8 @@ void Sort::setProprietaire(Joueur* proprietaire)
 {
     this->proprietaire = proprietaire;
 }
+
+bool Sort::getElite()
+{
+    return this->elite;
+}

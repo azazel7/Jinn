@@ -54,11 +54,30 @@ void Joueur::diminuerMana(int quantite)
 	{
 		return;
 	}
+    this->manaActuel -= quantite;
+    if(this->manaActuel <= 0)
+    {
+        this->manaActuel = 0;
+        this->manaMaximum = 0;//On l'emp^eche de regagner du mana, donc il reste bien mort
+    }
+}
+
+void Joueur::augmenterMana(int quantite)
+{
+    if(quantite < 0)
+    {
+        return;
+    }
+    this->manaActuel += quantite;
+    if(this->manaActuel > this->manaMaximum)
+    {
+        this->manaActuel = this->manaMaximum; //On plafonne
+    }
 }
 
 bool Joueur::estMort() const
 {
-	if(manaActuel < 0)
+    if(manaActuel <= 0)
 	{
 		return true;
 	}
@@ -117,9 +136,8 @@ void Joueur::setNom(string nom)
     this->nom = nom;
 }
 
-void Joueur::ajouterSort(string nomSort)
+void Joueur::ajouterSort(Sort* sort)
 {
-    Sort* sort = UsineSort::fabriqueSort(nomSort);
     sort->setProprietaire(this);
     listeSort.push_back(sort);
 }

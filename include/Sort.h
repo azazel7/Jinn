@@ -67,6 +67,8 @@ public:
 
     virtual string getNom();
 
+    virtual bool getElite();
+
 protected:
 	string nom;
 	int coupManaParCase;

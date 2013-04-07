@@ -52,6 +52,12 @@ class Partie {
       */
     virtual bool finPartie();
 
+    /**
+     * @brief actionValide verifie si une action est valide
+     * @param action l'action à vérifier
+     * @return
+     */
+    virtual bool actionValide(Action & action);
 
     virtual bool isEnCours();
 
