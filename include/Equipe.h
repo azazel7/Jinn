@@ -23,6 +23,8 @@ class Equipe {
 
     virtual void ajouterJoueur(Joueur* nouveauJoueur);
 
+    virtual int nombreDeJoueur();
+
  private:
     string nom;
     int joueurChoisi;

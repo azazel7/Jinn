@@ -55,6 +55,7 @@ bool Partie::verifierVictoire(Equipe & equipe)
     int nombreCaseControllee = 0;
     Case* courante;
     string nom;
+    //On parcoure toutes les cases
     for(int x = 0; x < plateau->getLargeur(); x++)
     {
         for(int y = 0; y < plateau->getHauteur(); y++)
@@ -62,6 +63,7 @@ bool Partie::verifierVictoire(Equipe & equipe)
             courante = plateau->getCase(x, y);
             if(courante != NULL)
             {
+                //On récupére son proprietaire
                 nom = courante->getProprietaire()->getNom();
                 if(equipe.joueurExiste(nom) == true)
                 {
@@ -113,14 +115,11 @@ void Partie::nouveauJoueur(Joueur & joueur)
 	{
 		valid = true;
 		nom = joueur.saisieNom();
-		for (int i = 0; i < this->equipe.size(); i++)
-		{
-			if (this->equipe[i]->joueurExiste(nom))
-			{
-				valid = false;
-				break;
-			}
-		}
+        //On verifie si le nom est dans une des equipe
+        if(this->joueurExiste(nom) == true)
+        {
+            valide = false;
+        }
 	}
     joueur.setNom(nom);
     //On récupére l'equipe
@@ -180,6 +179,7 @@ bool Partie::finPartie()
     {
         if(verifierVictoire(*(equipe[i])) == true)
         {
+
             return true;
             //TODO notifier les équipes
         }
@@ -213,4 +213,33 @@ bool Partie::actionValide(Action & action)
         return false;
     }
     return false;
+}
+
+int Partie::nombreDeJoueur()
+{
+    int nombreJoueur = 0;
+    for(int i = 0; i < equipe.size(); i++)
+    {
+        nombreJoueur += equipe[i]->nombreDeJoueur();
+    }
+    return nombreJoueur;
+}
+
+bool joueurExiste(string nom)
+{
+    for (int i = 0; i < this->equipe.size(); i++)
+    {
+        if (this->equipe[i]->joueurExiste(nom))
+        {
+            return true;
+        }
+    }
+}
+
+bool Partie::prete()
+{
+    if(this->nombreDePlace != this->nombreDeJoueur())
+    {
+        return false;
+    }
 }

@@ -23,9 +23,7 @@ int main()
     Plateau *pl;
     Action action;
     partie.initialiser();
-    cout << "narval" << endl;
     partie.nouveauJoueur(j1);
-    cout << "narval 1" << endl;
     partie.nouveauJoueur(j2);
     cout << j1 << endl;
     cout << j2 << endl;

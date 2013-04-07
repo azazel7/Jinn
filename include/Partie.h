@@ -65,6 +65,12 @@ class Partie {
 
     virtual Plateau* getPlateau();
 
+    virtual bool prete();
+
+    virtual int nombreDeJoueur();
+
+    virtual bool joueurExiste(string nom);
+
  public:
     
     /** 

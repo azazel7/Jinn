@@ -49,3 +49,8 @@ void Equipe::ajouterJoueur(Joueur* nouveauJoueur)
 		this->joueur.push_back(nouveauJoueur);
 	}
 }
+
+int Equipe::nombreDeJoueur()
+{
+    return this->joueur.size();
+}
