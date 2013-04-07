@@ -14,7 +14,11 @@ OBJSUBDIR = $(dir $(OBJ))
 compile: directory $(OBJ)
 
 Jinn: compile 
-	$(CC) -I $(INCDIR) $(OBJ) $(MAINDIR)$@.cpp -o $@ 	
+	$(CC) -I $(INCDIR) $(OBJ) $(MAINDIR)$@.cpp -o $@
+
+TestUnitaire: compile
+	$(CC) -I $(INCDIR) $(OBJ) $(MAINDIR)$@.cpp -o $@
+	./$@
 
 
 $(OBJDIR)%.o : $(SRCDIR)%.cpp
