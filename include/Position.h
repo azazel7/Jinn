@@ -8,6 +8,7 @@
 
 using namespace std;
 
+
 class Position
 {
 
@@ -31,4 +32,5 @@ private:
 
 };
 
+ostream& operator<<( ostream &flux, Position const& pos);
 #endif // Position_h

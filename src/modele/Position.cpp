@@ -66,3 +66,10 @@ int Position::distance(Position const& a, Position const& b)
 	int retour = ceil(sqrt(cote1 + cote2));
 	return retour;
 }
+
+
+ostream& operator<<( ostream &flux, Position const& pos)
+{
+    flux << "[" << pos.getX() << ";" << pos.getY() << "]";
+    return flux;
+}
