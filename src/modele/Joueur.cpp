@@ -110,3 +110,15 @@ string Joueur::getNom()
 {
     return nom;
 }
+
+void Joueur::setNom(string nom)
+{
+    this->nom = nom;
+}
+
+void Joueur::ajouterSort(string nomSort)
+{
+    Sort* sort = UsineSort::fabriqueSort(nomSort);
+    sort->setProprietaire(this);
+    listeSort.push_back(sort);
+}

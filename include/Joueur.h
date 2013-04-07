@@ -42,6 +42,9 @@ public:
 
     virtual string getNom();
 
+    virtual void setNom(string nom);
+
+    virtual void ajouterSort(string nomSort);
 
 private:
 	string nom;
@@ -55,7 +58,7 @@ public:
 	/**
 	 * @element-type Sort
 	 */
-	std::vector<Sort*> maitriser;
+    std::vector<Sort*> listeSort;
 
 };
 

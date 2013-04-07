@@ -122,7 +122,7 @@ void Partie::nouveauJoueur(Joueur & joueur)
 			}
 		}
 	}
-
+    joueur.setNom(nom);
     //On récupére l'equipe
 	equipe = joueur.saisieEquipe(this->equipe);
 	valid = false;
@@ -147,10 +147,12 @@ void Partie::nouveauJoueur(Joueur & joueur)
 	//selection des sorts
 	//TODO faire en sorte que le nombre de sort soi variable
 	//TODO Peut-être faire en sorte que la liste des sorts soi stocké
-	vector<Sort*> listeSort = this->listeSort();
+    vector<Sort*> listeSort = this->listeSort();
+    string nomSort;
     for(int i = 0; i < 1; i++)
 	{
-		joueur.saisieSort(listeSort);
+        nomSort = joueur.saisieSort(listeSort);
+        joueur.ajouterSort(nomSort);
 		//TODO Un joueur peut maitriser plusieurs fois le même sort
 		//TODO génrer le cas des élites
 	}
