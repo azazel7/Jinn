@@ -52,6 +52,8 @@ public:
 
     int getManaMaximum() const;
 
+    int getGainInitialMana() const;
+
 private:
 	string nom;
 	int gainInitialMana;

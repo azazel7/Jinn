@@ -19,6 +19,7 @@ public:
 	Case(int defIni, int bonOff, int dissip, int attenu, int mana, int regenDef,
 			int camoufla, Position* position);
 
+    void retirerSortEcoule();
 	int getApportMana() const;
 	void setApportMana(int apportMana);
 	int getBonusOffensifActuel() const;
@@ -65,7 +66,8 @@ private:
 
 private:
 	Joueur *proprietaire;
-	Position *position;
+    Position *position;
+    //TODO faire un vector de paire et y associer la duree
 };
 
 ostream& operator<<( ostream &flux, Case const& pos);

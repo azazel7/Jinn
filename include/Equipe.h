@@ -25,6 +25,8 @@ class Equipe {
 
     virtual int nombreDeJoueur();
 
+    virtual void regenererManaJoueur();
+
  private:
     string nom;
     int joueurChoisi;

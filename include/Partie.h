@@ -71,6 +71,8 @@ class Partie {
 
     virtual bool joueurExiste(string nom);
 
+    virtual void regenererManaJoueur();
+
  public:
     
     /** 

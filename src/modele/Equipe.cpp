@@ -54,3 +54,15 @@ int Equipe::nombreDeJoueur()
 {
     return this->joueur.size();
 }
+
+void Equipe::regenererManaJoueur()
+{
+    for(int i = 0; i < joueur.size(); i++)
+    {
+        if(joueur[i]->estMort() == false)
+        {
+            joueur[i]->augmenterMana(joueur[i]->getGainInitialMana());
+        }
+
+    }
+}

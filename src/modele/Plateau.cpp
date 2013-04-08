@@ -158,4 +158,10 @@ int Plateau::getLargeur()
     return largeur;
 }
 
-
+void Plateau::retirerSortDeDureeEcoulee()
+{
+    for(int i = 0; i < listeCase.size(); i++)
+    {
+        listeCase[i]->retirerSortEcoule();
+    }
+}

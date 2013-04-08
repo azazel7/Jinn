@@ -32,7 +32,9 @@ void Partie::demarrerPartie()
         }
         //TODO effectuer action chronique de chaques sort
         //TODO regenerer la defense des cases
-        //TODO regenerer le mana des joueurs
+        //regenerer le mana des joueurs
+        this->regenererManaJoueur();
+        plateau->retirerSortDeDureeEcoulee();
         equipeCourante = (equipeCourante+1)%equipe.size();
     }
 
@@ -229,5 +231,14 @@ bool Partie::prete()
     if(this->nombreDePlace != this->nombreDeJoueur())
     {
         return false;
+    }
+}
+
+
+void Partie::regenererManaJoueur()
+{
+    for(int i = 0; i < equipe.size(); i++)
+    {
+        equipe[i]->regenererManaJoueur();
     }
 }

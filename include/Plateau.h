@@ -38,6 +38,8 @@ class Plateau {
 
     virtual int getLargeur();
 
+    virtual void retirerSortDeDureeEcoulee();
+
  private:
     int largeur;
     int hauteur;

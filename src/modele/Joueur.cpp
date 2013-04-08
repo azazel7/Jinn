@@ -152,6 +152,11 @@ int Joueur::getManaMaximum() const
     return this->manaMaximum;
 }
 
+int Joueur::getGainInitialMana() const
+{
+    return this->gainInitialMana;
+}
+
 ostream& operator<<( ostream &flux, Joueur const& pos)
 {
     string mort = "vivant";
