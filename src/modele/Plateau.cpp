@@ -165,3 +165,24 @@ void Plateau::retirerSortDeDureeEcoulee()
         listeCase[i]->retirerSortEcoule();
     }
 }
+
+void Plateau::regenererDefenseCase()
+{
+    int defenseActu;
+    for(int i = 0; i < listeCase.size(); i++)
+    {
+        defenseActu = listeCase[i]->getDefenseActuelle();
+        defenseActu += listeCase[i]->getRegenerationDefense();
+        listeCase[i]->setDefenseActuelle(defenseActu);
+    }
+}
+
+void Plateau::regenererManaPourJoueur()
+{
+    int apport;
+    for(int i = 0; i < listeCase.size(); i++)
+    {
+        apport = listeCase[i]->getApportMana();
+        listeCase[i]->getProprietaire()->augmenterMana(apport);
+    }
+}

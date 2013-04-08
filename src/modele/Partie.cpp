@@ -31,9 +31,13 @@ void Partie::demarrerPartie()
             enCours = false;
         }
         //TODO effectuer action chronique de chaques sort
-        //TODO regenerer la defense des cases
+        //regenerer la defense des cases
+        plateau->regenererDefenseCase();
+
         //regenerer le mana des joueurs
         this->regenererManaJoueur();
+        plateau->regenererManaPourJoueur();
+
         plateau->retirerSortDeDureeEcoulee();
         equipeCourante = (equipeCourante+1)%equipe.size();
     }

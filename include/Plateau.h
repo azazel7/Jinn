@@ -40,6 +40,10 @@ class Plateau {
 
     virtual void retirerSortDeDureeEcoulee();
 
+    virtual void regenererDefenseCase();
+
+    virtual void regenererManaPourJoueur();
+
  private:
     int largeur;
     int hauteur;
