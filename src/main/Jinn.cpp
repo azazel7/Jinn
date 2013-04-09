@@ -28,12 +28,8 @@ int main()
     cout << j1 << endl;
     cout << j2 << endl;
     pl = partie.getPlateau();
-    cout <<  *pl->getCase(0, 0) << endl;
-    cout <<  *pl->getCase(1, 1) << endl;
-    cout << "pl " << pl << endl; action = j1.effectuerAction(partie);
+    action = j1.effectuerAction(partie);
     cout << action.getSort()->getNom() << endl;
-    cout << action.getSort()->getProprietaire()->getNom() << endl;
-    cout << action.getCible()[1] << " " << pl->getCase(1, 1) << endl;
     pl->appliquerAction(action);
     cout <<  *pl->getCase(0, 0) << endl;
     cout <<  *pl->getCase(1, 1) << endl;//FIXME Le nouveau propri n'est pas correctement mis à jour

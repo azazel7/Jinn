@@ -73,3 +73,5 @@ ostream& operator<<( ostream &flux, Position const& pos)
     flux << "[" << pos.getX() << ";" << pos.getY() << "]";
     return flux;
 }
+
+

@@ -6,9 +6,15 @@ Joueur* Equipe::choisirJoueur()
 {
 	if(joueur.size() > 0)
 	{
-		int tmp = joueurChoisi;
-		joueurChoisi = (joueurChoisi+1)%joueur.size();
-		return joueur[tmp];
+        for(int i = 0; i < joueur.size(); i++)
+        {
+            int tmp = joueurChoisi;
+            joueurChoisi = (joueurChoisi+1)%joueur.size();
+            if(joueur[tmp]->estMort() == false)
+            {
+                return joueur[tmp];
+            }
+        }
 	}
 	return NULL;
 }

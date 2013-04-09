@@ -174,6 +174,6 @@ ostream& operator<<( ostream &flux, Case const& pos)
     {
         nom = propri->getNom();
     }
-    flux << "(" << *(pos.getPosition()) << " " << nom << ")";
+    flux << "(" << *(pos.getPosition()) << " [" << pos.getDefenseActuelle() << "/" << pos.getDefenseReel() << "] " << " " << nom << ")";
     return flux;
 }
