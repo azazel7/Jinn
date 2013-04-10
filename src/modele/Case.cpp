@@ -34,17 +34,44 @@ void Case::retirerSortEcoule()
         iterator->first--;
         if(iterator->first < 0)
         {
-
+            iterator->second->retirerDeCase(*this);
             sort.erase(iterator);
         }
     }
 }
 
+void Case::effectuerActionChroniqueDesSorts()
+{
+    list<pair<int, Sort*> >::iterator iterator;
+    //On parcour tous les sorts de la case
+    for(iterator = sort.begin(); iterator != sort.end(); iterator++)
+    {
+        //On effectue l'action à chaque tour
+        iterator->second->effectuerActionChronique(*this);
+    }
+}
+
 void Case::ajouterSort(Sort* nouveauSort, int duree)
 {
+    //On créer un nouvelle paire
     pair<int, Sort*> nouvellePaire = make_pair(duree, nouveauSort);
+    //On ajoute la nouvelle paire
     sort.push_front(nouvellePaire);
 }
+
+int Case::dureeRestanteSort(Sort* sortCherche)
+{
+    list<pair<int, Sort*> >::iterator iterator;
+    //On parcour tous les sorts de la case
+    for(iterator = sort.begin(); iterator != sort.end(); iterator++)
+    {
+        if(iterator->second == sortCherche)
+        {
+            return iterator->first;
+        }
+    }
+}
+
 
 Position* Case::getPosition() const
 {

@@ -23,6 +23,8 @@ public:
 
     void retirerSortEcoule();
     void ajouterSort(Sort* nouveauSort, int duree);
+    void effectuerActionChroniqueDesSorts();
+    int dureeRestanteSort(Sort* sortCherche);
 	int getApportMana() const;
 	void setApportMana(int apportMana);
 	int getBonusOffensifActuel() const;
