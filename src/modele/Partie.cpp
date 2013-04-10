@@ -3,11 +3,12 @@
 
 
 
-Partie::Partie(string nom, int nombrePlace)
+Partie::Partie(string nom, int nombrePlace, int nombreSortParJoueur)
 {
 	this->nom = nom;
 	this->nombreDePlace = nombrePlace;
     this->enCours = false;
+    this->nombreSortParJoueur = nombreSortParJoueur;
 }
 
 
@@ -25,21 +26,28 @@ void Partie::demarrerPartie()
         courant = equipe[equipeCourante]->choisirJoueur();
         action = courant->effectuerAction(*this);
         //TODO verifier si l'action est valide
+        //FIXME Bug ici
+        cout << "narval" << endl;
         plateau->appliquerAction(action);
+        cout << "narval 1" << endl;
         if(finPartie() == true)
         {
             enCours = false;
         }
+        cout << "narval 2" << endl;
         //effectuer action chronique de chaques sort
         plateau->effectuerActionChronique();
+        cout << "narval 3" << endl;
         //regenerer la defense des cases
         plateau->regenererDefenseCase();
-
+cout << "narval 4" << endl;
         //regenerer le mana des joueurs
         this->regenererManaJoueur();
+cout << "narval 5" << endl;
         plateau->regenererManaPourJoueur();
-
+cout << "narval 6" << endl;
         plateau->retirerSortDeDureeEcoulee();
+cout << "narval 7" << endl;
         equipeCourante = (equipeCourante+1)%equipe.size();
     }
 }
@@ -52,6 +60,7 @@ bool Partie::verifierVictoire(Equipe & equipe)
 {
     int nombreCaseControllee = 0;
     Case* courante;
+    Joueur* proprietaire;
     string nom;
     //On parcoure toutes les cases
     for(int x = 0; x < plateau->getLargeur(); x++)
@@ -62,11 +71,16 @@ bool Partie::verifierVictoire(Equipe & equipe)
             if(courante != NULL)
             {
                 //On récupére son proprietaire
-                nom = courante->getProprietaire()->getNom();
-                if(equipe.joueurExiste(nom) == true)
+                proprietaire = courante->getProprietaire();
+                if(proprietaire != NULL)
                 {
-                    nombreCaseControllee++;
+                    nom = proprietaire->getNom();
+                    if(equipe.joueurExiste(nom) == true)
+                    {
+                        nombreCaseControllee++;
+                    }
                 }
+
             }
         }
     }
@@ -142,7 +156,7 @@ void Partie::nouveauJoueur(Joueur & joueur)
     Sort* sort;
     string nomSort;
     bool eliteChoisi = false;
-    for(int i = 0; i < 1; i++)
+    for(int i = 0; i < nombreSortParJoueur; i++)
 	{
         nomSort = joueur.saisieSort(listeSort);
         sort = UsineSort::fabriqueSort(nomSort);
@@ -171,7 +185,6 @@ bool Partie::finPartie()
     {
         if(verifierVictoire(*(equipe[i])) == true)
         {
-
             return true;
             //TODO notifier les équipes
         }

@@ -17,8 +17,7 @@ using namespace std;
 
 int main()
 {
-    cout << *Position::fabriquePosition(0,0) << endl;
-    Partie partie("Partie 1", 2);
+    Partie partie("Partie 1", 2, 2);
     Joueur j1, j2;
     Plateau *pl;
     Action action;
@@ -27,11 +26,23 @@ int main()
     partie.nouveauJoueur(j2);
     cout << j1 << endl;
     cout << j2 << endl;
+
+    partie.demarrerPartie();
+    /*
     pl = partie.getPlateau();
     action = j1.effectuerAction(partie);
-    cout << action.getSort()->getNom() << endl;
     pl->appliquerAction(action);
     cout <<  *pl->getCase(0, 0) << endl;
-    cout <<  *pl->getCase(1, 1) << endl;//FIXME Le nouveau propri n'est pas correctement mis à jour
+    cout <<  *pl->getCase(1, 1) << endl;
+
+    action = j1.effectuerAction(partie);
+    pl->appliquerAction(action);
+    cout <<  *pl->getCase(0, 0) << endl;
+    cout <<  *pl->getCase(1, 1) << endl;
+
+    action = j1.effectuerAction(partie);
+    pl->appliquerAction(action);
+    cout <<  *pl->getCase(0, 0) << endl;
+    cout <<  *pl->getCase(1, 1) << endl;*/
 	return 0;
 }

@@ -1,6 +1,6 @@
 #include "sort/BouleDeFeu.h"
 
-BouleDeFeu::BouleDeFeu(): Sort("Boule de Feu", 1, false, 5, 100, 1, 1, 0, 0, 0, 0)
+BouleDeFeu::BouleDeFeu(): Sort("Boule de Feu", 1, false, 5, 100, 1, 5, 0, 0, 0, 0)
 {
 
 }
@@ -12,6 +12,7 @@ void BouleDeFeu::appliquerSortSurCase(Case &cible)
 
 void BouleDeFeu::modifierSuivantOrigine(Case const& origine)
 {
+
 }
 
 void BouleDeFeu::modifierSuivantProprietaire()

@@ -19,7 +19,7 @@ class Partie {
 
  public:
 
-    Partie(string nom, int nombrePlace);
+    Partie(string nom, int nombrePlace, int nombreSortParJoueur);
 
 
     /** 
@@ -81,6 +81,7 @@ class Partie {
     string nom;
     int nombreDePlace;
     bool enCours;
+    int nombreSortParJoueur;
 
  public:
 

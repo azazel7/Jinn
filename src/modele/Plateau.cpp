@@ -168,6 +168,7 @@ void Plateau::retirerSortDeDureeEcoulee()
 
 void Plateau::regenererDefenseCase()
 {
+    //TODO bloquer au maximum et à 0
     int defenseActu;
     for(int i = 0; i < listeCase.size(); i++)
     {
@@ -180,10 +181,15 @@ void Plateau::regenererDefenseCase()
 void Plateau::regenererManaPourJoueur()
 {
     int apport;
+    Joueur* proprietaire;
     for(int i = 0; i < listeCase.size(); i++)
     {
         apport = listeCase[i]->getApportMana();
-        listeCase[i]->getProprietaire()->augmenterMana(apport);
+        proprietaire = listeCase[i]->getProprietaire();
+        if(proprietaire != NULL)
+        {
+            proprietaire->augmenterMana(apport);
+        }
     }
 }
 

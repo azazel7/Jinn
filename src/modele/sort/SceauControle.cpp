@@ -7,7 +7,10 @@ SceauControle::SceauControle(): Sort("Sceau de Controle", 1, false, 5, 100, 1, 0
 
 void SceauControle::appliquerSortSurCase(Case &cible)
 {
-    cible.setProprietaire(this->proprietaire); //On modifie le proprietaire
+    if(cible.getDefenseActuelle() <= 0)
+    {
+        cible.setProprietaire(this->proprietaire); //On modifie le proprietaire
+    }
 }
 
 void SceauControle::modifierSuivantOrigine(Case const& origine)
