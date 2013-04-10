@@ -34,6 +34,7 @@ void Case::retirerSortEcoule()
         iterator->first--;
         if(iterator->first < 0)
         {
+
             sort.erase(iterator);
         }
     }

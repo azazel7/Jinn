@@ -40,6 +40,12 @@ public:
     virtual void retirerDeCase(Case &cible) = 0;
 
     /**
+     * @brief effectuerActionChronique Permet de spécifier quelle action faire à chaque tour
+     * @param cible la case qui est affectée
+     */
+    virtual void effectuerActionChronique(Case &cible) = 0;
+
+    /**
      * @brief description Produit une description du sort
      * @return
      */

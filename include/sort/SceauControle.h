@@ -13,6 +13,7 @@ class SceauControle : public Sort
     virtual void modifierSuivantOrigine(Case const& origine);
     virtual void modifierSuivantProprietaire();
     virtual void retirerDeCase(Case &cible);
+    virtual void effectuerActionChronique(Case &cible);
     virtual string description();
 };
 

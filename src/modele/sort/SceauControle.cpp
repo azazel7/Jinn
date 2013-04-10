@@ -22,6 +22,11 @@ void SceauControle::retirerDeCase(Case &cible)
 {
 }
 
+void SceauControle::effectuerActionChronique(Case &cible)
+{
+
+}
+
 string SceauControle::description()
 {
     return "Sort permettant de prendre le controle d'une case";
