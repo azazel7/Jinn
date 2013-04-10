@@ -28,7 +28,21 @@ Case::Case(int defIni, int bonOff, int dissip, int attenu, int mana, int regenDe
 
 void Case::retirerSortEcoule()
 {
+    list<pair<int, Sort*> >::iterator iterator;
+    for(iterator = sort.begin(); iterator != sort.end(); iterator++)
+    {
+        iterator->first--;
+        if(iterator->first < 0)
+        {
+            sort.erase(iterator);
+        }
+    }
+}
 
+void Case::ajouterSort(Sort* nouveauSort, int duree)
+{
+    pair<int, Sort*> nouvellePaire = make_pair(duree, nouveauSort);
+    sort.push_front(nouvellePaire);
 }
 
 Position* Case::getPosition() const

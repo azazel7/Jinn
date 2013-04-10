@@ -3,6 +3,8 @@
 
 #include "Joueur.h"
 #include "Position.h"
+#include "list"
+
 
 #include <iostream>
 using namespace std;
@@ -20,6 +22,7 @@ public:
 			int camoufla, Position* position);
 
     void retirerSortEcoule();
+    void ajouterSort(Sort* nouveauSort, int duree);
 	int getApportMana() const;
 	void setApportMana(int apportMana);
 	int getBonusOffensifActuel() const;
@@ -67,7 +70,7 @@ private:
 private:
 	Joueur *proprietaire;
     Position *position;
-    //TODO faire un vector de paire et y associer la duree
+    list<pair<int, Sort*> > sort;
 };
 
 ostream& operator<<( ostream &flux, Case const& pos);
