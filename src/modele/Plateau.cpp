@@ -186,3 +186,11 @@ void Plateau::regenererManaPourJoueur()
         listeCase[i]->getProprietaire()->augmenterMana(apport);
     }
 }
+
+void Plateau::effectuerActionChronique()
+{
+    for(int i = 0; i < listeCase.size(); i++)
+    {
+        listeCase[i]->effectuerActionChroniqueDesSorts();
+    }
+}

@@ -3,7 +3,7 @@
 
 #include "Sort.h"
 #include "sort/SceauControle.h"
-
+#include "sort/BouleDeFeu.h"
 
 
 class UsineSort

@@ -44,6 +44,8 @@ class Plateau {
 
     virtual void regenererManaPourJoueur();
 
+    virtual void effectuerActionChronique();
+
  private:
     int largeur;
     int hauteur;

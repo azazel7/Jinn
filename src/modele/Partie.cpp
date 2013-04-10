@@ -30,7 +30,8 @@ void Partie::demarrerPartie()
         {
             enCours = false;
         }
-        //TODO effectuer action chronique de chaques sort
+        //effectuer action chronique de chaques sort
+        plateau->effectuerActionChronique();
         //regenerer la defense des cases
         plateau->regenererDefenseCase();
 
@@ -41,9 +42,6 @@ void Partie::demarrerPartie()
         plateau->retirerSortDeDureeEcoulee();
         equipeCourante = (equipeCourante+1)%equipe.size();
     }
-
-
-
 }
 
 
@@ -206,7 +204,7 @@ bool Partie::actionValide(Action & action)
     {
         return false;
     }
-    return false;
+    return true;
 }
 
 int Partie::nombreDeJoueur()
