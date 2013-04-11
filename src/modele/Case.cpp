@@ -72,6 +72,18 @@ int Case::dureeRestanteSort(Sort* sortCherche)
     }
 }
 
+void Case::modifierDefense(int nombre)
+{
+    this->defenseActuelle += nombre;
+    if(this->defenseActuelle > this->defenseReel)
+    {
+        this->defenseActuelle = this->defenseReel;
+    }
+    else if(this->defenseActuelle < 0)
+    {
+        this->defenseActuelle = 0;
+    }
+}
 
 Position* Case::getPosition() const
 {

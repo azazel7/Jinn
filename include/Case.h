@@ -25,7 +25,7 @@ public:
     void ajouterSort(Sort* nouveauSort, int duree);
     void effectuerActionChroniqueDesSorts();
     int dureeRestanteSort(Sort* sortCherche);
-
+    void modifierDefense(int nombre);
 	int getApportMana() const;
 	void setApportMana(int apportMana);
 	int getBonusOffensifActuel() const;
