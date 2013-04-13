@@ -16,6 +16,7 @@ class ReceptionServeur
     private:
         void testerSelectionClient(fd_set& readfd);
         void testerSelectionServeur(fd_set& readfd);
+        int maximunFileDescriptor();
         Partie *partie;
         int port;
         string ip;

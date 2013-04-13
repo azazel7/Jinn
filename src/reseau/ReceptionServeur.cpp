@@ -6,6 +6,7 @@ ReceptionServeur::ReceptionServeur(Partie* partie, string ip, int port)
     this->ip = ip;
     this->port = port;
 }
+
 bool ReceptionServeur::initialiserServeur()
 {
     struct sockaddr_in sin;
@@ -40,11 +41,13 @@ void ReceptionServeur::miseEnEcoute()
     while(true)
     {
         /* Si une erreur est survenue au niveau du select */
-        if(select(256, &readfs, NULL, NULL, NULL) < 0)
+        cout << "Attente select " << this->socketServeur << endl;
+        if(select(this->maximunFileDescriptor() + 1, &readfs, NULL, NULL, NULL) < 0)
         {
             perror("[-] select ReceptionServeur");
             exit(-1);
         }
+        cout << "Fin select" << endl;
         //Priorité au client qui joue on avise ensuite pour les nouvelles connexions
         this->testerSelectionClient(readfs);
         this->testerSelectionServeur(readfs);
@@ -57,14 +60,32 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
     {
         if(FD_ISSET(it->first, &readfd))
         {
+            char data[10] = {0};
+            int octetRecus;
+
+            cout << "Reception donnees" <<endl;
+            octetRecus = recv(it->first, data, 10, 0);
+            if( octetRecus < 0)
+            {
+                perror("[-] recv");
+                exit(1);
+            }
+            else if (octetRecus == 0)//Deconnexion du client
+            {
+                FD_CLR(it->first, &readfd);
+                close(it->first);
+                //TODO it->first = -1; read only probléme compilation
+                //TODO retirer l'entrée de la map
+            }
+            cout << data << endl;
             //TODO traitement d'un client
             if(it->second == NULL)
             {
-                //Traitement d'un joueur potentiel
+                //TODO Traitement d'un joueur potentiel
             }
             else
             {
-                //Traitement d'un joueur
+                //TODO Traitement d'un joueur
             }
         }
     }
@@ -78,6 +99,7 @@ void ReceptionServeur::testerSelectionServeur(fd_set& readfd)
            données qui serons reçues ici*/
     if(FD_ISSET(this->socketServeur, &readfd))
     {
+        cout << "Nouvelle connexion" << endl;
         int csock;
         struct sockaddr_in csin;
         int crecsize = sizeof csin;
@@ -87,4 +109,17 @@ void ReceptionServeur::testerSelectionServeur(fd_set& readfd)
         //On l'ajoute à la selection
         FD_SET(csock, &readfd);
     }
+}
+
+int ReceptionServeur::maximunFileDescriptor()
+{
+    int retour = this->socketServeur;
+    for(map<int, Joueur*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
+    {
+        if(it->first > this->socketServeur)
+        {
+            retour = it->first;
+        }
+    }
+    return retour;
 }
