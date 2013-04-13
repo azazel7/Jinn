@@ -8,7 +8,7 @@ GestionnaireNotificationPartie::GestionnaireNotificationPartie()
 void GestionnaireNotificationPartie::wait(int etat)
 {
     this->etat = etat;
-    std::unique_lock<std::mutex> lock(m);
+    std::unique_lock<std::mutex> lock(this->monMutex);
     this->cond_var.wait(lock);
 
 }
