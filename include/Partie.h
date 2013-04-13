@@ -7,6 +7,7 @@
 #include "Plateau.h"
 #include "Joueur.h"
 #include "UsineSort.h"
+#include "GestionnaireNotificationPartie.h"
 
 using namespace std;
 
@@ -15,7 +16,8 @@ class Joueur;
 class Equipe;
 class UsineSort;
 
-class Partie {
+class Partie : public GestionnaireNotificationPartie
+{
 
  public:
 
