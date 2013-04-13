@@ -4,6 +4,7 @@
 #include "Sort.h"
 #include "sort/SceauControle.h"
 #include "sort/BouleDeFeu.h"
+#include "sort/RuneDeProtection.h"
 
 
 class UsineSort

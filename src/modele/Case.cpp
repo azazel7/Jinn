@@ -29,13 +29,18 @@ Case::Case(int defIni, int bonOff, int dissip, int attenu, int mana, int regenDe
 void Case::retirerSortEcoule()
 {
     list<pair<int, Sort*> >::iterator iterator;
-    for(iterator = sort.begin(); iterator != sort.end(); iterator++)
+    for(iterator = sort.begin(); iterator != sort.end(); ++iterator)
     {
         iterator->first--;
+        //FIXME Avec un unique sort sur la case, la condition est validé deux fois
+        //
         if(iterator->first < 0)
         {
+            cout << "on retire taille liste : " << sort.size() << endl;
             iterator->second->retirerDeCase(*this);
+            cout << "le sort s'est retiré" << endl;
             sort.erase(iterator);
+            cout << "fin" << endl;
         }
     }
 }
@@ -82,6 +87,16 @@ void Case::modifierDefense(int nombre)
     else if(this->defenseActuelle < 0)
     {
         this->defenseActuelle = 0;
+    }
+}
+
+void Case::modifierDefenseReel(int nombre)
+{
+    this->defenseReel += nombre;
+    //TODO reflechir quand une defenseReel passe en dessous de 0. Si on la fige, le retrait du sort de la case va l'augmenter bien plus que prévue
+    if(this->defenseActuelle > this->defenseReel)
+    {
+        this->defenseActuelle = this->defenseReel;
     }
 }
 

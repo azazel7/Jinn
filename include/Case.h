@@ -26,6 +26,7 @@ public:
     void effectuerActionChroniqueDesSorts();
     int dureeRestanteSort(Sort* sortCherche);
     void modifierDefense(int nombre);
+    void modifierDefenseReel(int nombre);
 	int getApportMana() const;
 	void setApportMana(int apportMana);
 	int getBonusOffensifActuel() const;

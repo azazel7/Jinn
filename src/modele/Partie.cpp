@@ -26,23 +26,19 @@ void Partie::demarrerPartie()
         courant = equipe[equipeCourante]->choisirJoueur();
         action = courant->effectuerAction(*this);
         //TODO verifier si l'action est valide
-        //FIXME Bug ici
-        cout << "narval" << endl;
         plateau->appliquerAction(action);
-        cout << "narval 1" << endl;
         if(finPartie() == true)
         {
             enCours = false;
         }
-        cout << "narval 2" << endl;
         //effectuer action chronique de chaques sort
         plateau->effectuerActionChronique();
-        cout << "narval 3" << endl;
         //regenerer la defense des cases
         plateau->regenererDefenseCase();
         //regenerer le mana des joueurs
         this->regenererManaJoueur();
         plateau->regenererManaPourJoueur();
+        //On retire les sorts qui expire
         plateau->retirerSortDeDureeEcoulee();
         equipeCourante = (equipeCourante+1)%equipe.size();
     }

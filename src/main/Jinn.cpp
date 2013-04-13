@@ -17,6 +17,32 @@ using namespace std;
 
 int main()
 {
+    list<string> tab;
+
+    //Un tableau de mots
+    tab.push_back("les"); //On ajoute deux mots dans le tableau
+    tab.push_back("Zeros");
+    tab.insert(tab.begin(), "Salut"); //On insère le mot "Salut" au
+
+            //Affiche les mots donc la chaîne "Salut les Zeros"
+    for(list<string>::iterator it=tab.begin(); it!=tab.end(); ++it)
+    {
+        cout << *it << " ";
+        if((*it) == "les")
+        {
+            tab.erase(it);
+        }
+    }
+    tab.erase(tab.begin()); //On supprime le premier mot
+    cout << endl;
+    //Affiche les mots donc la chaîne "les Zeros"
+    for(list<string>::iterator it=tab.begin(); it!=tab.end(); ++it)
+    {
+        cout << *it << " ";
+    }
+    cout << endl;
+    return 0;
+
     Partie partie("Partie 1", 2, 2);
     Joueur j1, j2;
     Plateau *pl;
