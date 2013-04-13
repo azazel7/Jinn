@@ -32,15 +32,10 @@ void Case::retirerSortEcoule()
     for(iterator = sort.begin(); iterator != sort.end(); ++iterator)
     {
         iterator->first--;
-        //FIXME Avec un unique sort sur la case, la condition est validé deux fois
-        //
         if(iterator->first < 0)
         {
-            cout << "on retire taille liste : " << sort.size() << endl;
             iterator->second->retirerDeCase(*this);
-            cout << "le sort s'est retiré" << endl;
-            sort.erase(iterator);
-            cout << "fin" << endl;
+            iterator = sort.erase(iterator);
         }
     }
 }

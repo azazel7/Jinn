@@ -13,11 +13,12 @@
 #include "UsineSort.h"
 #include "Partie.h"
 #include "Joueur.h"
+#include "reseau/ReceptionServeur.h"
 using namespace std;
 
 int main()
 {
-    list<string> tab;
+    /*list<string> tab;
 
     //Un tableau de mots
     tab.push_back("les"); //On ajoute deux mots dans le tableau
@@ -30,7 +31,7 @@ int main()
         cout << *it << " ";
         if((*it) == "les")
         {
-            tab.erase(it);
+            it = tab.erase(it);
         }
     }
     tab.erase(tab.begin()); //On supprime le premier mot
@@ -41,7 +42,12 @@ int main()
         cout << *it << " ";
     }
     cout << endl;
-    return 0;
+    return 0;*/
+/*
+    ReceptionServeur serveur(NULL);
+    serveur.initialiserServeur();
+    serveur.miseEnEcoute();
+    return 0;*/
 
     Partie partie("Partie 1", 2, 2);
     Joueur j1, j2;
