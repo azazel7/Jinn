@@ -40,14 +40,10 @@ void Partie::demarrerPartie()
         cout << "narval 3" << endl;
         //regenerer la defense des cases
         plateau->regenererDefenseCase();
-cout << "narval 4" << endl;
         //regenerer le mana des joueurs
         this->regenererManaJoueur();
-cout << "narval 5" << endl;
         plateau->regenererManaPourJoueur();
-cout << "narval 6" << endl;
         plateau->retirerSortDeDureeEcoulee();
-cout << "narval 7" << endl;
         equipeCourante = (equipeCourante+1)%equipe.size();
     }
 }
@@ -80,7 +76,6 @@ bool Partie::verifierVictoire(Equipe & equipe)
                         nombreCaseControllee++;
                     }
                 }
-
             }
         }
     }

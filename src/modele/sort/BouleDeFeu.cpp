@@ -7,7 +7,7 @@ BouleDeFeu::BouleDeFeu(): Sort("Boule de Feu", 1, false, 5, 100, 1, 5, 0, 0, 0, 
 
 void BouleDeFeu::appliquerSortSurCase(Case &cible)
 {
-    cible.setDefenseActuelle(cible.getDefenseActuelle() - this->attaque);
+    cible.modifierDefense( -this->attaque);
 }
 
 void BouleDeFeu::modifierSuivantOrigine(Case const& origine)

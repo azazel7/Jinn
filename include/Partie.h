@@ -18,7 +18,7 @@ class UsineSort;
 
 class Partie : public GestionnaireNotificationPartie
 {
-
+enum { ATTENTE_JOUEUR };
  public:
 
     Partie(string nom, int nombrePlace, int nombreSortParJoueur);
