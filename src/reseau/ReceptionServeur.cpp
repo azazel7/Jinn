@@ -60,24 +60,40 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
     {
         if(FD_ISSET(it->first, &readfd))
         {
-            char data[10] = {0};
-            int octetRecus;
+            char *data = NULL;
+            int octetRecus = 0;
+            int octetLus = 0;
+            //On calcule combien il y a d'octet à lire
+            ioctl(it->first, FIONREAD, &octetRecus);
 
-            cout << "Reception donnees" <<endl;
-            octetRecus = recv(it->first, data, 10, 0);
-            if( octetRecus < 0)
+            //On alloue en conséquence
+            data = (char*)malloc(sizeof(char)*octetRecus);
+            if(data == NULL)
+            {
+                perror("[-] malloc");
+                exit(1);
+            }
+            //On lit les données
+            octetLus = recv(it->first, data, octetRecus, 0);
+            if( octetLus < 0)
             {
                 perror("[-] recv");
                 exit(1);
             }
-            else if (octetRecus == 0)//Deconnexion du client
+            else if (octetLus == 0)//Deconnexion du client
             {
+                //On retire la socket de la séléction
                 FD_CLR(it->first, &readfd);
+                //On ferme la socket
                 close(it->first);
-                //TODO it->first = -1; read only probléme compilation
-                //TODO retirer l'entrée de la map
+                //On supprime l'entrée
+                it = listeClient.erase(it);
             }
-            cout << data << endl;
+            else if(octetLus != octetRecus) //Curieuse affaire
+            {
+                //TODO Bizarre bizarre
+            }
+
             //TODO traitement d'un client
             if(it->second == NULL)
             {
@@ -122,4 +138,48 @@ int ReceptionServeur::maximunFileDescriptor()
         }
     }
     return retour;
+}
+
+void ReceptionServeur::traitementJoueur(char *commande)
+{
+    char *action = NULL;
+    action = strtok (commande, ";");
+    if(action == NULL)
+    {
+        return;
+    }
+    if(strcmp(action, "message") == 0)
+    {
+        //Envoyer un message à tout le monde
+    }
+    else if(strcmp(action, "action") == 0)
+    {
+        //Le joueur veut effectuer une action (nom du sort, origine, cible, cible , ...)
+    }
+    else if(strcmp(action, "ff") == 0)
+    {
+        //Le joueur veut effectuer une action
+    }
+}
+
+void ReceptionServeur::traitementClient(char *commande)
+{
+    char *action = NULL;
+    action = strtok (commande, ";");
+    if(action == NULL)
+    {
+        return;
+    }
+    if(strcmp(action, "joueur") == 0)
+    {
+        //Le joueur veut s'inscrire (nom, equipe, liste de sort(nom, pour l'usine)
+    }
+    else if(strcmp(action, "equipe") == 0)
+    {
+        //Envoyer la liste des equipes ("equipe", nom, nom, ...)
+    }
+    else if(strcmp(action, "sort") == 0)
+    {
+        //Envoyer la liste des sorts ("sort", nom, description, nom, description, ....)
+    }
 }

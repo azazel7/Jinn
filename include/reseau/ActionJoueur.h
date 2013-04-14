@@ -1,0 +1,6 @@
+class ActionJoueur
+{
+public:
+    ActionJoueur();
+
+};

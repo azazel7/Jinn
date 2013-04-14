@@ -43,11 +43,11 @@ int main()
     }
     cout << endl;
     return 0;*/
-/*
+
     ReceptionServeur serveur(NULL);
     serveur.initialiserServeur();
     serveur.miseEnEcoute();
-    return 0;*/
+    return 0;
 
     Partie partie("Partie 1", 2, 2);
     Joueur j1, j2;
