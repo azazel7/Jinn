@@ -18,23 +18,23 @@ class UsineSort;
 
 class Partie : public GestionnaireNotificationPartie
 {
-enum { ATTENTE_JOUEUR };
- public:
+    enum { ATTENTE_JOUEUR };
+public:
 
     Partie(string nom, int nombrePlace, int nombreSortParJoueur);
 
 
-    /** 
+    /**
      *  Demarre la partie.
      */
     virtual void demarrerPartie();
 
-    /** 
+    /**
      *  Verifie la victoire d'une équipe
      */
     virtual bool verifierVictoire(Equipe & equipe);
 
-    /** 
+    /**
      *  Initialise la partie, les different joueurs, les differentes equipes et le terrain
      */
     virtual void initialiser();
@@ -75,17 +75,21 @@ enum { ATTENTE_JOUEUR };
 
     virtual void regenererManaJoueur();
 
- public:
-    
-    /** 
+    virtual bool estJoueurCourrant(Joueur* joueur);
+
+    virtual vector<string> listeEquipe();
+
+public:
+
+    /**
      *  Correspond au nom de la partie (nottament s'il y a plusieurs partie sur une application serveur)
      */
     string nom;
     int nombreDePlace;
     bool enCours;
     int nombreSortParJoueur;
-
- public:
+    Joueur* joueurCourant;
+public:
 
     Plateau *plateau;
 

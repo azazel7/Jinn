@@ -8,7 +8,7 @@ void Case::setProprietaire(Joueur *nouveauProprietaire)
 
 Case::Case(int defIni, int bonOff, int dissip, int attenu, int mana, int regenDef, int camoufla, Position* position)
 {
-	this->defenseInitiale = defIni;
+    this->defenseInitiale = defIni;
 	this->defenseActuelle = defIni;
 	this->defenseReel = defIni;
 

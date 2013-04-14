@@ -5,10 +5,11 @@
 
 Partie::Partie(string nom, int nombrePlace, int nombreSortParJoueur)
 {
-	this->nom = nom;
-	this->nombreDePlace = nombrePlace;
+    this->nom = nom;
+    this->nombreDePlace = nombrePlace;
     this->enCours = false;
     this->nombreSortParJoueur = nombreSortParJoueur;
+    this->joueurCourant = NULL;
 }
 
 
@@ -88,67 +89,67 @@ bool Partie::verifierVictoire(Equipe & equipe)
      */
 void Partie::initialiser()
 {
-	plateau = new Plateau();
+    plateau = new Plateau();
 }
 
 std::vector<Sort*> Partie::listeSort()
 {
-   vector<Sort*> retour;
-   //On liste les sorts
+    vector<Sort*> retour;
+    //On liste les sorts
     vector<string> listeNom = UsineSort::liste();
     for(int i = 0; i < listeNom.size(); i++)
     {
         retour.push_back(UsineSort::fabriqueSort(listeNom[i])); //On créer une liste de sort.
     }
-   return retour;
+    return retour;
 }
 
 void Partie::nouveauJoueur(Joueur & joueur)
 {
-	bool valid = false;
-	string nom, equipe;
+    bool valid = false;
+    string nom, equipe;
     //On récupére le nom
-	while(valid == false)
-	{
-		valid = true;
-		nom = joueur.saisieNom();
+    while(valid == false)
+    {
+        valid = true;
+        nom = joueur.saisieNom();
         //On verifie si le nom est dans une des equipe
         if(this->joueurExiste(nom) == true)
         {
             valid = false;
         }
-	}
+    }
     joueur.setNom(nom);
     //On récupére l'equipe
-	equipe = joueur.saisieEquipe(this->equipe);
-	valid = false;
-	//On cherche l'equipe correspondant au nom
-	for(int i = 0; i < this->equipe.size(); i++)
-	{
-		if(this->equipe[i]->getNom() == equipe)
-		{
-			valid = true;
-			this->equipe[i]->ajouterJoueur(&joueur);
-		}
-	}
-	//sinon, on la créer
-	if(valid == false)
-	{
-		Equipe* nouvelleEquipe = new Equipe(equipe);
-		nouvelleEquipe->ajouterJoueur(&joueur);//on ajoute le joueur
-		this->equipe.push_back(nouvelleEquipe);
-	}
+    equipe = joueur.saisieEquipe(this->equipe);
+    valid = false;
+    //On cherche l'equipe correspondant au nom
+    for(int i = 0; i < this->equipe.size(); i++)
+    {
+        if(this->equipe[i]->getNom() == equipe)
+        {
+            valid = true;
+            this->equipe[i]->ajouterJoueur(&joueur);
+        }
+    }
+    //sinon, on la créer
+    if(valid == false)
+    {
+        Equipe* nouvelleEquipe = new Equipe(equipe);
+        nouvelleEquipe->ajouterJoueur(&joueur);//on ajoute le joueur
+        this->equipe.push_back(nouvelleEquipe);
+    }
 
 
-	//selection des sorts
-	//TODO faire en sorte que le nombre de sort soi variable
-	//TODO Peut-être faire en sorte que la liste des sorts soi stocké
+    //selection des sorts
+    //TODO faire en sorte que le nombre de sort soi variable
+    //TODO Peut-être faire en sorte que la liste des sorts soi stocké
     vector<Sort*> listeSort = this->listeSort();
     Sort* sort;
     string nomSort;
     bool eliteChoisi = false;
     for(int i = 0; i < nombreSortParJoueur; i++)
-	{
+    {
         nomSort = joueur.saisieSort(listeSort);
         sort = UsineSort::fabriqueSort(nomSort);
         if(sort->getElite() == true && eliteChoisi == true)
@@ -162,12 +163,12 @@ void Partie::nouveauJoueur(Joueur & joueur)
             eliteChoisi = true;
         }
         joueur.ajouterSort(sort);
-		//TODO Un joueur peut maitriser plusieurs fois le même sort
-		//TODO génrer le cas des élites
-	}
+        //TODO Un joueur peut maitriser plusieurs fois le même sort
+        //TODO génrer le cas des élites
+    }
 
-	joueur.genererStatistique();
-	//TODO notifier le joueur de ses stats
+    joueur.genererStatistique();
+    //TODO notifier le joueur de ses stats
 }
 
 bool Partie::finPartie()
@@ -247,4 +248,19 @@ void Partie::regenererManaJoueur()
     {
         equipe[i]->regenererManaJoueur();
     }
+}
+
+bool Partie::estJoueurCourrant(Joueur* joueur)
+{
+
+}
+
+vector<string> Partie::listeEquipe()
+{
+    vector<string> retour(this->equipe.size());
+    for(int i = 0; i < this->equipe.size(); i++)
+    {
+           retour[i] = this->equipe[i]->getNom();
+    }
+    return retour;
 }

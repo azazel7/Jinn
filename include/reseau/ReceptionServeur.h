@@ -8,8 +8,17 @@
 #include <sys/ioctl.h>
 #include <string.h>
 #include "Partie.h"
+#include "UsineSort.h"
 
-#define SEPARATEUR_ELEMENT ';'
+#define SEPARATEUR_ELEMENT ";"
+#define SEPARATEUR_SOUS_ELEMENT "#"
+#define ACTION "action"
+#define MESSAGE "message"
+#define NOUVEAU_JOUEUR "joueur"
+#define FIN_TOUR "fintour"
+#define EQUIPE "equipe"
+#define SORT "sort"
+
 class ReceptionServeur
 {
     public:
@@ -21,8 +30,10 @@ class ReceptionServeur
         void testerSelectionClient(fd_set& readfd);
         void testerSelectionServeur(fd_set& readfd);
         int maximunFileDescriptor();
-        void traitementJoueur(char *commande);
-        void traitementClient(char *commande);
+        void traitementJoueur(char *commande, int socketClient);
+        void traitementClient(char *commande, int socketClient);
+        void traitementSort(int socketClient);
+        void traitementEquipe(int socketClient);
         Partie *partie;
         int port;
         string ip;

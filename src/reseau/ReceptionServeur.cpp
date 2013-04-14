@@ -98,10 +98,14 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
             if(it->second == NULL)
             {
                 //TODO Traitement d'un joueur potentiel
+                cout << "Potentiel client" << endl;
+                this->traitementClient(data, it->first);
             }
             else
             {
                 //TODO Traitement d'un joueur
+                cout << "Joueur" << endl;
+                this->traitementJoueur(data, it->first);
             }
         }
     }
@@ -140,46 +144,75 @@ int ReceptionServeur::maximunFileDescriptor()
     return retour;
 }
 
-void ReceptionServeur::traitementJoueur(char *commande)
+void ReceptionServeur::traitementJoueur(char *commande, int socketClient)
 {
     char *action = NULL;
-    action = strtok (commande, ";");
+    action = strtok (commande, SEPARATEUR_ELEMENT);
     if(action == NULL)
     {
         return;
     }
-    if(strcmp(action, "message") == 0)
+    if(strcmp(action, MESSAGE) == 0)
     {
         //Envoyer un message à tout le monde
     }
-    else if(strcmp(action, "action") == 0)
+    else if(strcmp(action, ACTION) == 0)
     {
         //Le joueur veut effectuer une action (nom du sort, origine, cible, cible , ...)
+        //verifier si c'est à ce joueur de jouer ...
     }
-    else if(strcmp(action, "ff") == 0)
+    else if(strcmp(action, FIN_TOUR) == 0)
     {
-        //Le joueur veut effectuer une action
+        //Le joueur declare son tour finis
     }
 }
 
-void ReceptionServeur::traitementClient(char *commande)
+void ReceptionServeur::traitementClient(char *commande, int socketClient)
 {
     char *action = NULL;
-    action = strtok (commande, ";");
+    action = strtok (commande, SEPARATEUR_ELEMENT);
     if(action == NULL)
     {
         return;
     }
-    if(strcmp(action, "joueur") == 0)
+    cout << action << endl;
+    if(strcmp(action, NOUVEAU_JOUEUR) == 0)
     {
         //Le joueur veut s'inscrire (nom, equipe, liste de sort(nom, pour l'usine)
     }
-    else if(strcmp(action, "equipe") == 0)
+    else if(strcmp(action, EQUIPE) == 0)
     {
         //Envoyer la liste des equipes ("equipe", nom, nom, ...)
+        traitementEquipe(socketClient);
     }
-    else if(strcmp(action, "sort") == 0)
+    else if(strcmp(action, SORT) == 0)
     {
         //Envoyer la liste des sorts ("sort", nom, description, nom, description, ....)
+        traitementSort(socketClient);
     }
+}
+
+void ReceptionServeur::traitementSort(int socketClient)
+{
+        vector<string> listeNomSort = UsineSort::liste();
+        Sort* sort = NULL;
+        string final = SORT;
+        for(int i = 0; i < listeNomSort.size(); i++)
+        {
+                sort = UsineSort::fabriqueSort(listeNomSort[i]);
+                final += SEPARATEUR_ELEMENT + sort->getNom() + SEPARATEUR_SOUS_ELEMENT + sort->description();
+                delete sort;
+        }
+        send(socketClient, final.c_str(), final.size(), 0);
+}
+
+void ReceptionServeur::traitementEquipe(int socketClient)
+{
+        string final = EQUIPE;
+        vector<string> listeEquipe = this->partie->listeEquipe();
+        for(int i = 0; i < listeEquipe.size(); i++)
+        {
+                final += SEPARATEUR_ELEMENT + listeEquipe[i];
+        }
+        send(socketClient, final.c_str(), final.size(), 0);
 }
