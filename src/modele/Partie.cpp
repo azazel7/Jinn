@@ -264,3 +264,73 @@ vector<string> Partie::listeEquipe()
     }
     return retour;
 }
+
+int Partie::getNombreSortParJoueur()
+{
+    return this->nombreSortParJoueur;
+}
+
+Equipe* Partie::equipeExiste(string const& nom)
+{
+    for(int i = 0; i < this->equipe.size(); i++)
+    {
+        if(this->equipe[i]->getNom() == nom)
+        {
+            return this->equipe[i];
+        }
+    }
+    return NULL;
+}
+
+
+Joueur* Partie::ajouterJoueur(string const& nom, string const& nomEquipe, vector<string> const& listeSort)
+{
+        Equipe* equipe = NULL;
+        Joueur* joueur = NULL;
+        Sort* sort = NULL;
+        bool dejaElite = false;
+        if(this->joueurExiste(nom) == true)
+        {
+            return NULL;
+        }
+        if(this->nombreSortParJoueur != listeSort.size())
+        {
+            return NULL;
+        }
+
+        joueur = new Joueur();
+        joueur->setNom(nom);
+
+        for(int i = 0; i < nombreSortParJoueur; i++)
+        {
+                sort = UsineSort::fabriqueSort(listeSort[i]);
+                if(sort = NULL)
+                {
+                        delete joueur;
+                        return NULL;
+                }
+                if(sort->getElite() == true && dejaElite == true)
+                {
+                        delete joueur;
+                        return NULL;
+                }
+                if(sort->getElite() == true && dejaElite == false)
+                {
+                    dejaElite = true;
+                }
+                joueur->ajouterSort(sort);
+        }
+
+        if((equipe = this->equipeExiste(nomEquipe)) != NULL)
+        {
+                equipe->ajouterJoueur(joueur);
+        }
+        else
+        {
+                equipe = new Equipe(nomEquipe);
+                equipe->ajouterJoueur(joueur);
+                this->equipe.push_back(equipe);
+        }
+        joueur->genererStatistique();
+        return joueur;
+}

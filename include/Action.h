@@ -21,7 +21,7 @@ public:
 	/**
 	 *  Permet de recupérer le sort lié à une action
 	 */
-	virtual Sort* getSort();
+    virtual Sort* getSort();
 
 	/**
 	 *  Récupére l'origine du sort

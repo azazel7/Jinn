@@ -179,6 +179,7 @@ void ReceptionServeur::traitementClient(char *commande, int socketClient)
     if(strcmp(action, NOUVEAU_JOUEUR) == 0)
     {
         //Le joueur veut s'inscrire (nom, equipe, liste de sort(nom, pour l'usine)
+        traitementJoueur(NULL, socketClient);
     }
     else if(strcmp(action, EQUIPE) == 0)
     {
@@ -215,4 +216,34 @@ void ReceptionServeur::traitementEquipe(int socketClient)
                 final += SEPARATEUR_ELEMENT + listeEquipe[i];
         }
         send(socketClient, final.c_str(), final.size(), 0);
+}
+
+void ReceptionServeur::traitementNouveauJoueur(char* data, int socketClient)
+{
+        char *nom, *equipe, *sort;
+        Joueur* joueur = NULL;
+        vector<string> listeSortDemande(this->partie->getNombreSortParJoueur());
+
+        nom = strtok(NULL, SEPARATEUR_ELEMENT);
+        equipe = strtok(NULL, SEPARATEUR_ELEMENT);
+        if(nom == NULL || equipe == NULL)
+        {
+                //TODO envoyer erreur
+        }
+        for(int i = 0; i < this->partie->getNombreSortParJoueur(); i++)
+        {
+                sort = strtok(NULL, SEPARATEUR_ELEMENT);
+                if(sort == NULL)
+                {
+                        //TODO envoyer erreur
+                        return;
+                }
+                listeSortDemande[i] = sort;
+        }
+        joueur = this->partie->ajouterJoueur(nom, equipe, listeSortDemande);
+        if(joueur == NULL)
+        {
+            //TODO envoyer une erreur
+        }
+        //TODO, renvoyer le joueur
 }

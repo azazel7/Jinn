@@ -34,6 +34,7 @@ class ReceptionServeur
         void traitementClient(char *commande, int socketClient);
         void traitementSort(int socketClient);
         void traitementEquipe(int socketClient);
+        void traitementNouveauJoueur(char *data, int socketClient);
         Partie *partie;
         int port;
         string ip;

@@ -79,6 +79,12 @@ public:
 
     virtual vector<string> listeEquipe();
 
+    virtual int getNombreSortParJoueur();
+
+    virtual Equipe* equipeExiste(string const& nom);
+
+    virtual Joueur* ajouterJoueur(string const& nom, string const& nomEquipe, vector<string> const& listeSort);
+
 public:
 
     /**
