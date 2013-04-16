@@ -44,7 +44,7 @@ int main()
     cout << endl;
     return 0;*/
 
-    ReceptionServeur serveur(NULL);
+    ReceptionServeur serveur(new Partie("p1", 2, 2));
     serveur.initialiserServeur();
     serveur.miseEnEcoute();
     return 0;

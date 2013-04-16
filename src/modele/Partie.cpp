@@ -267,6 +267,7 @@ vector<string> Partie::listeEquipe()
 
 int Partie::getNombreSortParJoueur()
 {
+    cout << this->nombreSortParJoueur << endl;
     return this->nombreSortParJoueur;
 }
 

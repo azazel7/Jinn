@@ -175,11 +175,12 @@ void ReceptionServeur::traitementClient(char *commande, int socketClient)
     {
         return;
     }
-    cout << action << endl;
     if(strcmp(action, NOUVEAU_JOUEUR) == 0)
     {
+        cout << "Nouveau joueur" << endl;
         //Le joueur veut s'inscrire (nom, equipe, liste de sort(nom, pour l'usine)
-        traitementJoueur(NULL, socketClient);
+        this->traitementNouveauJoueur(NULL, socketClient);
+        cout << " 5 Fin Nouveau joueur" << endl;
     }
     else if(strcmp(action, EQUIPE) == 0)
     {
@@ -240,6 +241,7 @@ void ReceptionServeur::traitementNouveauJoueur(char* data, int socketClient)
                 }
                 listeSortDemande[i] = sort;
         }
+        //TODO ajouter exception
         joueur = this->partie->ajouterJoueur(nom, equipe, listeSortDemande);
         if(joueur == NULL)
         {
