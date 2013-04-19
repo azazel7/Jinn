@@ -305,7 +305,7 @@ Joueur* Partie::ajouterJoueur(string const& nom, string const& nomEquipe, vector
         for(int i = 0; i < nombreSortParJoueur; i++)
         {
                 sort = UsineSort::fabriqueSort(listeSort[i]);
-                if(sort = NULL)
+                if(sort == NULL)
                 {
                         delete joueur;
                         throw invalid_argument("Sort inconnu");
@@ -334,4 +334,9 @@ Joueur* Partie::ajouterJoueur(string const& nom, string const& nomEquipe, vector
         }
         joueur->genererStatistique();
         return joueur;
+}
+
+int Partie::getNombreDePlace()
+{
+        return this->nombreDePlace;
 }

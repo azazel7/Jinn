@@ -9,20 +9,21 @@ EXEC=Jinn
 SRC = $(shell find $(SRCDIR) -name "*.cpp"  ! -path '$(MAINDIR)*')
 OBJ = $(patsubst $(SRCDIR)%.cpp, $(OBJDIR)%.o, $(SRC))
 OBJSUBDIR = $(dir $(OBJ))
-FLAG="-std=c++11"
+FLAG= -std=c++11
+OPTION=-g
 
 compile: directory $(OBJ)
 
 Jinn: compile 
-	$(CC) -I $(INCDIR) $(OBJ) $(MAINDIR)$@.cpp -o $@ $(FLAG)
+	$(CC) $(OPTION) -I $(INCDIR)  $(OBJ) $(MAINDIR)$@.cpp -o $@ $(FLAG)
 
 TestUnitaire: compile
-	$(CC) -I $(INCDIR) $(OBJ) $(MAINDIR)$@.cpp -o $@ $(FLAG)
+	$(CC) $(OPTION) -I $(INCDIR)  $(OBJ) $(MAINDIR)$@.cpp -o $@ $(FLAG)
 	./$@
 
 
 $(OBJDIR)%.o : $(SRCDIR)%.cpp
-	$(CC) -I $(INCDIR) -c $< -o $@ $(FLAG)
+	$(CC) $(OPTION) -I $(INCDIR) -c $< -o $@ $(FLAG)
 
 directory:
 	mkdir -p $(OBJSUBDIR)

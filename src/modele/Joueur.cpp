@@ -204,7 +204,23 @@ void Joueur::setSocket(int socket)
 
 void Joueur::notifierCreation() const
 {
-        string final = "";
+        string final = NOUVEAU_JOUEUR;
+        final += SEPARATEUR_ELEMENT;
+        final += this->nom;
+        final += SEPARATEUR_ELEMENT;
+        final += this->manaMaximum;
+        final += SEPARATEUR_ELEMENT;
+        final += this->gainInitialMana;
+        final += SEPARATEUR_ELEMENT;
+        final += this->abilite;
+        final += SEPARATEUR_ELEMENT;
+        final += this->nom;
 
+        for(int i = 0; i < this->listeSort.size(); i++)
+        {
+                final += SEPARATEUR_ELEMENT;
+                final += listeSort[i]->getNom();
+        }
+        final += SEPARATEUR_ELEMENT;
         send(this->socket, final.c_str(), final.size(), 0);
 }

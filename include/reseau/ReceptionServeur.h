@@ -1,3 +1,5 @@
+#ifndef ReceptionServeur_h
+#define ReceptionServeur_h
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -19,6 +21,9 @@
 #define EQUIPE "equipe"
 #define SORT "sort"
 #define ERREUR "erreur"
+
+
+class Partie;
 
 class ReceptionServeur
 {
@@ -42,3 +47,5 @@ class ReceptionServeur
         int socketServeur;
         map<int, Joueur*> listeClient;
 };
+
+#endif // ReceptionServeur_h

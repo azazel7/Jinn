@@ -12,6 +12,7 @@
 #include "Sort.h"
 #include "Partie.h"
 #include "UsineSort.h"
+#include "reseau/ReceptionServeur.h"
 
 using namespace std;
 

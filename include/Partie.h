@@ -85,7 +85,9 @@ public:
 
     virtual Joueur* ajouterJoueur(string const& nom, string const& nomEquipe, vector<string> const& listeSort);
 
-public:
+    virtual int getNombreDePlace();
+
+protected:
 
     /**
      *  Correspond au nom de la partie (nottament s'il y a plusieurs partie sur une application serveur)
@@ -95,10 +97,7 @@ public:
     bool enCours;
     int nombreSortParJoueur;
     Joueur* joueurCourant;
-public:
-
     Plateau *plateau;
-
     /**
      * @element-type Equipe
      */

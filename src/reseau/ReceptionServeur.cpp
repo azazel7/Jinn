@@ -51,6 +51,10 @@ void ReceptionServeur::miseEnEcoute()
         //Priorité au client qui joue on avise ensuite pour les nouvelles connexions
         this->testerSelectionClient(readfs);
         this->testerSelectionServeur(readfs);
+        if (this->partie->nombreDeJoueur() == this->partie->getNombreDePlace())
+        {
+                //TODO demarer la partie
+        }
     }
 }
 
@@ -180,7 +184,6 @@ void ReceptionServeur::traitementClient(char *commande, int socketClient)
         cout << "Nouveau joueur" << endl;
         //Le joueur veut s'inscrire (nom, equipe, liste de sort(nom, pour l'usine)
         this->traitementNouveauJoueur(socketClient);
-        cout << " 5 Fin Nouveau joueur" << endl;
     }
     else if(strcmp(action, EQUIPE) == 0)
     {
@@ -226,6 +229,15 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
     vector<string> listeSortDemande(this->partie->getNombreSortParJoueur());
     string final;
 
+    if(this->partie->getNombreDePlace() > this->partie->getNombreSortParJoueur())
+    {
+        final = ERREUR;
+        final += SEPARATEUR_ELEMENT;
+        final += "la partie est pleine";
+        send(socketClient, final.c_str(), final.size(), 0);
+        return;
+    }
+
     nom = strtok(NULL, SEPARATEUR_ELEMENT);
     equipe = strtok(NULL, SEPARATEUR_ELEMENT);
     if(nom == NULL || equipe == NULL)
@@ -234,6 +246,7 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
         final += SEPARATEUR_ELEMENT;
         final += "nom de joueur ou d'equipe invalide";
         send(socketClient, final.c_str(), final.size(), 0);
+        return;
     }
     for(int i = 0; i < this->partie->getNombreSortParJoueur(); i++)
     {
@@ -258,6 +271,7 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
         final += SEPARATEUR_ELEMENT;
         final += e.what();
         send(socketClient, final.c_str(), final.size(), 0);
+        return;
     }
     if(joueur == NULL)
     {
@@ -267,5 +281,5 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
         return;
     }
     joueur->setSocket(socketClient);
-    //TODO, renvoyer le joueur
+    joueur->notifierCreation();
 }
