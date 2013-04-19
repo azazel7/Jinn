@@ -18,6 +18,7 @@
 #define FIN_TOUR "fintour"
 #define EQUIPE "equipe"
 #define SORT "sort"
+#define ERREUR "erreur"
 
 class ReceptionServeur
 {
@@ -34,7 +35,7 @@ class ReceptionServeur
         void traitementClient(char *commande, int socketClient);
         void traitementSort(int socketClient);
         void traitementEquipe(int socketClient);
-        void traitementNouveauJoueur(char *data, int socketClient);
+        void traitementNouveauJoueur(int socketClient);
         Partie *partie;
         int port;
         string ip;

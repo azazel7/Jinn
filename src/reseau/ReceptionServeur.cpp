@@ -179,7 +179,7 @@ void ReceptionServeur::traitementClient(char *commande, int socketClient)
     {
         cout << "Nouveau joueur" << endl;
         //Le joueur veut s'inscrire (nom, equipe, liste de sort(nom, pour l'usine)
-        this->traitementNouveauJoueur(NULL, socketClient);
+        this->traitementNouveauJoueur(socketClient);
         cout << " 5 Fin Nouveau joueur" << endl;
     }
     else if(strcmp(action, EQUIPE) == 0)
@@ -196,56 +196,76 @@ void ReceptionServeur::traitementClient(char *commande, int socketClient)
 
 void ReceptionServeur::traitementSort(int socketClient)
 {
-        vector<string> listeNomSort = UsineSort::liste();
-        Sort* sort = NULL;
-        string final = SORT;
-        for(int i = 0; i < listeNomSort.size(); i++)
-        {
-                sort = UsineSort::fabriqueSort(listeNomSort[i]);
-                final += SEPARATEUR_ELEMENT + sort->getNom() + SEPARATEUR_SOUS_ELEMENT + sort->description();
-                delete sort;
-        }
-        send(socketClient, final.c_str(), final.size(), 0);
+    vector<string> listeNomSort = UsineSort::liste();
+    Sort* sort = NULL;
+    string final = SORT;
+    for(int i = 0; i < listeNomSort.size(); i++)
+    {
+        sort = UsineSort::fabriqueSort(listeNomSort[i]);
+        final += SEPARATEUR_ELEMENT + sort->getNom() + SEPARATEUR_SOUS_ELEMENT + sort->description();
+        delete sort;
+    }
+    send(socketClient, final.c_str(), final.size(), 0);
 }
 
 void ReceptionServeur::traitementEquipe(int socketClient)
 {
-        string final = EQUIPE;
-        vector<string> listeEquipe = this->partie->listeEquipe();
-        for(int i = 0; i < listeEquipe.size(); i++)
-        {
-                final += SEPARATEUR_ELEMENT + listeEquipe[i];
-        }
-        send(socketClient, final.c_str(), final.size(), 0);
+    string final = EQUIPE;
+    vector<string> listeEquipe = this->partie->listeEquipe();
+    for(int i = 0; i < listeEquipe.size(); i++)
+    {
+        final += SEPARATEUR_ELEMENT + listeEquipe[i];
+    }
+    send(socketClient, final.c_str(), final.size(), 0);
 }
 
-void ReceptionServeur::traitementNouveauJoueur(char* data, int socketClient)
+void ReceptionServeur::traitementNouveauJoueur(int socketClient)
 {
-        char *nom, *equipe, *sort;
-        Joueur* joueur = NULL;
-        vector<string> listeSortDemande(this->partie->getNombreSortParJoueur());
+    char *nom, *equipe, *sort;
+    Joueur* joueur = NULL;
+    vector<string> listeSortDemande(this->partie->getNombreSortParJoueur());
+    string final;
 
-        nom = strtok(NULL, SEPARATEUR_ELEMENT);
-        equipe = strtok(NULL, SEPARATEUR_ELEMENT);
-        if(nom == NULL || equipe == NULL)
+    nom = strtok(NULL, SEPARATEUR_ELEMENT);
+    equipe = strtok(NULL, SEPARATEUR_ELEMENT);
+    if(nom == NULL || equipe == NULL)
+    {
+        final = ERREUR;
+        final += SEPARATEUR_ELEMENT;
+        final += "nom de joueur ou d'equipe invalide";
+        send(socketClient, final.c_str(), final.size(), 0);
+    }
+    for(int i = 0; i < this->partie->getNombreSortParJoueur(); i++)
+    {
+        sort = strtok(NULL, SEPARATEUR_ELEMENT);
+        if(sort == NULL)
         {
-                //TODO envoyer erreur
+            final = ERREUR;
+                final += SEPARATEUR_ELEMENT;
+                final += "nombre de sort non valide";
+            send(socketClient, final.c_str(), final.size(), 0);
+            return;
         }
-        for(int i = 0; i < this->partie->getNombreSortParJoueur(); i++)
-        {
-                sort = strtok(NULL, SEPARATEUR_ELEMENT);
-                if(sort == NULL)
-                {
-                        //TODO envoyer erreur
-                        return;
-                }
-                listeSortDemande[i] = sort;
-        }
-        //TODO ajouter exception
+        listeSortDemande[i] = sort;
+    }
+    try
+    {
         joueur = this->partie->ajouterJoueur(nom, equipe, listeSortDemande);
-        if(joueur == NULL)
-        {
-            //TODO envoyer une erreur
-        }
-        //TODO, renvoyer le joueur
+    }
+    catch(exception const& e)
+    {
+        final = ERREUR;
+        final += SEPARATEUR_ELEMENT;
+        final += e.what();
+        send(socketClient, final.c_str(), final.size(), 0);
+    }
+    if(joueur == NULL)
+    {
+        final = ERREUR;
+        final += SEPARATEUR_ELEMENT;
+        send(socketClient, final.c_str(), final.size(), 0);
+        return;
+    }
+    joueur->setSocket(socketClient);
+    //TODO, renvoyer le joueur
 }
