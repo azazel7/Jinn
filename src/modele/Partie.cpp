@@ -292,11 +292,11 @@ Joueur* Partie::ajouterJoueur(string const& nom, string const& nomEquipe, vector
         bool dejaElite = false;
         if(this->joueurExiste(nom) == true)
         {
-            return NULL;
+            throw invalid_argument("Nom de joueur existant");
         }
         if(this->nombreSortParJoueur != listeSort.size())
         {
-            return NULL;
+            throw invalid_argument("Nombre de sort invalide");
         }
 
         joueur = new Joueur();
@@ -308,12 +308,12 @@ Joueur* Partie::ajouterJoueur(string const& nom, string const& nomEquipe, vector
                 if(sort = NULL)
                 {
                         delete joueur;
-                        return NULL;
+                        throw invalid_argument("Sort inconnu");
                 }
                 if(sort->getElite() == true && dejaElite == true)
                 {
                         delete joueur;
-                        return NULL;
+                        throw invalid_argument("Impossible d'avoir plus d'un sort elite");
                 }
                 if(sort->getElite() == true && dejaElite == false)
                 {
