@@ -40,11 +40,6 @@ public:
     virtual void initialiser();
 
     /**
-     * Permet de saisir un joueur
-     */
-    virtual void nouveauJoueur(Joueur & joueur);
-
-    /**
      * Liste tous les sorts disponible pour la partie
      */
     virtual std::vector<Sort*> listeSort();
@@ -86,6 +81,8 @@ public:
     virtual Joueur* ajouterJoueur(string const& nom, string const& nomEquipe, vector<string> const& listeSort);
 
     virtual int getNombreDePlace();
+
+    virtual void effectuerAction(Action* action, Joueur *joueur);
 
 protected:
 

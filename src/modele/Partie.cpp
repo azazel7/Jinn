@@ -25,9 +25,11 @@ void Partie::demarrerPartie()
     while(enCours == true)
     {
         courant = equipe[equipeCourante]->choisirJoueur();
-        action = courant->effectuerAction(*this);
-        //TODO verifier si l'action est valide
-        plateau->appliquerAction(action);
+        do
+        {
+            action = courant->effectuerAction(*this);
+        }while(1);
+
         if(finPartie() == true)
         {
             enCours = false;
@@ -103,74 +105,6 @@ std::vector<Sort*> Partie::listeSort()
     }
     return retour;
 }
-
-void Partie::nouveauJoueur(Joueur & joueur)
-{
-    bool valid = false;
-    string nom, equipe;
-    //On récupére le nom
-    while(valid == false)
-    {
-        valid = true;
-        nom = joueur.saisieNom();
-        //On verifie si le nom est dans une des equipe
-        if(this->joueurExiste(nom) == true)
-        {
-            valid = false;
-        }
-    }
-    joueur.setNom(nom);
-    //On récupére l'equipe
-    equipe = joueur.saisieEquipe(this->equipe);
-    valid = false;
-    //On cherche l'equipe correspondant au nom
-    for(int i = 0; i < this->equipe.size(); i++)
-    {
-        if(this->equipe[i]->getNom() == equipe)
-        {
-            valid = true;
-            this->equipe[i]->ajouterJoueur(&joueur);
-        }
-    }
-    //sinon, on la créer
-    if(valid == false)
-    {
-        Equipe* nouvelleEquipe = new Equipe(equipe);
-        nouvelleEquipe->ajouterJoueur(&joueur);//on ajoute le joueur
-        this->equipe.push_back(nouvelleEquipe);
-    }
-
-
-    //selection des sorts
-    //TODO faire en sorte que le nombre de sort soi variable
-    //TODO Peut-être faire en sorte que la liste des sorts soi stocké
-    vector<Sort*> listeSort = this->listeSort();
-    Sort* sort;
-    string nomSort;
-    bool eliteChoisi = false;
-    for(int i = 0; i < nombreSortParJoueur; i++)
-    {
-        nomSort = joueur.saisieSort(listeSort);
-        sort = UsineSort::fabriqueSort(nomSort);
-        if(sort->getElite() == true && eliteChoisi == true)
-        {
-            i--;
-            //TODO notifier le joueur d'une erreur
-            continue;
-        }
-        if(sort->getElite() == true)
-        {
-            eliteChoisi = true;
-        }
-        joueur.ajouterSort(sort);
-        //TODO Un joueur peut maitriser plusieurs fois le même sort
-        //TODO génrer le cas des élites
-    }
-
-    joueur.genererStatistique();
-    //TODO notifier le joueur de ses stats
-}
-
 bool Partie::finPartie()
 {
     for(int i = 0; i < equipe.size(); i++)
@@ -260,7 +194,7 @@ vector<string> Partie::listeEquipe()
     vector<string> retour(this->equipe.size());
     for(int i = 0; i < this->equipe.size(); i++)
     {
-           retour[i] = this->equipe[i]->getNom();
+        retour[i] = this->equipe[i]->getNom();
     }
     return retour;
 }
@@ -286,57 +220,103 @@ Equipe* Partie::equipeExiste(string const& nom)
 
 Joueur* Partie::ajouterJoueur(string const& nom, string const& nomEquipe, vector<string> const& listeSort)
 {
-        Equipe* equipe = NULL;
-        Joueur* joueur = NULL;
-        Sort* sort = NULL;
-        bool dejaElite = false;
-        if(this->joueurExiste(nom) == true)
-        {
-            throw invalid_argument("Nom de joueur existant");
-        }
-        if(this->nombreSortParJoueur != listeSort.size())
-        {
-            throw invalid_argument("Nombre de sort invalide");
-        }
+    Equipe* equipe = NULL;
+    Joueur* joueur = NULL;
+    Sort* sort = NULL;
+    bool dejaElite = false;
+    if(this->joueurExiste(nom) == true)
+    {
+        throw invalid_argument("Nom de joueur existant");
+    }
+    if(this->nombreSortParJoueur != listeSort.size())
+    {
+        throw invalid_argument("Nombre de sort invalide");
+    }
 
-        joueur = new Joueur();
-        joueur->setNom(nom);
+    joueur = new Joueur();
+    joueur->setNom(nom);
 
-        for(int i = 0; i < nombreSortParJoueur; i++)
+    for(int i = 0; i < nombreSortParJoueur; i++)
+    {
+        sort = UsineSort::fabriqueSort(listeSort[i]);
+        if(sort == NULL)
         {
-                sort = UsineSort::fabriqueSort(listeSort[i]);
-                if(sort == NULL)
-                {
-                        delete joueur;
-                        throw invalid_argument("Sort inconnu");
-                }
-                if(sort->getElite() == true && dejaElite == true)
-                {
-                        delete joueur;
-                        throw invalid_argument("Impossible d'avoir plus d'un sort elite");
-                }
-                if(sort->getElite() == true && dejaElite == false)
-                {
-                    dejaElite = true;
-                }
-                joueur->ajouterSort(sort);
+            delete joueur;
+            throw invalid_argument("Sort inconnu");
         }
+        if(sort->getElite() == true && dejaElite == true)
+        {
+            delete joueur;
+            throw invalid_argument("Impossible d'avoir plus d'un sort elite");
+        }
+        if(sort->getElite() == true && dejaElite == false)
+        {
+            dejaElite = true;
+        }
+        joueur->ajouterSort(sort);
+    }
 
-        if((equipe = this->equipeExiste(nomEquipe)) != NULL)
-        {
-                equipe->ajouterJoueur(joueur);
-        }
-        else
-        {
-                equipe = new Equipe(nomEquipe);
-                equipe->ajouterJoueur(joueur);
-                this->equipe.push_back(equipe);
-        }
-        joueur->genererStatistique();
-        return joueur;
+    if((equipe = this->equipeExiste(nomEquipe)) != NULL)
+    {
+        equipe->ajouterJoueur(joueur);
+    }
+    else
+    {
+        equipe = new Equipe(nomEquipe);
+        equipe->ajouterJoueur(joueur);
+        this->equipe.push_back(equipe);
+    }
+    joueur->genererStatistique();
+    return joueur;
 }
 
 int Partie::getNombreDePlace()
 {
-        return this->nombreDePlace;
+    return this->nombreDePlace;
+}
+
+
+void Partie::effectuerAction(Action* action, Joueur* joueur)
+{
+    vector<Case*> cible;
+    //TODO verifier si l'action est valide
+    if(action->getOrigine() != NULL && action->getSort() != NULL && action->getCible().size() != 0)
+    {
+        //Si ce n'est pas au joueur courant on retire
+        if(joueur != this->joueurCourant)
+        {
+            //TODO eventuellement lancer exception
+            return;
+        }
+        if(action->getSort()->getProprietaire() != joueur)
+        {
+            //TODO eventuellement lancer exception
+            return;
+        }
+        if(action->getOrigine()->getProprietaire() != joueur)
+        {
+            //TODO eventuellement lancer exception
+            return;
+        }
+        //TODO Verifier que le joueur posséde le sort
+        if(joueur->possedeSort(action->getSort()) == false)
+        {
+            return;
+        }
+        //Verification des distances
+        cible = action->getCible();
+        for(int i = 0; i < action->getCible().size(); i++)
+        {
+            if(Position::distance(* (action->getOrigine()->getPosition()), *(cible[i]->getPosition())) > action->getSort()->getPorteeMax())
+            {
+                return;
+            }
+        }
+        plateau->appliquerAction(*action);
+
+    }
+    else
+    {
+        //TODO traitement des coups spéciaux (fin de tour)
+    }
 }

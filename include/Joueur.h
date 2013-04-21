@@ -13,6 +13,7 @@
 #include "Partie.h"
 #include "UsineSort.h"
 #include "reseau/ReceptionServeur.h"
+#include "Tools.h"
 
 using namespace std;
 
@@ -61,7 +62,13 @@ public:
 
     void setSocket(int socket);
 
+    bool possedeSort(Sort* sort);
+
+    bool possedeSort(string nomsort);
+
         void notifierCreation() const;
+
+        void notifierActionSort(string information) const;
 private:
     string nom;
     int gainInitialMana;

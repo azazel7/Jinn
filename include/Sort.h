@@ -75,6 +75,8 @@ public:
 
     virtual bool getElite();
 
+    virtual int getPorteeMax();
+
 protected:
 	string nom;
 	int coupManaParCase;

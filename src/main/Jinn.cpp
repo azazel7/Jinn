@@ -28,8 +28,6 @@ int main()
     Plateau *pl;
     Action action;
     partie.initialiser();
-    partie.nouveauJoueur(j1);
-    partie.nouveauJoueur(j2);
     cout << j1 << endl;
     cout << j2 << endl;
 
@@ -52,3 +50,4 @@ int main()
     cout <<  *pl->getCase(1, 1) << endl;*/
 	return 0;
 }
+

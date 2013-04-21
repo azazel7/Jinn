@@ -53,7 +53,7 @@ void ReceptionServeur::miseEnEcoute()
         this->testerSelectionServeur(readfs);
         if (this->partie->nombreDeJoueur() == this->partie->getNombreDePlace())
         {
-                //TODO demarer la partie
+            //TODO demarer la partie
         }
     }
 }
@@ -254,8 +254,8 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
         if(sort == NULL)
         {
             final = ERREUR;
-                final += SEPARATEUR_ELEMENT;
-                final += "nombre de sort non valide";
+            final += SEPARATEUR_ELEMENT;
+            final += "nombre de sort non valide";
             send(socketClient, final.c_str(), final.size(), 0);
             return;
         }
@@ -282,4 +282,5 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
     }
     joueur->setSocket(socketClient);
     joueur->notifierCreation();
+    //TODO notifier de la partie ...
 }

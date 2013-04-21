@@ -2,6 +2,7 @@
 #define Plateau_h
 
 #include <vector>
+#include <map>
 
 #include "Action.h"
 #include "Case.h"

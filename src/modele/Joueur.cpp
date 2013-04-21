@@ -181,6 +181,26 @@ int Joueur::getGainInitialMana() const
     return this->gainInitialMana;
 }
 
+bool Joueur::possedeSort(Sort* sort)
+{
+    if(sort != NULL)
+    {
+       return this->possedeSort(sort->getNom());
+    }
+    return false;
+}
+
+bool Joueur::possedeSort(string nomsort)
+{
+        for(int i = 0; i < listeSort.size(); i++)
+        {
+                if(listeSort[i]->getNom() == nomsort)
+                {
+                    return true;
+                }
+        }
+        return false;
+}
 ostream& operator<<( ostream &flux, Joueur const& pos)
 {
     string mort = "vivant";
@@ -208,11 +228,11 @@ void Joueur::notifierCreation() const
         final += SEPARATEUR_ELEMENT;
         final += this->nom;
         final += SEPARATEUR_ELEMENT;
-        final += this->manaMaximum;
+        final += to_string(this->manaMaximum);
         final += SEPARATEUR_ELEMENT;
-        final += this->gainInitialMana;
+        final += to_string(this->gainInitialMana);
         final += SEPARATEUR_ELEMENT;
-        final += this->abilite;
+        final += to_string(this->abilite);
         final += SEPARATEUR_ELEMENT;
         final += this->nom;
 
@@ -223,4 +243,9 @@ void Joueur::notifierCreation() const
         }
         final += SEPARATEUR_ELEMENT;
         send(this->socket, final.c_str(), final.size(), 0);
+}
+
+void Joueur::notifierActionSort(string information) const
+{
+
 }

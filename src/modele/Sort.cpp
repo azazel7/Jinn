@@ -77,3 +77,8 @@ bool Sort::getElite()
 {
     return this->elite;
 }
+
+int Sort::getPorteeMax()
+{
+    return this->porteeMax;
+}
