@@ -159,6 +159,7 @@ void ReceptionServeur::traitementJoueur(char *commande, int socketClient)
     if(strcmp(action, MESSAGE) == 0)
     {
         //Envoyer un message à tout le monde
+        this->traitementMessage(commande);
     }
     else if(strcmp(action, ACTION) == 0)
     {
@@ -168,6 +169,11 @@ void ReceptionServeur::traitementJoueur(char *commande, int socketClient)
     else if(strcmp(action, FIN_TOUR) == 0)
     {
         //Le joueur declare son tour finis
+        Action *coup = new Action();
+        coup->setOrigine(NULL);
+        coup->setSort(NULL);
+        this->partie->effectuerAction(coup, this->listeClient[socketClient]);
+        delete coup;
     }
 }
 
@@ -181,7 +187,6 @@ void ReceptionServeur::traitementClient(char *commande, int socketClient)
     }
     if(strcmp(action, NOUVEAU_JOUEUR) == 0)
     {
-        cout << "Nouveau joueur" << endl;
         //Le joueur veut s'inscrire (nom, equipe, liste de sort(nom, pour l'usine)
         this->traitementNouveauJoueur(socketClient);
     }
@@ -283,4 +288,25 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
     joueur->setSocket(socketClient);
     joueur->notifierCreation();
     //TODO notifier de la partie ...
+}
+
+
+void ReceptionServeur::traitementMessage(char *commande)
+{
+    char* message = NULL;
+    if(message == NULL)
+    {
+        return;
+    }
+    message = strtok(NULL, SEPARATEUR_ELEMENT);
+    string final = MESSAGE;
+    final += SEPARATEUR_ELEMENT;
+    final += message;
+    for(map<int, Joueur*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
+    {
+        if(it->second != NULL)
+        {
+                send(it->first, final.c_str(), final.size(), 0);
+        }
+    }
 }

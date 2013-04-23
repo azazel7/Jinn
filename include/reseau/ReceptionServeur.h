@@ -9,8 +9,10 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <string.h>
+#include "Action.h"
 #include "Partie.h"
 #include "UsineSort.h"
+#include "Case.h"
 
 #define SEPARATEUR_ELEMENT ";"
 #define SEPARATEUR_SOUS_ELEMENT "#"
@@ -41,6 +43,7 @@ class ReceptionServeur
         void traitementSort(int socketClient);
         void traitementEquipe(int socketClient);
         void traitementNouveauJoueur(int socketClient);
+        void traitementMessage(char *commande);
         Partie *partie;
         int port;
         string ip;
