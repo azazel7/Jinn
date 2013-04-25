@@ -27,6 +27,7 @@ class Equipe {
 
     virtual void regenererManaJoueur();
 
+        virtual vector<Joueur* > getJoueur();
  private:
     string nom;
     int joueurChoisi;

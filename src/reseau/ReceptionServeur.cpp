@@ -41,6 +41,8 @@ void ReceptionServeur::miseEnEcoute()
     while(true)
     {
         /* Si une erreur est survenue au niveau du select */
+        FD_ZERO(&readfs);
+        this->remplirSelection(readfs);
         cout << "Attente select " << this->socketServeur << endl;
         if(select(this->maximunFileDescriptor() + 1, &readfs, NULL, NULL, NULL) < 0)
         {
@@ -58,6 +60,15 @@ void ReceptionServeur::miseEnEcoute()
     }
 }
 
+void ReceptionServeur::remplirSelection(fd_set& readfd)
+{
+    for(map<int, Joueur*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
+    {
+
+        FD_SET(it->first, &readfd);
+    }
+        FD_SET(this->socketServeur, &readfd);
+}
 void ReceptionServeur::testerSelectionClient(fd_set& readfd)
 {
     for(map<int, Joueur*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
@@ -95,19 +106,16 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
             }
             else if(octetLus != octetRecus) //Curieuse affaire
             {
-                //TODO Bizarre bizarre
+                continue;
             }
 
-            //TODO traitement d'un client
             if(it->second == NULL)
             {
-                //TODO Traitement d'un joueur potentiel
                 cout << "Potentiel client" << endl;
                 this->traitementClient(data, it->first);
             }
             else
             {
-                //TODO Traitement d'un joueur
                 cout << "Joueur" << endl;
                 this->traitementJoueur(data, it->first);
             }
@@ -285,20 +293,24 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
         send(socketClient, final.c_str(), final.size(), 0);
         return;
     }
+    listeClient[socketClient] = joueur;
     joueur->setSocket(socketClient);
     joueur->notifierCreation();
-    //TODO notifier de la partie ...
+    joueur->notifierPartie(*partie);
+    //TODO attribuer une case
+    //TODO notifier de la partie [mot];[nombre_de_case_controllable];[case, coordonnee, defense, proprio];[nb joueur];[joueur, equipe];
 }
 
 
 void ReceptionServeur::traitementMessage(char *commande)
 {
+    cout << "un message" << endl;
     char* message = NULL;
+    message = strtok(NULL, SEPARATEUR_ELEMENT);
     if(message == NULL)
     {
         return;
     }
-    message = strtok(NULL, SEPARATEUR_ELEMENT);
     string final = MESSAGE;
     final += SEPARATEUR_ELEMENT;
     final += message;

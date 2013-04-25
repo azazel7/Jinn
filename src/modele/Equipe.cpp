@@ -72,3 +72,8 @@ void Equipe::regenererManaJoueur()
 
     }
 }
+
+vector<Joueur* > Equipe::getJoueur()
+{
+    return this->joueur;
+}

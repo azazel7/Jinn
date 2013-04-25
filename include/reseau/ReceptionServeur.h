@@ -14,6 +14,7 @@
 #include "UsineSort.h"
 #include "Case.h"
 
+//relatif au serveur
 #define SEPARATEUR_ELEMENT ";"
 #define SEPARATEUR_SOUS_ELEMENT "#"
 #define ACTION "action"
@@ -24,6 +25,9 @@
 #define SORT "sort"
 #define ERREUR "erreur"
 
+//Relatif au jeu
+#define PERTE_CASE "pertecase"
+#define INFORMATION_PARTIE "informationpartie"
 
 class Partie;
 
@@ -35,6 +39,7 @@ class ReceptionServeur
         void miseEnEcoute();
 
     private:
+        void remplirSelection(fd_set& readfd);
         void testerSelectionClient(fd_set& readfd);
         void testerSelectionServeur(fd_set& readfd);
         int maximunFileDescriptor();

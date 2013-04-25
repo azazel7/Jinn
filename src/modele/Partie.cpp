@@ -298,7 +298,7 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
             //TODO eventuellement lancer exception
             return;
         }
-        //TODO Verifier que le joueur posséde le sort
+        //Verifier que le joueur posséde le sort
         if(joueur->possedeSort(action->getSort()) == false)
         {
             return;
@@ -317,6 +317,19 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
     }
     else
     {
-        //TODO traitement des coups spéciaux (fin de tour)
+        if(action->getOrigine() == NULL && action->getSort() == NULL && action->getCible().size() == 0)
+        {
+            //TODO choisir un nouveau joueur
+        }
     }
+}
+
+void Partie::retirerJoueur(Joueur* joueur)
+{
+        //TODO retirer un joueur: retirer de ses cases, retirer ses sorts, retirer de l'equipe,
+}
+
+vector<Equipe* > Partie::getEquipe()
+{
+        return equipe;
 }

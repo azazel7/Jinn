@@ -249,3 +249,54 @@ void Joueur::notifierActionSort(string information) const
 {
 
 }
+
+void Joueur::notifierPartie(Partie & partie)
+{
+        vector<Equipe* > listeEquipe;
+        vector<Joueur* > listeJoueur;
+        Case* courante = NULL;
+        string final = INFORMATION_PARTIE;
+        final += SEPARATEUR_ELEMENT;
+        final += to_string(partie.getPlateau()->nombreCaseControlable());
+        final += SEPARATEUR_ELEMENT;
+        for(int x = 0; x < partie.getPlateau()->getLargeur(); x++)
+        {
+            for(int y = 0;  y < partie.getPlateau()->getHauteur(); y++)
+            {
+                courante = partie.getPlateau()->getCase(x, y);
+                if(courante != NULL && courante->isControlable() == true)
+                {
+                        final += to_string(courante->getPosition()->getX());
+                        final += SEPARATEUR_SOUS_ELEMENT;
+                        final += to_string(courante->getPosition()->getY());
+                        final += SEPARATEUR_SOUS_ELEMENT;
+                        final += to_string(courante->getDefenseInitiale());
+                        final += SEPARATEUR_SOUS_ELEMENT;
+                        if(courante->getProprietaire() != NULL)
+                        {
+                            final += courante->getProprietaire()->getNom();
+                        }
+                        else
+                        {
+                            final += "empty";
+                        }
+                        final += SEPARATEUR_ELEMENT;
+                }
+            }
+        }
+        final += to_string(partie.nombreDeJoueur());
+        final += SEPARATEUR_ELEMENT;
+        listeEquipe = partie.getEquipe();
+        for(int i = 0; i < listeEquipe.size(); i++)
+        {
+                listeJoueur = listeEquipe[i]->getJoueur();
+                for(int i = 0; i < listeJoueur.size(); i++)
+                {
+                        final += listeJoueur[i]->getNom();
+                        final += SEPARATEUR_SOUS_ELEMENT;
+                        final += listeEquipe[i]->getNom();
+                        final += SEPARATEUR_ELEMENT;
+                }
+        }
+        send(this->socket, final.c_str(), final.size(), 0);
+}

@@ -18,7 +18,9 @@ using namespace std;
 
 int main()
 {
-    ReceptionServeur serveur(new Partie("p1", 2, 2));
+    Partie p("p1", 2, 2);
+    p.initialiser();
+    ReceptionServeur serveur(&p);
     serveur.initialiserServeur();
     serveur.miseEnEcoute();
     return 0;

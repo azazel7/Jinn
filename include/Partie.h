@@ -82,7 +82,11 @@ public:
 
     virtual int getNombreDePlace();
 
+    virtual vector<Equipe* > getEquipe();
+
     virtual void effectuerAction(Action* action, Joueur *joueur);
+
+    virtual void retirerJoueur(Joueur* joueur);
 
 protected:
 
