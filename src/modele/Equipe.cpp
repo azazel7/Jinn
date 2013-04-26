@@ -77,3 +77,16 @@ vector<Joueur* > Equipe::getJoueur()
 {
     return this->joueur;
 }
+
+void Equipe::retirerJoueur(Joueur* joueurASuppr)
+{
+        vector<Joueur* >::iterator it;
+        for(it = joueur.begin(); it != joueur.end(); it++)
+        {
+                if(*it == joueurASuppr)
+                {
+                        joueur.erase(it);
+                        return;
+                }
+        }
+}
