@@ -172,3 +172,11 @@ void Plateau::effectuerActionChronique()
         listeCase[i]->effectuerActionChroniqueDesSorts();
     }
 }
+
+void Plateau::retirerJoueur(Joueur* joueur)
+{
+        for(int i = 0; i < this->listeCase.size(); i++)
+        {
+                listeCase[i]->retirerJoueur(joueur);
+        }
+}

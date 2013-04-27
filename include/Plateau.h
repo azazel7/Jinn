@@ -47,6 +47,8 @@ class Plateau {
 
     virtual void effectuerActionChronique();
 
+    virtual void retirerJoueur(Joueur* joueur);
+
  private:
     int largeur;
     int hauteur;

@@ -27,7 +27,7 @@ public:
     int dureeRestanteSort(Sort* sortCherche);
     void modifierDefense(int nombre);
     void modifierDefenseReel(int nombre);
-    void supprimerJoueur(Joueur* joueur);
+    void retirerJoueur(Joueur* joueur);
     int getApportMana() const;
     void setApportMana(int apportMana);
     int getBonusOffensifActuel() const;

@@ -96,7 +96,7 @@ void Case::modifierDefenseReel(int nombre)
     }
 }
 
-void Case::supprimerJoueur(Joueur* joueur)
+void Case::retirerJoueur(Joueur* joueur)
 {
         list<pair<int, Sort*> >::iterator it;
         Sort* courant = NULL;

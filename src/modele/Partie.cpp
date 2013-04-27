@@ -326,7 +326,12 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
 
 void Partie::retirerJoueur(Joueur* joueur)
 {
-        //TODO retirer un joueur: retirer de ses cases, retirer ses sorts, retirer de l'equipe,
+        //retirer un joueur: retirer de ses cases, retirer ses sorts, retirer de l'equipe,
+        for(int i = 0; i < equipe.size(); i++)
+        {
+                equipe[i]->retirerJoueur(joueur);
+        }
+        plateau->retirerJoueur(joueur);
 }
 
 vector<Equipe* > Partie::getEquipe()
