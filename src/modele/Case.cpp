@@ -35,6 +35,7 @@ void Case::retirerSortEcoule()
         if(iterator->first < 0)
         {
             iterator->second->retirerDeCase(*this);
+            delete iterator->second;
             iterator = sort.erase(iterator);
         }
     }
@@ -93,6 +94,26 @@ void Case::modifierDefenseReel(int nombre)
     {
         this->defenseActuelle = this->defenseReel;
     }
+}
+
+void Case::supprimerJoueur(Joueur* joueur)
+{
+        list<pair<int, Sort*> >::iterator it;
+        Sort* courant = NULL;
+        for(it = this->sort.begin(); it != this->sort.end(); it++)
+        {
+                courant = it->second;
+                if(courant->getProprietaire() == joueur)
+                {
+                        courant->retirerDeCase(*this);
+                        delete courant;
+                        it = this->sort.erase(it);
+                }
+        }
+        if(this->proprietaire == joueur)
+        {
+                this->proprietaire = NULL;
+        }
 }
 
 Position* Case::getPosition() const

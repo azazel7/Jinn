@@ -8,7 +8,11 @@ RuneDeProtection::RuneDeProtection(): Sort("Rune de Protection", 1, false, 5, 10
 void RuneDeProtection::appliquerSortSurCase(Case &cible)
 {
     cible.modifierDefenseReel(1);
-    cible.ajouterSort(this, this->duree);
+    RuneDeProtection *sortSurCase = new RuneDeProtection();
+    *sortSurCase = *this;
+    //On duplique le sort car quand on souhaitera supprimer un joueur et ses sorts, il faudra savoir quand le sort n'est plus referencé par aucune case
+    //Donc autant en avoir une copie sur chaque
+    cible.ajouterSort(sortSurCase, this->duree);
 }
 
 void RuneDeProtection::modifierSuivantOrigine(Case const& origine)

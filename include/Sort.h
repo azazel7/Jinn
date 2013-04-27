@@ -91,12 +91,6 @@ protected:
 	int nombreMaxSortDissipable;
 
 public:
-
-	/**
-	 * @element-type Effet
-	 */
-	std::vector<Effet*> effet;
-
 	Joueur *proprietaire;
 };
 
