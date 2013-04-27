@@ -1,9 +1,14 @@
 #ifndef test_h
 #define test_h
 
+#include <iostream>
+#include <cassert>
+
 #include "Position.h"
 #include "Joueur.h"
 #include "Case.h"
+#include "Sort.h"
+#include "sort/SortTestDuree.h"
 
 bool testFabriqueIdentique();
 bool testFabriqueDifferente();

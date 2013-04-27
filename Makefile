@@ -21,7 +21,6 @@ TestUnitaire: compile
 	$(CC) $(OPTION) -I $(INCDIR)  $(OBJ) $(MAINDIR)$@.cpp -o $@ $(FLAG)
 	./$@
 
-
 $(OBJDIR)%.o : $(SRCDIR)%.cpp
 	$(CC) $(OPTION) -I $(INCDIR) -c $< -o $@ $(FLAG)
 

@@ -33,11 +33,10 @@ void Case::retirerSortEcoule()
     for(iterator = sort.begin(); iterator != sort.end(); ++iterator)
     {
         iterator->first--;
-        if(iterator->first < 0)
+        if(iterator->first <= 0)
         {
             iterator->second->retirerDeCase(*this);
-            courant = iterator->second;
-            delete courant;
+            delete iterator->second;
             iterator = sort.erase(iterator);
         }
     }

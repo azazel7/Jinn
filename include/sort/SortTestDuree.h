@@ -1,6 +1,7 @@
 #ifndef SortTestDuree_h
 #define SortTestDuree_h
 
+#include <iostream>
 #include "Sort.h"
 #include "Case.h"
 
