@@ -29,13 +29,15 @@ Case::Case(int defIni, int bonOff, int dissip, int attenu, int mana, int regenDe
 void Case::retirerSortEcoule()
 {
     list<pair<int, Sort*> >::iterator iterator;
+    Sort* courant;
     for(iterator = sort.begin(); iterator != sort.end(); ++iterator)
     {
         iterator->first--;
         if(iterator->first < 0)
         {
             iterator->second->retirerDeCase(*this);
-            delete iterator->second;
+            courant = iterator->second;
+            delete courant;
             iterator = sort.erase(iterator);
         }
     }
@@ -248,6 +250,11 @@ int Case::getRegenerationDefense() const
 void Case::setRegenerationDefense(int regenerationDefense)
 {
 	this->regenerationDefense = regenerationDefense;
+}
+
+int Case::nombreDeSortEnCour()
+{
+        return this->sort.size();
 }
 
 ostream& operator<<( ostream &flux, Case const& pos)

@@ -28,6 +28,7 @@ public:
     void modifierDefense(int nombre);
     void modifierDefenseReel(int nombre);
     void retirerJoueur(Joueur* joueur);
+
     int getApportMana() const;
     void setApportMana(int apportMana);
     int getBonusOffensifActuel() const;
@@ -55,7 +56,7 @@ public:
     Joueur* getProprietaire() const;
     int getRegenerationDefense() const;
     void setRegenerationDefense(int regenerationDefense);
-
+        int nombreDeSortEnCour();
 
 
 private:

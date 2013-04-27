@@ -14,6 +14,10 @@ Sort* UsineSort::fabriqueSort(string const& nom)
     {
         return new RuneDeProtection();
     }
+    if(nom == "Sort Test Duree")
+    {
+        return new SortTestDuree();
+    }
     return NULL;
 }
 

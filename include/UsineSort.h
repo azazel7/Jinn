@@ -5,7 +5,7 @@
 #include "sort/SceauControle.h"
 #include "sort/BouleDeFeu.h"
 #include "sort/RuneDeProtection.h"
-
+#include "sort/SortTestDuree.h"
 
 class UsineSort
 {

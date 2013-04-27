@@ -8,4 +8,5 @@ int main()
     assert(testDistance());
     assert(testDistance2());
     assert(testOperatorEgalite());
+    assert(testAjoutSort());
 }

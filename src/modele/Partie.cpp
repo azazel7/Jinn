@@ -332,6 +332,7 @@ void Partie::retirerJoueur(Joueur* joueur)
                 equipe[i]->retirerJoueur(joueur);
         }
         plateau->retirerJoueur(joueur);
+        delete joueur;
 }
 
 vector<Equipe* > Partie::getEquipe()
