@@ -4,20 +4,20 @@
 
 Joueur::Joueur()
 {
-	this->abilite = 1;
-	this->gainInitialMana = 1;
-	this->manaMaximum = 1;
-	this->manaActuel = 1;
-	this->nom = "Joueur";
+    this->abilite = 1;
+    this->gainInitialMana = 1;
+    this->manaMaximum = 1;
+    this->manaActuel = 1;
+    this->nom = "Joueur";
 }
 
 Joueur::Joueur(int gainInit, int manaMax, int abiliteInit, string  nom)
 {
-	this->abilite = abiliteInit;
-	this->gainInitialMana = gainInit;
-	this->manaMaximum = manaMax;
-	this->manaActuel = manaMax;
-	this->nom = nom;
+    this->abilite = abiliteInit;
+    this->gainInitialMana = gainInit;
+    this->manaMaximum = manaMax;
+    this->manaActuel = manaMax;
+    this->nom = nom;
 }
 
 Action Joueur::effectuerAction(Partie & partie)
@@ -26,7 +26,7 @@ Action Joueur::effectuerAction(Partie & partie)
     Action retour;
     Sort* sort;
     Plateau* plateau = partie.getPlateau();
-	//TODO a remplir quand j'aurais les sorts
+    //TODO a remplir quand j'aurais les sorts
 
 
     //Afficher les cases
@@ -74,10 +74,10 @@ Action Joueur::effectuerAction(Partie & partie)
 
 void Joueur::diminuerMana(int quantite)
 {
-	if(quantite < 0)
-	{
-		return;
-	}
+    if(quantite < 0)
+    {
+        return;
+    }
     this->manaActuel -= quantite;
     if(this->manaActuel <= 0)
     {
@@ -102,18 +102,18 @@ void Joueur::augmenterMana(int quantite)
 bool Joueur::estMort() const
 {
     if(manaActuel <= 0)
-	{
-		return true;
-	}
-	return false;
+    {
+        return true;
+    }
+    return false;
 }
 
 void Joueur::genererStatistique()
 {
-	this->abilite = rand()%10;
-	this->gainInitialMana = rand()%10;
-	this->manaMaximum = 100 + rand()%10;
-	this->manaActuel = this->manaMaximum;
+    this->abilite = rand()%10;
+    this->gainInitialMana = rand()%10;
+    this->manaMaximum = 100 + rand()%10;
+    this->manaActuel = this->manaMaximum;
 }
 
 string Joueur::saisieNom()
@@ -185,21 +185,21 @@ bool Joueur::possedeSort(Sort* sort)
 {
     if(sort != NULL)
     {
-       return this->possedeSort(sort->getNom());
+        return this->possedeSort(sort->getNom());
     }
     return false;
 }
 
 bool Joueur::possedeSort(string nomsort)
 {
-        for(int i = 0; i < listeSort.size(); i++)
+    for(int i = 0; i < listeSort.size(); i++)
+    {
+        if(listeSort[i]->getNom() == nomsort)
         {
-                if(listeSort[i]->getNom() == nomsort)
-                {
-                    return true;
-                }
+            return true;
         }
-        return false;
+    }
+    return false;
 }
 ostream& operator<<( ostream &flux, Joueur const& pos)
 {
@@ -224,25 +224,25 @@ void Joueur::setSocket(int socket)
 
 void Joueur::notifierCreation() const
 {
-        string final = NOUVEAU_JOUEUR;
-        final += SEPARATEUR_ELEMENT;
-        final += this->nom;
-        final += SEPARATEUR_ELEMENT;
-        final += to_string(this->manaMaximum);
-        final += SEPARATEUR_ELEMENT;
-        final += to_string(this->gainInitialMana);
-        final += SEPARATEUR_ELEMENT;
-        final += to_string(this->abilite);
-        final += SEPARATEUR_ELEMENT;
-        final += this->nom;
+    string final = NOUVEAU_JOUEUR;
+    final += SEPARATEUR_ELEMENT;
+    final += this->nom;
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(this->manaMaximum);
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(this->gainInitialMana);
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(this->abilite);
+    final += SEPARATEUR_ELEMENT;
+    final += this->nom;
 
-        for(int i = 0; i < this->listeSort.size(); i++)
-        {
-                final += SEPARATEUR_ELEMENT;
-                final += listeSort[i]->getNom();
-        }
+    for(int i = 0; i < this->listeSort.size(); i++)
+    {
         final += SEPARATEUR_ELEMENT;
-        send(this->socket, final.c_str(), final.size(), 0);
+        final += listeSort[i]->getNom();
+    }
+    final += SEPARATEUR_ELEMENT;
+    send(this->socket, final.c_str(), final.size(), 0);
 }
 
 void Joueur::notifierActionSort(string information) const
@@ -252,51 +252,51 @@ void Joueur::notifierActionSort(string information) const
 
 void Joueur::notifierPartie(Partie & partie)
 {
-        vector<Equipe* > listeEquipe;
-        vector<Joueur* > listeJoueur;
-        Case* courante = NULL;
-        string final = INFORMATION_PARTIE;
-        final += SEPARATEUR_ELEMENT;
-        final += to_string(partie.getPlateau()->nombreCaseControlable());
-        final += SEPARATEUR_ELEMENT;
-        for(int x = 0; x < partie.getPlateau()->getLargeur(); x++)
+    vector<Equipe* > listeEquipe;
+    vector<Joueur* > listeJoueur;
+    Case* courante = NULL;
+    string final = INFORMATION_PARTIE;
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(partie.getPlateau()->nombreCaseControlable());
+    final += SEPARATEUR_ELEMENT;
+    for(int x = 0; x < partie.getPlateau()->getLargeur(); x++)
+    {
+        for(int y = 0;  y < partie.getPlateau()->getHauteur(); y++)
         {
-            for(int y = 0;  y < partie.getPlateau()->getHauteur(); y++)
+            courante = partie.getPlateau()->getCase(x, y);
+            if(courante != NULL && courante->isControlable() == true)
             {
-                courante = partie.getPlateau()->getCase(x, y);
-                if(courante != NULL && courante->isControlable() == true)
+                final += to_string(courante->getPosition()->getX());
+                final += SEPARATEUR_SOUS_ELEMENT;
+                final += to_string(courante->getPosition()->getY());
+                final += SEPARATEUR_SOUS_ELEMENT;
+                final += to_string(courante->getDefenseInitiale());
+                final += SEPARATEUR_SOUS_ELEMENT;
+                if(courante->getProprietaire() != NULL)
                 {
-                        final += to_string(courante->getPosition()->getX());
-                        final += SEPARATEUR_SOUS_ELEMENT;
-                        final += to_string(courante->getPosition()->getY());
-                        final += SEPARATEUR_SOUS_ELEMENT;
-                        final += to_string(courante->getDefenseInitiale());
-                        final += SEPARATEUR_SOUS_ELEMENT;
-                        if(courante->getProprietaire() != NULL)
-                        {
-                            final += courante->getProprietaire()->getNom();
-                        }
-                        else
-                        {
-                            final += "empty";
-                        }
-                        final += SEPARATEUR_ELEMENT;
+                    final += courante->getProprietaire()->getNom();
                 }
+                else
+                {
+                    final += "empty";
+                }
+                final += SEPARATEUR_ELEMENT;
             }
         }
-        final += to_string(partie.nombreDeJoueur());
-        final += SEPARATEUR_ELEMENT;
-        listeEquipe = partie.getEquipe();
-        for(int i = 0; i < listeEquipe.size(); i++)
+    }
+    final += to_string(partie.nombreDeJoueur());
+    final += SEPARATEUR_ELEMENT;
+    listeEquipe = partie.getEquipe();
+    for(int i = 0; i < listeEquipe.size(); i++)
+    {
+        listeJoueur = listeEquipe[i]->getJoueur();
+        for(int i = 0; i < listeJoueur.size(); i++)
         {
-                listeJoueur = listeEquipe[i]->getJoueur();
-                for(int i = 0; i < listeJoueur.size(); i++)
-                {
-                        final += listeJoueur[i]->getNom();
-                        final += SEPARATEUR_SOUS_ELEMENT;
-                        final += listeEquipe[i]->getNom();
-                        final += SEPARATEUR_ELEMENT;
-                }
+            final += listeJoueur[i]->getNom();
+            final += SEPARATEUR_SOUS_ELEMENT;
+            final += listeEquipe[i]->getNom();
+            final += SEPARATEUR_ELEMENT;
         }
-        send(this->socket, final.c_str(), final.size(), 0);
+    }
+    send(this->socket, final.c_str(), final.size(), 0);
 }

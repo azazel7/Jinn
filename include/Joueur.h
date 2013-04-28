@@ -66,23 +66,18 @@ public:
 
     bool possedeSort(string nomsort);
 
-        void notifierCreation() const;
+    void notifierCreation() const;
 
-        void notifierPartie(Partie &partie);
+    void notifierPartie(Partie &partie);
 
-        void notifierActionSort(string information) const;
+    void notifierActionSort(string information) const;
 private:
     string nom;
     int gainInitialMana;
     int manaMaximum;
     int manaActuel;
     int abilite;
-        int socket;
-public:
-
-    /**
-         * @element-type Sort
-         */
+    int socket;
     std::vector<Sort*> listeSort;
 
 };

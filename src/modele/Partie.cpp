@@ -280,7 +280,7 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
 {
     vector<Case*> cible;
     //TODO verifier si l'action est valide
-    if(action->getOrigine() != NULL && action->getSort() != NULL && action->getCible().size() != 0)
+    if(action->getSort() != NULL && action->getCible().size() != 0)
     {
         //Si ce n'est pas au joueur courant on retire
         if(joueur != this->joueurCourant)
@@ -313,7 +313,13 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
             }
         }
         plateau->appliquerAction(*action);
-
+        if(joueur->estMort())
+        {
+            //TODO notifier de la mort du joueur (tous les joueurs doivent l'être) car le joueur s'écroule dans d'atroce souffrance
+            //Le joueur est retiré du plateau, ses sorts supprimés et ses cases libérées, mais il appartient toujours à l'équipe et n'est pas delete
+            //Il est juste retiré du plateau
+            plateau->retirerJoueur(joueur);
+        }
     }
     else
     {
@@ -326,16 +332,16 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
 
 void Partie::retirerJoueur(Joueur* joueur)
 {
-        //retirer un joueur: retirer de ses cases, retirer ses sorts, retirer de l'equipe,
-        for(int i = 0; i < equipe.size(); i++)
-        {
-                equipe[i]->retirerJoueur(joueur);
-        }
-        plateau->retirerJoueur(joueur);
-        delete joueur;
+    //retirer un joueur: retirer de ses cases, retirer ses sorts, retirer de l'equipe,
+    for(int i = 0; i < equipe.size(); i++)
+    {
+        equipe[i]->retirerJoueur(joueur);
+    }
+    plateau->retirerJoueur(joueur);
+    delete joueur;
 }
 
 vector<Equipe* > Partie::getEquipe()
 {
-        return equipe;
+    return equipe;
 }

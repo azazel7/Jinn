@@ -11,11 +11,11 @@ class Joueur;
 
 class Equipe {
 
- public:
+public:
 
-	Equipe(string nom);
+    Equipe(string nom);
 
-	virtual Joueur* choisirJoueur();
+    virtual Joueur* choisirJoueur();
 
     virtual bool joueurExiste(string & nom);
 
@@ -27,17 +27,12 @@ class Equipe {
 
     virtual void regenererManaJoueur();
 
-        virtual vector<Joueur* > getJoueur();
+    virtual vector<Joueur* > getJoueur();
 
-        virtual void retirerJoueur(Joueur* joueurASuppr);
- private:
+    virtual void retirerJoueur(Joueur* joueurASuppr);
+private:
     string nom;
     int joueurChoisi;
-private:
-
-    /**
-     * @element-type Joueur
-     */
     std::vector< Joueur* > joueur;
 
 };
