@@ -28,7 +28,9 @@ public:
     void modifierDefense(int nombre);
     void modifierDefenseReel(int nombre);
     void retirerJoueur(Joueur* joueur);
-
+    void retirerSort(int index);
+   list<pair<int, Sort*> > getListSort();
+        Sort* getSort(int index);
     int getApportMana() const;
     void setApportMana(int apportMana);
     int getBonusOffensifActuel() const;

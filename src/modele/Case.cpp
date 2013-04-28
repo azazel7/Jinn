@@ -117,6 +117,22 @@ void Case::retirerJoueur(Joueur* joueur)
         }
 }
 
+void Case::retirerSort(int index)
+{
+    int i = 0;
+    list<pair<int, Sort*> >::iterator iterator;
+    for(iterator = sort.begin(); iterator != sort.end(); iterator++)
+    {
+        if(i == index)
+        {
+           iterator->second->retirerDeCase(*this);
+           delete iterator->second;
+           sort.erase(iterator);
+           return;
+        }
+    }
+}
+
 Position* Case::getPosition() const
 {
 	return position;
@@ -254,6 +270,24 @@ void Case::setRegenerationDefense(int regenerationDefense)
 int Case::nombreDeSortEnCour()
 {
         return this->sort.size();
+}
+
+list<pair<int, Sort*> > Case::getListSort()
+{
+        return this->sort;
+}
+Sort* Case::getSort(int index)
+{
+   int i = 0;
+    list<pair<int, Sort*> >::iterator iterator;
+    for(iterator = sort.begin(); iterator != sort.end(); iterator++)
+    {
+        if(i == index)
+        {
+                return iterator->second;
+        }
+        i++;
+    }
 }
 
 ostream& operator<<( ostream &flux, Case const& pos)
