@@ -16,6 +16,7 @@ bool testDistance();
 bool testDistance2();
 bool testOperatorEgalite();
 bool testAjoutSort();
+void testRetirerJoueur();
 
 
 #endif // test_h
