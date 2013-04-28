@@ -130,6 +130,7 @@ void Case::retirerSort(int index)
            sort.erase(iterator);
            return;
         }
+        i++;
     }
 }
 
