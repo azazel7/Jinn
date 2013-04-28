@@ -15,7 +15,6 @@ class Case
 {
 
 public:
-
     virtual void setProprietaire(Joueur *nouveauProprietaire);
 
     Case(int defIni, int bonOff, int dissip, int attenu, int mana, int regenDef,
@@ -29,8 +28,8 @@ public:
     void modifierDefenseReel(int nombre);
     void retirerJoueur(Joueur* joueur);
     void retirerSort(int index);
-   list<pair<int, Sort*> > getListSort();
-        Sort* getSort(int index);
+    list<pair<int, Sort*> > getListSort();
+    Sort* getSort(int index);
     int getApportMana() const;
     void setApportMana(int apportMana);
     int getBonusOffensifActuel() const;
@@ -58,13 +57,14 @@ public:
     Joueur* getProprietaire() const;
     int getRegenerationDefense() const;
     void setRegenerationDefense(int regenerationDefense);
-        int nombreDeSortEnCour();
+    int nombreDeSortEnCour();
 
 
 private:
     bool controlable;
     int defenseInitiale;
     int defenseReel;
+    int defenseReelEffective;
     int defenseActuelle;
     int bonusOffensifInitial;
     int bonusOffensifActuel;

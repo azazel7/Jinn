@@ -11,6 +11,7 @@ Case::Case(int defIni, int bonOff, int dissip, int attenu, int mana, int regenDe
     this->defenseInitiale = defIni;
 	this->defenseActuelle = defIni;
 	this->defenseReel = defIni;
+        this->defenseReelEffective = defIni;
 
 	this->bonusOffensifInitial = bonOff;
 	this->bonusOffensifActuel = bonOff;
@@ -89,7 +90,15 @@ void Case::modifierDefense(int nombre)
 
 void Case::modifierDefenseReel(int nombre)
 {
-    this->defenseReel += nombre;
+    this->defenseReelEffective += nombre;
+    if(this->defenseReelEffective < 0)
+    {
+        this->defenseReel = 0;
+    }
+    else
+    {
+        this->defenseReel = this->defenseReelEffective;
+    }
     //TODO reflechir quand une defenseReel passe en dessous de 0. Si on la fige, le retrait du sort de la case va l'augmenter bien plus que prévue
     if(this->defenseActuelle > this->defenseReel)
     {
