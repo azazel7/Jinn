@@ -9,5 +9,6 @@ int main()
     assert(testDistance2());
     assert(testOperatorEgalite());
     assert(testAjoutSort());
-        testRetirerJoueur();
+    testRetirerJoueur();
+    testRetirerSort();
 }
