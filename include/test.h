@@ -18,6 +18,7 @@ bool testOperatorEgalite();
 bool testAjoutSort();
 void testRetirerJoueur();
 void testRetirerSort();
+void testDefense();
 
 
 #endif // test_h

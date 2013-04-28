@@ -11,4 +11,5 @@ int main()
     assert(testAjoutSort());
     testRetirerJoueur();
     testRetirerSort();
+        testDefense();
 }
