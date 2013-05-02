@@ -45,6 +45,7 @@ class ReceptionServeur
         int maximunFileDescriptor();
         void traitementJoueur(char *commande, int socketClient);
         void traitementClient(char *commande, int socketClient);
+        void traitementAction(char *commande, int socketClient);
         void traitementSort(int socketClient);
         void traitementEquipe(int socketClient);
         void traitementNouveauJoueur(int socketClient);

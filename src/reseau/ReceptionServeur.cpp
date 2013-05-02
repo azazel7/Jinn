@@ -176,8 +176,6 @@ void ReceptionServeur::traitementJoueur(char *commande, int socketClient)
     }
     else if(strcmp(action, ACTION) == 0)
     {
-        //Le joueur veut effectuer une action (nom du sort, origine, cible, cible , ...)
-        //verifier si c'est à ce joueur de jouer ...
     }
     else if(strcmp(action, FIN_TOUR) == 0)
     {
@@ -326,4 +324,26 @@ void ReceptionServeur::traitementMessage(char *commande, string const& nomJoueur
                 send(it->first, final.c_str(), final.size(), 0);
         }
     }
+}
+
+void ReceptionServeur::traitementAction(char *commande, int socketClient)
+{
+        //Le joueur veut effectuer une action (nom du sort, origine, cible, cible , ...)
+        //verifier si c'est à ce joueur de jouer ...
+        char* nomSort = NULL, *origineX = NULL, *origineY = NULL;
+        vector<char*> listeCible;
+        if(this->partie->estJoueurCourrant(listeClient[socketClient]) == false)
+        {
+                return;
+        }
+        nomSort = strtok(NULL, SEPARATEUR_ELEMENT);
+        origineX = strtok(NULL, SEPARATEUR_ELEMENT);
+        origineY = strtok(NULL, SEPARATEUR_ELEMENT);
+        if(nomSort == NULL || origineX == NULL || origineY == NULL)
+        {
+                return;
+        }
+        //TODO instancier le sort, connaitre le nombre de cible maxi
+        //TODO verifier sir le joueur à bien le sort
+
 }
