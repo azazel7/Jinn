@@ -101,6 +101,11 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
                 FD_CLR(it->first, &readfd);
                 //On ferme la socket
                 close(it->first);
+                if(it->second != NULL)
+                {
+                        //Si c'était un joueur on le retire de la partie
+                        this->partie->retirerJoueur(it->second);
+                }
                 //On supprime l'entrée
                 it = listeClient.erase(it);
             }
@@ -167,7 +172,7 @@ void ReceptionServeur::traitementJoueur(char *commande, int socketClient)
     if(strcmp(action, MESSAGE) == 0)
     {
         //Envoyer un message à tout le monde
-        this->traitementMessage(commande);
+        this->traitementMessage(commande, listeClient[socketClient]->getNom());
     }
     else if(strcmp(action, ACTION) == 0)
     {
@@ -300,7 +305,7 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
 }
 
 
-void ReceptionServeur::traitementMessage(char *commande)
+void ReceptionServeur::traitementMessage(char *commande, string const& nomJoueurParlant)
 {
     cout << "un message" << endl;
     char* message = NULL;
@@ -310,6 +315,8 @@ void ReceptionServeur::traitementMessage(char *commande)
         return;
     }
     string final = MESSAGE;
+    final += SEPARATEUR_ELEMENT;
+    final += nomJoueurParlant;
     final += SEPARATEUR_ELEMENT;
     final += message;
     for(map<int, Joueur*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)

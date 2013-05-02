@@ -250,7 +250,7 @@ void Joueur::notifierActionSort(string information) const
 
 }
 
-void Joueur::notifierPartie(Partie & partie)
+void Joueur::notifierPartie(Partie & partie) const
 {
     vector<Equipe* > listeEquipe;
     vector<Joueur* > listeJoueur;
@@ -300,3 +300,6 @@ void Joueur::notifierPartie(Partie & partie)
     }
     send(this->socket, final.c_str(), final.size(), 0);
 }
+
+//TODO notifier d'une case propri
+//TODO penser à comment notifier d'un sort de révélation

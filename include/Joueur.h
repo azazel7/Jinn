@@ -68,7 +68,7 @@ public:
 
     void notifierCreation() const;
 
-    void notifierPartie(Partie &partie);
+    void notifierPartie(Partie &partie) const;
 
     void notifierActionSort(string information) const;
 private:
