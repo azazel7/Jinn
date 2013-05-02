@@ -99,7 +99,6 @@ void Case::modifierDefenseReel(int nombre)
     {
         this->defenseReel = this->defenseReelEffective;
     }
-    //TODO reflechir quand une defenseReel passe en dessous de 0. Si on la fige, le retrait du sort de la case va l'augmenter bien plus que prévue
     if(this->defenseActuelle > this->defenseReel)
     {
         this->defenseActuelle = this->defenseReel;

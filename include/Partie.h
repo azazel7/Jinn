@@ -103,6 +103,7 @@ protected:
      * @element-type Equipe
      */
     std::vector< Equipe* > equipe;
+    int indexEquipeCourante;
 
 };
 

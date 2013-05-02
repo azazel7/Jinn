@@ -297,8 +297,6 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
     joueur->setSocket(socketClient);
     joueur->notifierCreation();
     joueur->notifierPartie(*partie);
-    //TODO attribuer une case
-    //TODO notifier de la partie [mot];[nombre_de_case_controllable];[case, coordonnee, defense, proprio];[nb joueur];[joueur, equipe];
 }
 
 

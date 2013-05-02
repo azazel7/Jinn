@@ -10,6 +10,7 @@ Partie::Partie(string nom, int nombrePlace, int nombreSortParJoueur)
     this->enCours = false;
     this->nombreSortParJoueur = nombreSortParJoueur;
     this->joueurCourant = NULL;
+    this->indexEquipeCourante = 0;
 }
 
 
@@ -325,7 +326,9 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
     {
         if(action->getOrigine() == NULL && action->getSort() == NULL && action->getCible().size() == 0)
         {
-            //TODO choisir un nouveau joueur
+            indexEquipeCourante = (indexEquipeCourante + 1)%this->equipe.size();
+            //TODO eventuellement notifier de la fin du tour ...
+            this->joueurCourant = this->equipe[indexEquipeCourante]->choisirJoueur();
         }
     }
 }
