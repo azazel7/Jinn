@@ -19,33 +19,16 @@ Partie::Partie(string nom, int nombrePlace, int nombreSortParJoueur)
      */
 void Partie::demarrerPartie()
 {
-    int equipeCourante = 0;
-    Joueur* courant = NULL;
-    Action action;
-    enCours = true;
-    while(enCours == true)
-    {
-        courant = equipe[equipeCourante]->choisirJoueur();
-        do
-        {
-            action = courant->effectuerAction(*this);
-        }while(1);
+    this->enCours = true;
+    //TODO notifier joueur du démarrage de la partie
+    //TODO choisir un joueur
+    //TODO notifier le joueur que c'est à lui de joueur
 
-        if(finPartie() == true)
-        {
-            enCours = false;
-        }
-        //effectuer action chronique de chaques sort
-        plateau->effectuerActionChronique();
-        //regenerer la defense des cases
-        plateau->regenererDefenseCase();
-        //regenerer le mana des joueurs
-        this->regenererManaJoueur();
-        plateau->regenererManaPourJoueur();
-        //On retire les sorts qui expire
-        plateau->retirerSortDeDureeEcoulee();
-        equipeCourante = (equipeCourante+1)%equipe.size();
-    }
+
+    //TODO Gerer action chronique
+    //TODO Gerer regen def case
+    //TODO Gerer regen mana joueur
+    //TODO Gerer expiration des sorts
 }
 
 

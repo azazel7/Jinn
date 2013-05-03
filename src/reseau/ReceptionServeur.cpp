@@ -53,9 +53,9 @@ void ReceptionServeur::miseEnEcoute()
         //Priorité au client qui joue on avise ensuite pour les nouvelles connexions
         this->testerSelectionClient(readfs);
         this->testerSelectionServeur(readfs);
-        if (this->partie->nombreDeJoueur() == this->partie->getNombreDePlace())
+        if (this->partie->isEnCours() == false && this->partie->nombreDeJoueur() == this->partie->getNombreDePlace() && this->partie->getEquipe().size() >= 2)
         {
-            //TODO demarer la partie
+            this->partie->demarrerPartie();
         }
     }
 }
