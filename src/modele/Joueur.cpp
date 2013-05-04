@@ -301,5 +301,34 @@ void Joueur::notifierPartie(Partie & partie) const
     send(this->socket, final.c_str(), final.size(), 0);
 }
 
+void Joueur::notifierDebutPartie() const
+{
+    string final = DEMARAGE_PARTIE;
+    final += SEPARATEUR_ELEMENT;
+    send(this->socket, final.c_str(), final.size(), 0);
+}
+
+void Joueur::notifierDebutTour(string nomJoueur) const
+{
+    string final = TOUR_DE;
+    final += SEPARATEUR_ELEMENT;
+    final += nomJoueur;
+    final += SEPARATEUR_ELEMENT;
+    send(this->socket, final.c_str(), final.size(), 0);
+}
+void Joueur::notifierFinTourPartie() const
+{
+
+}
+
+void Joueur::notifierMort(string nomJoueur) const
+{
+
+    string final = MORT;
+    final += SEPARATEUR_ELEMENT;
+    final += nomJoueur;
+    final += SEPARATEUR_ELEMENT;
+    send(this->socket, final.c_str(), final.size(), 0);
+}
 //TODO notifier d'une case propri
 //TODO penser à comment notifier d'un sort de révélation

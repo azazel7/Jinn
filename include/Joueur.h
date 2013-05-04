@@ -70,7 +70,16 @@ public:
 
     void notifierPartie(Partie &partie) const;
 
+    void notifierDebutPartie() const;
+
+    void notifierDebutTour(string nomJoueur) const;
+
+    void notifierFinTourPartie() const;
+
+    void notifierMort(string nomJoueur) const;
+
     void notifierActionSort(string information) const;
+
 private:
     string nom;
     int gainInitialMana;
