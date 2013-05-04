@@ -28,6 +28,9 @@
 //Relatif au jeu
 #define PERTE_CASE "pertecase"
 #define INFORMATION_PARTIE "informationpartie"
+#define TOUR_DE "tourde"
+#define MORT "mort"
+#define DEMARAGE_PARTIE "demaragepartie"
 
 class Partie;
 

@@ -345,5 +345,4 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
         }
         //TODO instancier le sort, connaitre le nombre de cible maxi
         //TODO verifier sir le joueur à bien le sort
-
 }

@@ -21,9 +21,7 @@ void Partie::demarrerPartie()
 {
     this->enCours = true;
     //TODO notifier joueur du démarrage de la partie
-    //TODO choisir un joueur
-    //TODO notifier le joueur que c'est à lui de joueur
-
+        this->changerJoueur();
 
     //TODO Gerer action chronique
     //TODO Gerer regen def case
@@ -277,7 +275,7 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
             //TODO eventuellement lancer exception
             return;
         }
-        if(action->getOrigine()->getProprietaire() != joueur)
+        if(action->getOrigine() != NULL && action->getOrigine()->getProprietaire() != joueur)
         {
             //TODO eventuellement lancer exception
             return;
@@ -309,9 +307,8 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
     {
         if(action->getOrigine() == NULL && action->getSort() == NULL && action->getCible().size() == 0)
         {
-            indexEquipeCourante = (indexEquipeCourante + 1)%this->equipe.size();
-            //TODO eventuellement notifier de la fin du tour ...
-            this->joueurCourant = this->equipe[indexEquipeCourante]->choisirJoueur();
+            this->changerJoueur();
+            //TODO traiter la fin d'un tour de tout le monde avec les regen et tout ça -> notifier des changements
         }
     }
 }
@@ -330,4 +327,12 @@ void Partie::retirerJoueur(Joueur* joueur)
 vector<Equipe* > Partie::getEquipe()
 {
     return equipe;
+}
+
+void Partie::changerJoueur()
+{
+            indexEquipeCourante = (indexEquipeCourante + 1)%this->equipe.size();
+            //TODO eventuellement notifier de la fin du tour ...
+            this->joueurCourant = this->equipe[indexEquipeCourante]->choisirJoueur();
+            //TODO notifier joueur que c'est a lui de joueur
 }

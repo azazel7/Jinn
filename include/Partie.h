@@ -88,6 +88,8 @@ public:
 
     virtual void retirerJoueur(Joueur* joueur);
 
+    virtual void changerJoueur();
+
 protected:
 
     /**
