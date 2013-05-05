@@ -330,7 +330,9 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
 {
         //Le joueur veut effectuer une action (nom du sort, origine, cible, cible , ...)
         //verifier si c'est à ce joueur de jouer ...
-        char* nomSort = NULL, *origineX = NULL, *origineY = NULL;
+        char* nomSort = NULL, *origineX = NULL, *origineY = NULL, *tmp = NULL;
+        int x = -1, y = -1;
+        Sort* sortAction = NULL;
         vector<char*> listeCible;
         if(this->partie->estJoueurCourrant(listeClient[socketClient]) == false)
         {
@@ -343,6 +345,22 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
         {
                 return;
         }
+        x = atoi(origineX);
+        y = atoi(origineY);
+        if(x < 0 || y < 0)
+        {
+                return;
+        }
+        sortAction = UsineSort::fabriqueSort(nomSort);
+        if(sortAction == NULL)
+        {
+                return;
+        }
+        if(listeClient[socketClient]->possedeSort(nomSort) == false)
+        {
+            return;
+        }
+//        for(int i = 0; i < sortAction->
         //TODO instancier le sort, connaitre le nombre de cible maxi
         //TODO verifier sir le joueur à bien le sort
 }
