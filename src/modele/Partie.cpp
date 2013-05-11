@@ -21,6 +21,11 @@ void Partie::demarrerPartie()
 {
     this->enCours = true;
     //TODO notifier joueur du démarrage de la partie
+    for(int i = 0; i < this->equipe.size(); i++)
+    {
+        this->equipe[i]->notifierJoueurDebutPartie();
+    }
+
         this->changerJoueur();
 
     //TODO Gerer action chronique

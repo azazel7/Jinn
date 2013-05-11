@@ -360,7 +360,9 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
         {
             return;
         }
-//        for(int i = 0; i < sortAction->
+        for(int i = 0; i < sortAction->getnombreCibleMax(); i++)
+        {
+
+        }
         //TODO instancier le sort, connaitre le nombre de cible maxi
-        //TODO verifier sir le joueur à bien le sort
 }

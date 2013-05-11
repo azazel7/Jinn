@@ -30,6 +30,9 @@ public:
     virtual vector<Joueur* > getJoueur();
 
     virtual void retirerJoueur(Joueur* joueurASuppr);
+
+    virtual void notifierJoueurDebutPartie();
+
 private:
     string nom;
     int joueurChoisi;

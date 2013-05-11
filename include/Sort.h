@@ -75,7 +75,9 @@ public:
 
     virtual bool getElite();
 
-    virtual int getPorteeMax();
+    virtual int getPorteeMax() const;
+
+    virtual int getnombreCibleMax() const;
 
 protected:
 	string nom;

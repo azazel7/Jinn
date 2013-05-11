@@ -82,3 +82,12 @@ void Equipe::retirerJoueur(Joueur* joueurASuppr)
                 }
         }
 }
+
+
+void Equipe::notifierJoueurDebutPartie()
+{
+        for(int i = 0; i < this->joueur.size(); i++)
+        {
+                this->joueur[i]->notifierDebutPartie();
+        }
+}

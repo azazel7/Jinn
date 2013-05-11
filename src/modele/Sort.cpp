@@ -70,7 +70,12 @@ bool Sort::getElite()
     return this->elite;
 }
 
-int Sort::getPorteeMax()
+int Sort::getPorteeMax() const
 {
     return this->porteeMax;
+}
+
+int Sort::getnombreCibleMax() const
+{
+        return this->nombreCibleMax;
 }
