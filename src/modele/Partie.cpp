@@ -307,6 +307,7 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
             //Il est juste retiré du plateau
             plateau->retirerJoueur(joueur);
         }
+        //TODO notifier des changement eventuel
     }
     else
     {
@@ -339,5 +340,8 @@ void Partie::changerJoueur()
             indexEquipeCourante = (indexEquipeCourante + 1)%this->equipe.size();
             //TODO eventuellement notifier de la fin du tour ...
             this->joueurCourant = this->equipe[indexEquipeCourante]->choisirJoueur();
-            //TODO notifier joueur que c'est a lui de joueur
+            for(int i = 0; i < this->equipe.size(); i++)
+            {
+                this->equipe[i]->notifierDebutTour(this->joueurCourant->getNom());
+            }
 }

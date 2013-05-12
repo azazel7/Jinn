@@ -91,3 +91,11 @@ void Equipe::notifierJoueurDebutPartie()
                 this->joueur[i]->notifierDebutPartie();
         }
 }
+
+void Equipe::notifierDebutTour(string nomJoueur)
+{
+        for(int i = 0; i < this->joueur.size(); i++)
+        {
+                this->joueur[i]->notifierDebutTour(nomJoueur);
+        }
+}

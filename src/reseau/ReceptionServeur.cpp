@@ -331,8 +331,10 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
         //Le joueur veut effectuer une action (nom du sort, origine, cible, cible , ...)
         //verifier si c'est à ce joueur de jouer ...
         char* nomSort = NULL, *origineX = NULL, *origineY = NULL, *tmp = NULL;
-        int x = -1, y = -1;
+        int x = -1, y = -1, xCible, yCible, nombreCible;
         Sort* sortAction = NULL;
+        Action* action = NULL;
+        Case *origine = NULL, *cibleTmp = NULL;
         vector<char*> listeCible;
         if(this->partie->estJoueurCourrant(listeClient[socketClient]) == false)
         {
@@ -351,6 +353,11 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
         {
                 return;
         }
+        origine = this->partie->getPlateau()->getCase(x, y);
+        if(origine == NULL)
+        {
+                return;
+        }
         sortAction = UsineSort::fabriqueSort(nomSort);
         if(sortAction == NULL)
         {
@@ -360,9 +367,34 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
         {
             return;
         }
-        for(int i = 0; i < sortAction->getnombreCibleMax(); i++)
+        //Il y a deux coordonnées (x et y)
+        for(int i = 0; i < sortAction->getnombreCibleMax()*2; i++)
         {
-
+                tmp = strtok(NULL, SEPARATEUR_ELEMENT);
+                if(tmp == NULL)
+                {
+                        break;
+                }
+                nombreCible = i;
+                listeCible.push_back(tmp);
         }
-        //TODO instancier le sort, connaitre le nombre de cible maxi
+        //Pas de coordonnées valide.
+        if((nombreCible%2) != 0)
+        {
+                return;
+        }
+        nombreCible = nombreCible/2;
+        action->setSort(sortAction);
+        action->setOrigine(origine);
+        for(int i = 0; i < nombreCible; i++)
+        {
+                cibleTmp = this->partie->getPlateau()->getCase(atoi(listeCible[i*2]), atoi(listeCible[i*2+1]));
+                if(cibleTmp == NULL)
+                {
+                    return;
+                }
+                action->ajouterCible(cibleTmp);
+        }
+        //TODO verifier si plusieurs fois la meme case ...
+        this->partie->effectuerAction(action, listeClient[socketClient]);
 }

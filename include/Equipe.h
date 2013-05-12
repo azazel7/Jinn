@@ -33,6 +33,8 @@ public:
 
     virtual void notifierJoueurDebutPartie();
 
+    virtual void notifierDebutTour(string nomJoueur);
+
 private:
     string nom;
     int joueurChoisi;
