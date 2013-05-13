@@ -331,7 +331,7 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
         //Le joueur veut effectuer une action (nom du sort, origine, cible, cible , ...)
         //verifier si c'est à ce joueur de jouer ...
         char* nomSort = NULL, *origineX = NULL, *origineY = NULL, *tmp = NULL;
-        int x = -1, y = -1, xCible, yCible, nombreCible;
+        int x = -1, y = -1, xCible = -1, yCible = -1, nombreCible;
         Sort* sortAction = NULL;
         Action* action = NULL;
         Case *origine = NULL, *cibleTmp = NULL;
@@ -388,7 +388,14 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
         action->setOrigine(origine);
         for(int i = 0; i < nombreCible; i++)
         {
-                cibleTmp = this->partie->getPlateau()->getCase(atoi(listeCible[i*2]), atoi(listeCible[i*2+1]));
+                xCible = yCible = -1;
+                xCible = atoi(listeCible[i*2]);
+                yCible = atoi(listeCible[(i*2)+1]);
+                if(xCible == -1 || yCible == -1)
+                {
+                        return;
+                }
+                cibleTmp = this->partie->getPlateau()->getCase(xCible, yCible);
                 if(cibleTmp == NULL)
                 {
                     return;
