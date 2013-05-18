@@ -176,6 +176,7 @@ void ReceptionServeur::traitementJoueur(char *commande, int socketClient)
     }
     else if(strcmp(action, ACTION) == 0)
     {
+        this->traitementAction(action, socketClient);
     }
     else if(strcmp(action, FIN_TOUR) == 0)
     {
@@ -331,13 +332,14 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
         //Le joueur veut effectuer une action (nom du sort, origine, cible, cible , ...)
         //verifier si c'est à ce joueur de jouer ...
         char* nomSort = NULL, *origineX = NULL, *origineY = NULL, *tmp = NULL;
-        int x = -1, y = -1, xCible = -1, yCible = -1, nombreCible;
+        int x = -1, y = -1, xCible = -1, yCible = -1, nombreCible = 0;
         Sort* sortAction = NULL;
         Action* action = NULL;
         Case *origine = NULL, *cibleTmp = NULL;
         vector<char*> listeCible;
         if(this->partie->estJoueurCourrant(listeClient[socketClient]) == false)
         {
+                cout << "Pas current joueur" << endl;
                 return;
         }
         nomSort = strtok(NULL, SEPARATEUR_ELEMENT);
@@ -345,26 +347,24 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
         origineY = strtok(NULL, SEPARATEUR_ELEMENT);
         if(nomSort == NULL || origineX == NULL || origineY == NULL)
         {
+                cout << "sort/originex/originy = NULL" << endl;
                 return;
         }
         x = atoi(origineX);
         y = atoi(origineY);
-        if(x < 0 || y < 0)
+        if(x >= 0 && y >= 0)
         {
-                return;
-        }
-        origine = this->partie->getPlateau()->getCase(x, y);
-        if(origine == NULL)
-        {
-                return;
+                origine = this->partie->getPlateau()->getCase(x, y);
         }
         sortAction = UsineSort::fabriqueSort(nomSort);
         if(sortAction == NULL)
         {
+                cout << "sortAction NULL" << endl;
                 return;
         }
         if(listeClient[socketClient]->possedeSort(nomSort) == false)
         {
+            cout << "Pas le sort" << endl;
             return;
         }
         //Il y a deux coordonnées (x et y)
@@ -375,15 +375,18 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
                 {
                         break;
                 }
-                nombreCible = i;
+                nombreCible ++;
                 listeCible.push_back(tmp);
         }
         //Pas de coordonnées valide.
         if((nombreCible%2) != 0)
         {
+            cout << "Pas assez de coor" << endl;
                 return;
         }
+        action = new Action();
         nombreCible = nombreCible/2;
+        sortAction->setProprietaire(listeClient[socketClient]);
         action->setSort(sortAction);
         action->setOrigine(origine);
         for(int i = 0; i < nombreCible; i++)
@@ -393,11 +396,13 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
                 yCible = atoi(listeCible[(i*2)+1]);
                 if(xCible == -1 || yCible == -1)
                 {
+                    cout << "Coor invalide" << endl;
                         return;
                 }
                 cibleTmp = this->partie->getPlateau()->getCase(xCible, yCible);
                 if(cibleTmp == NULL)
                 {
+                    cout << "Pas de case cible" << endl;
                     return;
                 }
                 action->ajouterCible(cibleTmp);

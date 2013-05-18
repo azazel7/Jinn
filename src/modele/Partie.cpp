@@ -173,7 +173,11 @@ void Partie::regenererManaJoueur()
 
 bool Partie::estJoueurCourrant(Joueur* joueur)
 {
-
+        if(joueur == this->joueurCourant)
+        {
+                return true;
+        }
+        return false;
 }
 
 vector<string> Partie::listeEquipe()
@@ -267,6 +271,7 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
 {
     vector<Case*> cible;
     //TODO verifier si l'action est valide
+    //TODO si origine = NULL n'autoriser que les cases en bordure
     if(action->getSort() != NULL && action->getCible().size() != 0)
     {
         //Si ce n'est pas au joueur courant on retire
@@ -294,9 +299,12 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
         cible = action->getCible();
         for(int i = 0; i < action->getCible().size(); i++)
         {
-            if(Position::distance(* (action->getOrigine()->getPosition()), *(cible[i]->getPosition())) > action->getSort()->getPorteeMax())
+            if(action->getOrigine() != NULL)
             {
-                return;
+                if(Position::distance(* (action->getOrigine()->getPosition()), *(cible[i]->getPosition())) > action->getSort()->getPorteeMax())
+                {
+                    return;
+                }
             }
         }
         plateau->appliquerAction(*action);
@@ -315,6 +323,18 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
         {
             this->changerJoueur();
             //TODO traiter la fin d'un tour de tout le monde avec les regen et tout ça -> notifier des changements
+        }
+    }
+ //Afficher les cases
+    for(int x = 0; x < plateau->getLargeur(); x++)
+    {
+        for(int y = 0; y < plateau->getHauteur(); y++)
+        {
+            Case* courante = plateau->getCase(x, y);
+            if(courante != NULL)
+            {
+                cout << *courante << endl;
+            }
         }
     }
 }
@@ -339,6 +359,7 @@ void Partie::changerJoueur()
 {
             indexEquipeCourante = (indexEquipeCourante + 1)%this->equipe.size();
             //TODO eventuellement notifier de la fin du tour ...
+            //TODO pas de current joueur
             this->joueurCourant = this->equipe[indexEquipeCourante]->choisirJoueur();
             for(int i = 0; i < this->equipe.size(); i++)
             {

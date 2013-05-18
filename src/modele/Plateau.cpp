@@ -69,7 +69,14 @@ void Plateau::appliquerAction(Action action)
     {
         dissipation = cible[i]->getEffetDissipation();
         nouveauTaux = Sort::calculeNouveauTauxReussite(dissipation, sort->getPourcentageReussite());
-        distance = Position::distance(*(origine->getPosition()), *(cible[i]->getPosition()));
+        if(origine != NULL)
+        {
+                distance = Position::distance(*(origine->getPosition()), *(cible[i]->getPosition()));
+        }
+        else
+        {
+            distance = 1;
+        }
         proprietaire->diminuerMana( distance * sort->getCoupManaParCase() );
         if(proprietaire->estMort())
         {
