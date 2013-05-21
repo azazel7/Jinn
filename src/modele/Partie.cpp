@@ -11,6 +11,7 @@ Partie::Partie(string nom, int nombrePlace, int nombreSortParJoueur)
     this->nombreSortParJoueur = nombreSortParJoueur;
     this->joueurCourant = NULL;
     this->indexEquipeCourante = 0;
+    this->nombreDeJoueurAyantJoue = 0;
 }
 
 
@@ -20,18 +21,13 @@ Partie::Partie(string nom, int nombrePlace, int nombreSortParJoueur)
 void Partie::demarrerPartie()
 {
     this->enCours = true;
-    //TODO notifier joueur du démarrage de la partie
+    this->nombreDeJoueurAyantJoue = 0;
+    //notifier joueur du démarrage de la partie
     for(int i = 0; i < this->equipe.size(); i++)
     {
         this->equipe[i]->notifierJoueurDebutPartie();
     }
-
         this->changerJoueur();
-
-    //TODO Gerer action chronique
-    //TODO Gerer regen def case
-    //TODO Gerer regen mana joueur
-    //TODO Gerer expiration des sorts
 }
 
 
@@ -321,9 +317,13 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
     {
         if(action->getOrigine() == NULL && action->getSort() == NULL && action->getCible().size() == 0)
         {
+            //TODO fin de partie
             this->changerJoueur();
-            //TODO traiter la fin d'un tour de tout le monde avec les regen et tout ça -> notifier des changements
         }
+    }
+    if(this->finPartie() == true)
+    {
+        //TODO que faire lors de la fin de partie
     }
  //Afficher les cases
     for(int x = 0; x < plateau->getLargeur(); x++)
@@ -341,12 +341,17 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
 
 void Partie::retirerJoueur(Joueur* joueur)
 {
+
     //retirer un joueur: retirer de ses cases, retirer ses sorts, retirer de l'equipe,
     for(int i = 0; i < equipe.size(); i++)
     {
         equipe[i]->retirerJoueur(joueur);
     }
     plateau->retirerJoueur(joueur);
+    if(joueur == this->joueurCourant)
+    {
+        this->changerJoueur();
+    }
     delete joueur;
 }
 
@@ -358,11 +363,28 @@ vector<Equipe* > Partie::getEquipe()
 void Partie::changerJoueur()
 {
             indexEquipeCourante = (indexEquipeCourante + 1)%this->equipe.size();
-            //TODO eventuellement notifier de la fin du tour ...
-            //TODO pas de current joueur
-            this->joueurCourant = this->equipe[indexEquipeCourante]->choisirJoueur();
-            for(int i = 0; i < this->equipe.size(); i++)
+            this->nombreDeJoueurAyantJoue ++;
+            if(this->nombreDeJoueurAyantJoue >= this->nombreDeJoueur())
             {
-                this->equipe[i]->notifierDebutTour(this->joueurCourant->getNom());
+                this->finTourPartie();
+                this->nombreDeJoueurAyantJoue = 0;
             }
+            this->joueurCourant = this->equipe[indexEquipeCourante]->choisirJoueur();
+            if(this->joueurCourant != NULL) //TODO traiter le cas où une équipe n'a plus de joueur
+            {
+                for(int i = 0; i < this->equipe.size(); i++)
+                {
+                    this->equipe[i]->notifierDebutTour(this->joueurCourant->getNom());
+                }
+            }
+}
+
+void Partie::finTourPartie()
+{
+        this->plateau->effectuerActionChronique();
+        this->plateau->regenererDefenseCase();
+        this->plateau->regenererManaPourJoueur();
+        this->plateau->retirerSortDeDureeEcoulee();
+        this->regenererManaJoueur();
+        //TODO, il va falloir notifier les changements ....
 }

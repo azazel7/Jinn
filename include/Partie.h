@@ -90,6 +90,8 @@ public:
 
     virtual void changerJoueur();
 
+    virtual void finTourPartie();
+
 protected:
 
     /**
@@ -99,6 +101,7 @@ protected:
     int nombreDePlace;
     bool enCours;
     int nombreSortParJoueur;
+    int nombreDeJoueurAyantJoue;
     Joueur* joueurCourant;
     Plateau *plateau;
     /**
