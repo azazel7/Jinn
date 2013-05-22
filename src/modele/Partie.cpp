@@ -315,7 +315,7 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
     }
     else
     {
-        if(action->getOrigine() == NULL && action->getSort() == NULL && action->getCible().size() == 0)
+        if(action->getOrigine() == NULL && action->getSort() == NULL && action->getCible().size() == 0 && this->estJoueurCourrant(joueur) == true)
         {
             //TODO fin de partie
             this->changerJoueur();
