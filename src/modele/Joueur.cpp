@@ -9,6 +9,7 @@ Joueur::Joueur()
     this->manaMaximum = 1;
     this->manaActuel = 1;
     this->nom = "Joueur";
+    this->socket = 1; //La sortie standard
 }
 
 Joueur::Joueur(int gainInit, int manaMax, int abiliteInit, string  nom)
@@ -18,6 +19,7 @@ Joueur::Joueur(int gainInit, int manaMax, int abiliteInit, string  nom)
     this->manaMaximum = manaMax;
     this->manaActuel = manaMax;
     this->nom = nom;
+    this->socket = 1; //La sortie standard
 }
 
 Action Joueur::effectuerAction(Partie & partie)

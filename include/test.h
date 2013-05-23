@@ -19,6 +19,7 @@ bool testAjoutSort();
 void testRetirerJoueur();
 void testRetirerSort();
 void testDefense();
+void testMortJoueur();
 
 
 #endif // test_h

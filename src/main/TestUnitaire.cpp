@@ -12,4 +12,5 @@ int main()
     testRetirerJoueur();
     testRetirerSort();
         testDefense();
+ testMortJoueur();
 }
