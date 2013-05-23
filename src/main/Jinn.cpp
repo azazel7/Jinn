@@ -18,22 +18,39 @@ using namespace std;
 
 int main()
 {
+    /*
     Partie p("p1", 2, 2);
     p.initialiser();
     ReceptionServeur serveur(&p);
     serveur.initialiserServeur();
     serveur.miseEnEcoute();
     return 0;
-
+        */
     Partie partie("Partie 1", 2, 2);
-    Joueur j1, j2;
-    Plateau *pl;
-    Action action;
+    Joueur *j1 = NULL, *j2 = NULL;
+    Plateau *pl = NULL;
+    Action *action = new Action();
+    Sort *sort = NULL;
+    vector<string> listeSort;
+    listeSort.push_back("Boule de Feu");
+    listeSort.push_back("Sceau de Controle");
     partie.initialiser();
-    cout << j1 << endl;
-    cout << j2 << endl;
-
+    j1 =  partie.ajouterJoueur("Tarte", "pika", listeSort);
+    j2 =  partie.ajouterJoueur("Platon", "Sala", listeSort);
     partie.demarrerPartie();
+    pl = partie.getPlateau();
+    sort = UsineSort::fabriqueSort("Boule de Feu");
+    sort->setProprietaire(j2);
+    action->setOrigine(NULL);
+    action->setSort(sort);
+    action->ajouterCible(pl->getCase(0,0));
+        j2->diminuerMana(105);
+        cout << "Fin loop" << endl;
+        cout << j2->getManaActuel() << endl;
+
+                partie.effectuerAction(action, j2);
+                partie.effectuerAction(action, j2);
+                partie.effectuerAction(action, j2);
     /*
     pl = partie.getPlateau();
     action = j1.effectuerAction(partie);

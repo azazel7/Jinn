@@ -35,6 +35,8 @@ public:
 
     virtual void notifierDebutTour(string nomJoueur);
 
+    virtual void notifierMort(string nomJoueur);
+
 private:
     string nom;
     int joueurChoisi;

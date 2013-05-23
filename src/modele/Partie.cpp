@@ -266,6 +266,7 @@ int Partie::getNombreDePlace()
 void Partie::effectuerAction(Action* action, Joueur* joueur)
 {
     vector<Case*> cible;
+    cout << "Action de faite" << endl;
     //TODO verifier si l'action est valide
     //TODO si origine = NULL n'autoriser que les cases en bordure
     if(action->getSort() != NULL && action->getCible().size() != 0)
@@ -310,6 +311,11 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
             //Le joueur est retiré du plateau, ses sorts supprimés et ses cases libérées, mais il appartient toujours à l'équipe et n'est pas delete
             //Il est juste retiré du plateau
             plateau->retirerJoueur(joueur);
+                for(int i = 0; i < this->equipe.size(); i++)
+                {
+                        this->equipe[i]->notifierMort(joueur->getNom());
+                }
+                cout << "Joueur mort " << joueur->getNom() << endl;
         }
         //TODO notifier des changement eventuel
     }
