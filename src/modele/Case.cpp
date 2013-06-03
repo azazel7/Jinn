@@ -311,3 +311,8 @@ ostream& operator<<( ostream &flux, Case const& pos)
     flux << "(" << *(pos.getPosition()) << " [" << pos.getDefenseActuelle() << "/" << pos.getDefenseReel() << "] " << " " << nom << ")";
     return flux;
 }
+
+Case::~Case()
+{
+        //TODO liberer les sorts (sans les retirer)
+}

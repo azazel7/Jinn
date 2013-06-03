@@ -10,6 +10,7 @@ Joueur::Joueur()
     this->manaActuel = 1;
     this->nom = "Joueur";
     this->socket = 1; //La sortie standard
+    this->equipe = NULL;
 }
 
 Joueur::Joueur(int gainInit, int manaMax, int abiliteInit, string  nom)
@@ -224,6 +225,11 @@ void Joueur::setSocket(int socket)
     this->socket = socket;
 }
 
+void Joueur::setEquipe(Equipe* newEquipe)
+{
+        this->equipe = newEquipe;
+}
+
 void Joueur::notifierCreation() const
 {
     string final = NOUVEAU_JOUEUR;
@@ -288,15 +294,14 @@ void Joueur::notifierPartie(Partie & partie) const
     }
     final += to_string(partie.nombreDeJoueur());
     final += SEPARATEUR_ELEMENT;
-    listeEquipe = partie.getEquipe();
-    for(int i = 0; i < listeEquipe.size(); i++)
+    listeJoueur = partie.getJoueur();
+    for(int i = 0; i < listeJoueur.size(); i++)
     {
-        listeJoueur = listeEquipe[i]->getJoueur();
         for(int i = 0; i < listeJoueur.size(); i++)
         {
             final += listeJoueur[i]->getNom();
             final += SEPARATEUR_SOUS_ELEMENT;
-            final += listeEquipe[i]->getNom();
+            final += listeJoueur[i]->getNomEquipe();
             final += SEPARATEUR_ELEMENT;
         }
     }
@@ -325,12 +330,52 @@ void Joueur::notifierFinTourPartie() const
 
 void Joueur::notifierMort(string nomJoueur) const
 {
-
     string final = MORT;
     final += SEPARATEUR_ELEMENT;
     final += nomJoueur;
     final += SEPARATEUR_ELEMENT;
     send(this->socket, final.c_str(), final.size(), 0);
 }
-//TODO notifier d'une case propri
+
+void Joueur::notifierPropriaitaireCase(string nomJoueur, bool type, int x, int y)
+{
+    string final = CHANGEMENT_CASE_PROPRIAITAIRE;
+    final += SEPARATEUR_ELEMENT;
+    final += nomJoueur;
+    final += SEPARATEUR_ELEMENT;
+    if(type == true)
+    {
+        final += "GAIN";
+    }
+    else
+    {
+        final += "PERTE";
+    }
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(x);
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(y);
+    final += SEPARATEUR_ELEMENT;
+
+    send(this->socket, final.c_str(), final.size(), 0);
+
+}
+
+Equipe* Joueur::getEquipe()
+{
+        return this->equipe;
+}
+
+string Joueur::getNomEquipe()
+{
+        if(this->equipe != NULL)
+        {
+            return this->equipe->getNom();
+        }
+        return "";
+}
+Joueur::~Joueur()
+{
+        cout << "Destruction joueur " << this->nom << endl;
+}
 //TODO penser à comment notifier d'un sort de révélation

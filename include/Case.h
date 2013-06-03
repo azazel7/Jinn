@@ -59,6 +59,7 @@ public:
     void setRegenerationDefense(int regenerationDefense);
     int nombreDeSortEnCour();
 
+    ~Case();
 
 private:
     bool controlable;

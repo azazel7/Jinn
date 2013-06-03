@@ -26,7 +26,7 @@
 #define ERREUR "erreur"
 
 //Relatif au jeu
-#define PERTE_CASE "pertecase"
+#define CHANGEMENT_CASE_PROPRIAITAIRE "chgcasepropri"
 #define INFORMATION_PARTIE "informationpartie"
 #define TOUR_DE "tourde"
 #define MORT "mort"

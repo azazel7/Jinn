@@ -62,6 +62,12 @@ public:
 
     void setSocket(int socket);
 
+    void setEquipe(Equipe* newEquipe);
+
+    Equipe* getEquipe();
+
+    string getNomEquipe();
+
     bool possedeSort(Sort* sort);
 
     bool possedeSort(string nomsort);
@@ -80,6 +86,10 @@ public:
 
     void notifierActionSort(string information) const;
 
+    void notifierPropriaitaireCase(string nomJoueur, bool type, int x, int y);
+
+    ~Joueur();
+
 private:
     string nom;
     int gainInitialMana;
@@ -88,6 +98,7 @@ private:
     int abilite;
     int socket;
     std::vector<Sort*> listeSort;
+    Equipe *equipe;
 
 };
 

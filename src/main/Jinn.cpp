@@ -1,11 +1,3 @@
-//============================================================================
-// Name        : Jinn.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
-//============================================================================
-
 #include <iostream>
 #include "Position.h"
 #include "Case.h"
@@ -18,14 +10,15 @@ using namespace std;
 
 int main()
 {
-    /*
-    Partie p("p1", 2, 2);
-    p.initialiser();
-    ReceptionServeur serveur(&p);
+
+    Partie *p = new Partie("p1", 2, 2);
+    p->initialiser();
+    ReceptionServeur serveur(p);
     serveur.initialiserServeur();
     serveur.miseEnEcoute();
+    //TODO fermer reception avec fermeture des sockets
     return 0;
-        */
+
     Partie partie("Partie 1", 2, 2);
     Joueur *j1 = NULL, *j2 = NULL;
     Plateau *pl = NULL;

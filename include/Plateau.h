@@ -31,8 +31,6 @@ class Plateau {
 
     virtual int nombreCaseControlable();
 
-    virtual ~Plateau();
-
     virtual void initialiserPlateau();
 
     virtual int getHauteur();
@@ -48,6 +46,8 @@ class Plateau {
     virtual void effectuerActionChronique();
 
     virtual void retirerJoueur(Joueur* joueur);
+
+    virtual ~Plateau();
 
  private:
     int largeur;

@@ -53,9 +53,14 @@ void ReceptionServeur::miseEnEcoute()
         //Priorité au client qui joue on avise ensuite pour les nouvelles connexions
         this->testerSelectionClient(readfs);
         this->testerSelectionServeur(readfs);
-        if (this->partie->isEnCours() == false && this->partie->nombreDeJoueur() == this->partie->getNombreDePlace() && this->partie->getEquipe().size() >= 2)
+        if (this->partie->isEnCours() == false && this->partie->nombreDeJoueur() == this->partie->getNombreDePlace() && this->partie->getEquipe().size() >= 2 && this->partie->isFinis() == false)
         {
             this->partie->demarrerPartie();
+        }
+        else if(this->partie->isFinis())
+        {
+                //TODO liberer partie
+            delete this->partie;
         }
     }
 }
@@ -68,6 +73,7 @@ void ReceptionServeur::remplirSelection(fd_set& readfd)
         FD_SET(it->first, &readfd);
     }
         FD_SET(this->socketServeur, &readfd);
+//        FD_SET(0, &readfd);
 }
 void ReceptionServeur::testerSelectionClient(fd_set& readfd)
 {

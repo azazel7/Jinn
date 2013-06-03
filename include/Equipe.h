@@ -15,33 +15,24 @@ public:
 
     Equipe(string nom);
 
-    virtual Joueur* choisirJoueur();
+    string getNom();
 
-    virtual bool joueurExiste(string & nom);
+    void setNom(string nom);
 
-    virtual string getNom();
+    int getNombreJoueur();
 
-    virtual void ajouterJoueur(Joueur* nouveauJoueur);
+    void setNombreJoueur(int nombre);
 
-    virtual int nombreDeJoueur();
+    int getIndexCourrant();
 
-    virtual void regenererManaJoueur();
+    void setIndexCourrant(int newIndex);
 
-    virtual vector<Joueur* > getJoueur();
-
-    virtual void retirerJoueur(Joueur* joueurASuppr);
-
-    virtual void notifierJoueurDebutPartie();
-
-    virtual void notifierDebutTour(string nomJoueur);
-
-    virtual void notifierMort(string nomJoueur);
+    void tournerIndex();
 
 private:
     string nom;
-    int joueurChoisi;
-    std::vector< Joueur* > joueur;
-
+    int nombreJoueur;
+    int indexJoueurCourrant;
 };
 
 #endif // Equipe_h

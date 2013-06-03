@@ -1,109 +1,49 @@
 #include "Equipe.h"
 
-Joueur* Equipe::choisirJoueur()
-{
-	if(joueur.size() > 0)
-	{
-        for(int i = 0; i < joueur.size(); i++)
-        {
-            int tmp = joueurChoisi;
-            joueurChoisi = (joueurChoisi+1)%joueur.size();
-            if(joueur[tmp]->estMort() == false)
-            {
-                return joueur[tmp];
-            }
-        }
-	}
-	return NULL;
-}
-
 Equipe::Equipe(string nom)
 {
-	this->nom = nom;
-	this->joueurChoisi = 0;
-}
-
-bool Equipe::joueurExiste(string & nom)
-{
-    for(int i = 0; i < joueur.size(); i++)
-    {
-        if(joueur[i]->getNom() == nom)
-        {
-            return true;
-        }
-    }
-    return false;
+    this->nom = nom;
+    this->indexJoueurCourrant = 0;
+    this->nombreJoueur = 0;
 }
 
 string Equipe::getNom()
 {
-	return this->nom;
+    return this->nom;
 }
 
-void Equipe::ajouterJoueur(Joueur* nouveauJoueur)
+void Equipe::setNom(string nom)
 {
-	if(nouveauJoueur != NULL)
-	{
-		this->joueur.push_back(nouveauJoueur);
-	}
+    this->nom = nom;
 }
 
-int Equipe::nombreDeJoueur()
+int  Equipe::getNombreJoueur()
 {
-    return this->joueur.size();
+    return this->nombreJoueur;
 }
 
-void Equipe::regenererManaJoueur()
+void  Equipe::setNombreJoueur(int nombre)
 {
-    for(int i = 0; i < joueur.size(); i++)
+    if(nombre >= 0)
     {
-        if(joueur[i]->estMort() == false)
-        {
-            joueur[i]->augmenterMana(joueur[i]->getGainInitialMana());
-        }
-
+        this->nombreJoueur = nombre;
     }
 }
 
-vector<Joueur* > Equipe::getJoueur()
+int  Equipe::getIndexCourrant()
 {
-    return this->joueur;
+    return this->indexJoueurCourrant;
 }
 
-void Equipe::retirerJoueur(Joueur* joueurASuppr)
+void  Equipe::setIndexCourrant(int newIndex)
 {
-        vector<Joueur* >::iterator it;
-        for(it = joueur.begin(); it != joueur.end(); it++)
-        {
-                if(*it == joueurASuppr)
-                {
-                        joueur.erase(it);
-                        return;
-                }
-        }
+    if(newIndex >= 0)
+    {
+        this->indexJoueurCourrant = newIndex;
+    }
 }
 
-
-void Equipe::notifierJoueurDebutPartie()
+void Equipe::tournerIndex()
 {
-        for(int i = 0; i < this->joueur.size(); i++)
-        {
-                this->joueur[i]->notifierDebutPartie();
-        }
-}
-
-void Equipe::notifierDebutTour(string nomJoueur)
-{
-        for(int i = 0; i < this->joueur.size(); i++)
-        {
-                this->joueur[i]->notifierDebutTour(nomJoueur);
-        }
-}
-
-void Equipe::notifierMort(string nomJoueur)
-{
-        for(int i = 0; i < this->joueur.size(); i++)
-        {
-                this->joueur[i]->notifierMort(nomJoueur);
-        }
+        this->indexJoueurCourrant = (this->indexJoueurCourrant + 1)% this->nombreJoueur;
 }

@@ -18,7 +18,6 @@ class UsineSort;
 
 class Partie : public GestionnaireNotificationPartie
 {
-    enum { ATTENTE_JOUEUR };
 public:
 
     Partie(string nom, int nombrePlace, int nombreSortParJoueur);
@@ -84,6 +83,8 @@ public:
 
     virtual vector<Equipe* > getEquipe();
 
+    virtual vector<Joueur*> getJoueur();
+
     virtual void effectuerAction(Action* action, Joueur *joueur);
 
     virtual void retirerJoueur(Joueur* joueur);
@@ -91,6 +92,12 @@ public:
     virtual void changerJoueur();
 
     virtual void finTourPartie();
+
+    virtual Joueur* choisirJoueur();
+
+    virtual bool isFinis();
+
+    virtual ~Partie();
 
 protected:
 
@@ -100,14 +107,13 @@ protected:
     string nom;
     int nombreDePlace;
     bool enCours;
+    bool estFini;
     int nombreSortParJoueur;
     int nombreDeJoueurAyantJoue;
     Joueur* joueurCourant;
     Plateau *plateau;
-    /**
-     * @element-type Equipe
-     */
     std::vector< Equipe* > equipe;
+    std::vector< Joueur* > joueur;
     int indexEquipeCourante;
 
 };

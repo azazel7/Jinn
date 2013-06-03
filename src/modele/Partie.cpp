@@ -8,6 +8,7 @@ Partie::Partie(string nom, int nombrePlace, int nombreSortParJoueur)
     this->nom = nom;
     this->nombreDePlace = nombrePlace;
     this->enCours = false;
+    this->estFini = false;
     this->nombreSortParJoueur = nombreSortParJoueur;
     this->joueurCourant = NULL;
     this->indexEquipeCourante = 0;
@@ -23,9 +24,9 @@ void Partie::demarrerPartie()
     this->enCours = true;
     this->nombreDeJoueurAyantJoue = 0;
     //notifier joueur du démarrage de la partie
-    for(int i = 0; i < this->equipe.size(); i++)
+    for(int i = 0; i < this->joueur.size(); i++)
     {
-        this->equipe[i]->notifierJoueurDebutPartie();
+        this->joueur[i]->notifierDebutPartie();
     }
         this->changerJoueur();
 }
@@ -52,8 +53,7 @@ bool Partie::verifierVictoire(Equipe & equipe)
                 proprietaire = courante->getProprietaire();
                 if(proprietaire != NULL)
                 {
-                    nom = proprietaire->getNom();
-                    if(equipe.joueurExiste(nom) == true)
+                    if(proprietaire->getNomEquipe() == equipe.getNom())
                     {
                         nombreCaseControllee++;
                     }
@@ -74,7 +74,7 @@ bool Partie::verifierVictoire(Equipe & equipe)
      */
 void Partie::initialiser()
 {
-    plateau = new Plateau();
+    plateau = new Plateau(2,2);
 }
 
 std::vector<Sort*> Partie::listeSort()
@@ -131,19 +131,14 @@ bool Partie::actionValide(Action & action)
 
 int Partie::nombreDeJoueur()
 {
-    int nombreJoueur = 0;
-    for(int i = 0; i < equipe.size(); i++)
-    {
-        nombreJoueur += equipe[i]->nombreDeJoueur();
-    }
-    return nombreJoueur;
+    return this->joueur.size();
 }
 
 bool Partie::joueurExiste(string nom)
 {
-    for (int i = 0; i < this->equipe.size(); i++)
+    for(int i = 0; i < this->joueur.size(); i++)
     {
-        if (this->equipe[i]->joueurExiste(nom))
+        if(this->joueur[i]->getNom() == nom)
         {
             return true;
         }
@@ -161,9 +156,12 @@ bool Partie::prete()
 
 void Partie::regenererManaJoueur()
 {
-    for(int i = 0; i < equipe.size(); i++)
+    for(int i = 0; i < this->joueur.size(); i++)
     {
-        equipe[i]->regenererManaJoueur();
+        if(this->joueur[i]->estMort() == false)
+        {
+            this->joueur[i]->augmenterMana(joueur[i]->getGainInitialMana());
+        }
     }
 }
 
@@ -245,15 +243,18 @@ Joueur* Partie::ajouterJoueur(string const& nom, string const& nomEquipe, vector
 
     if((equipe = this->equipeExiste(nomEquipe)) != NULL)
     {
-        equipe->ajouterJoueur(joueur);
+        joueur->setEquipe(equipe);
+        equipe->setNombreJoueur(equipe->getNombreJoueur()+1);
     }
     else
     {
         equipe = new Equipe(nomEquipe);
-        equipe->ajouterJoueur(joueur);
         this->equipe.push_back(equipe);
+        joueur->setEquipe(equipe);
+        equipe->setNombreJoueur(equipe->getNombreJoueur()+1);
     }
     joueur->genererStatistique();
+    this->joueur.push_back(joueur);
     return joueur;
 }
 
@@ -268,7 +269,6 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
     vector<Case*> cible;
     cout << "Action de faite" << endl;
     //TODO verifier si l'action est valide
-    //TODO si origine = NULL n'autoriser que les cases en bordure
     if(action->getSort() != NULL && action->getCible().size() != 0)
     {
         //Si ce n'est pas au joueur courant on retire
@@ -303,6 +303,16 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
                     return;
                 }
             }
+            else
+            {
+                //Je fait une négation car je ne suis pas s^ur de bien l'inverser
+                //Tout du moins, cela vérifie si la cible est bien sur le bord, donc, si l'une de ses coordonné est sur le bord
+                if(cible[i]->getPosition()->getX() != 0 && cible[i]->getPosition()->getX() != this->plateau->getLargeur() - 1 && cible[i]->getPosition()->getY() != 0 && cible[i]->getPosition()->getX() != this->plateau->getHauteur() - 1)
+                {
+                    cout << "Cible au centre" << endl;
+                    return;
+                }
+            }
         }
         plateau->appliquerAction(*action);
         if(joueur->estMort())
@@ -311,9 +321,9 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
             //Le joueur est retiré du plateau, ses sorts supprimés et ses cases libérées, mais il appartient toujours à l'équipe et n'est pas delete
             //Il est juste retiré du plateau
             plateau->retirerJoueur(joueur);
-                for(int i = 0; i < this->equipe.size(); i++)
+                for(int i = 0; i < this->joueur.size(); i++)
                 {
-                        this->equipe[i]->notifierMort(joueur->getNom());
+                        this->joueur[i]->notifierMort(joueur->getNom());
                 }
                 cout << "Joueur mort " << joueur->getNom() << endl;
         }
@@ -323,13 +333,16 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
     {
         if(action->getOrigine() == NULL && action->getSort() == NULL && action->getCible().size() == 0 && this->estJoueurCourrant(joueur) == true)
         {
-            //TODO fin de partie
             this->changerJoueur();
         }
     }
     if(this->finPartie() == true)
     {
+        cout << "Fin de partie" << endl;
+        this->estFini = true;
+        this->enCours = false;
         //TODO que faire lors de la fin de partie
+        //Mettre un boolean à true pour indiquer la fin de partie et attendre les ordres pour tout libérer
     }
  //Afficher les cases
     for(int x = 0; x < plateau->getLargeur(); x++)
@@ -345,20 +358,28 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
     }
 }
 
+bool Partie::isFinis()
+{
+        return this->estFini;
+}
 void Partie::retirerJoueur(Joueur* joueur)
 {
 
     //retirer un joueur: retirer de ses cases, retirer ses sorts, retirer de l'equipe,
-    for(int i = 0; i < equipe.size(); i++)
-    {
-        equipe[i]->retirerJoueur(joueur);
-    }
     plateau->retirerJoueur(joueur);
     if(joueur == this->joueurCourant)
     {
         this->changerJoueur();
     }
+    for(vector<Joueur*>::iterator it = this->joueur.begin(); it != this->joueur.end(); it++)
+    {
+        if((*it)->getNom() == joueur->getNom())
+        {
+            it = this->joueur.erase(it);
+        }
+    }
     delete joueur;
+
 }
 
 vector<Equipe* > Partie::getEquipe()
@@ -375,12 +396,12 @@ void Partie::changerJoueur()
                 this->finTourPartie();
                 this->nombreDeJoueurAyantJoue = 0;
             }
-            this->joueurCourant = this->equipe[indexEquipeCourante]->choisirJoueur();
+            this->joueurCourant = choisirJoueur();
             if(this->joueurCourant != NULL) //TODO traiter le cas où une équipe n'a plus de joueur
             {
-                for(int i = 0; i < this->equipe.size(); i++)
+                for(int i = 0; i < this->joueur.size(); i++)
                 {
-                    this->equipe[i]->notifierDebutTour(this->joueurCourant->getNom());
+                    this->joueur[i]->notifierDebutTour(this->joueurCourant->getNom());
                 }
             }
 }
@@ -393,4 +414,45 @@ void Partie::finTourPartie()
         this->plateau->retirerSortDeDureeEcoulee();
         this->regenererManaJoueur();
         //TODO, il va falloir notifier les changements ....
+}
+
+Partie::~Partie()
+{
+        //TODO liberer les joueurs
+        for(int i = 0; i < this->joueur.size(); i++)
+        {
+                delete this->joueur[i];
+        }
+        this->joueur.clear();
+        //TODO liberer les equipes
+        for(int i = 0; i < this->equipe.size(); i++)
+        {
+                delete this->equipe[i];
+        }
+        this->equipe.clear();
+        //TODO liberer les equipes
+        //TODO liberer le plateau
+}
+
+vector<Joueur*> Partie::getJoueur()
+{
+        return this->joueur;
+}
+
+Joueur* Partie::choisirJoueur()
+{
+        int nb = -1;
+        for(int i = 0; i < this->joueur.size(); i++)
+        {
+                if(this->joueur[i]->getNomEquipe() == this->equipe[this->indexEquipeCourante]->getNom())
+                {
+                        nb += 1;
+                        if(nb == this->equipe[this->indexEquipeCourante]->getIndexCourrant())
+                        {
+                                this->equipe[this->indexEquipeCourante]->tournerIndex();
+                                return this->joueur[i];
+                        }
+                }
+        }
+        return NULL;
 }
