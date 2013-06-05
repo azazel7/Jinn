@@ -34,6 +34,7 @@
 #define TOUR_DE "tourde"
 #define MORT "mort"
 #define DEMARAGE_PARTIE "demaragepartie"
+#define FIN_PARTIE "finpartie"
 
 class Partie;
 class Client;

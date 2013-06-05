@@ -360,6 +360,14 @@ void Joueur::notifierPropriaitaireCase(string nomJoueur, bool type, int x, int y
     send(this->socket, final.c_str(), final.size(), 0);
 
 }
+void Joueur::notifierFinPartie(string nomEquipeGagnante) const
+{
+    string final = FIN_PARTIE;
+    final += SEPARATEUR_ELEMENT;
+    final += nomEquipeGagnante;
+    final += SEPARATEUR_ELEMENT;
+    send(this->socket, final.c_str(), final.size(), 0);
+}
 
 Equipe* Joueur::getEquipe()
 {

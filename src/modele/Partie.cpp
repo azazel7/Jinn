@@ -338,11 +338,14 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
     }
     if(this->finPartie() == true)
     {
+        //Mettre un boolean à true pour indiquer la fin de partie et attendre les ordres pour tout libérer
         cout << "Fin de partie" << endl;
         this->estFini = true;
         this->enCours = false;
-        //TODO que faire lors de la fin de partie
-        //Mettre un boolean à true pour indiquer la fin de partie et attendre les ordres pour tout libérer
+        for(int i = 0; i < this->joueur.size(); i++)
+        {
+                this->joueur[i]->notifierFinPartie(joueur->getNom());
+        }
     }
  //Afficher les cases
     for(int x = 0; x < plateau->getLargeur(); x++)

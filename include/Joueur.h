@@ -88,6 +88,9 @@ public:
 
     void notifierPropriaitaireCase(string nomJoueur, bool type, int x, int y);
 
+    void notifierFinPartie(string nomEquipeGagnante) const;
+
+
     ~Joueur();
 
 private:
