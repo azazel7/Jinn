@@ -59,25 +59,38 @@ void ReceptionServeur::miseEnEcoute()
         }
         else if(this->partie->isFinis())
         {
-                //TODO liberer partie
             delete this->partie;
+            this->partie = NULL;
+            for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
+            {
+                if(it->second != NULL)
+                {
+                    it->second->setPartie(NULL);
+                    it->second->setJoueur(NULL);
+                    delete it->second;
+                    it->second = NULL;
+                }
+                close(it->first);
+                it = listeClient.erase(it);
+            }
+            return;
         }
     }
 }
 
 void ReceptionServeur::remplirSelection(fd_set& readfd)
 {
-    for(map<int, Joueur*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
+    for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
     {
 
         FD_SET(it->first, &readfd);
     }
-        FD_SET(this->socketServeur, &readfd);
-//        FD_SET(0, &readfd);
+    FD_SET(this->socketServeur, &readfd);
+    //        FD_SET(0, &readfd);
 }
 void ReceptionServeur::testerSelectionClient(fd_set& readfd)
 {
-    for(map<int, Joueur*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
+    for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
     {
         if(FD_ISSET(it->first, &readfd))
         {
@@ -109,9 +122,12 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
                 close(it->first);
                 if(it->second != NULL)
                 {
-                        //Si c'était un joueur on le retire de la partie
-                        this->partie->retirerJoueur(it->second);
+                    //Si c'était un joueur on le retire de la partie
+                    this->partie->retirerJoueur(it->second->getJoueur());
                 }
+                delete it->second;
+                it->second = NULL;
+                close(it->first);
                 //On supprime l'entrée
                 it = listeClient.erase(it);
             }
@@ -157,7 +173,7 @@ void ReceptionServeur::testerSelectionServeur(fd_set& readfd)
 int ReceptionServeur::maximunFileDescriptor()
 {
     int retour = this->socketServeur;
-    for(map<int, Joueur*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
+    for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
     {
         if(it->first > this->socketServeur)
         {
@@ -178,7 +194,7 @@ void ReceptionServeur::traitementJoueur(char *commande, int socketClient)
     if(strcmp(action, MESSAGE) == 0)
     {
         //Envoyer un message à tout le monde
-        this->traitementMessage(commande, listeClient[socketClient]->getNom());
+        this->traitementMessage(commande, listeClient[socketClient]->getJoueur()->getNom());
     }
     else if(strcmp(action, ACTION) == 0)
     {
@@ -190,7 +206,7 @@ void ReceptionServeur::traitementJoueur(char *commande, int socketClient)
         Action *coup = new Action();
         coup->setOrigine(NULL);
         coup->setSort(NULL);
-        this->partie->effectuerAction(coup, this->listeClient[socketClient]);
+        this->partie->effectuerAction(coup, this->listeClient[socketClient]->getJoueur());
         delete coup;
     }
 }
@@ -303,7 +319,8 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
         send(socketClient, final.c_str(), final.size(), 0);
         return;
     }
-    listeClient[socketClient] = joueur;
+    listeClient[socketClient] = new Client();
+    listeClient[socketClient]->setJoueur(joueur);
     joueur->setSocket(socketClient);
     joueur->notifierCreation();
     joueur->notifierPartie(*partie);
@@ -324,95 +341,96 @@ void ReceptionServeur::traitementMessage(char *commande, string const& nomJoueur
     final += nomJoueurParlant;
     final += SEPARATEUR_ELEMENT;
     final += message;
-    for(map<int, Joueur*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
+    for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
     {
-        if(it->second != NULL)
+        if(it->second->getJoueur() != NULL)
         {
-                send(it->first, final.c_str(), final.size(), 0);
+            send(it->first, final.c_str(), final.size(), 0);
         }
     }
 }
 
 void ReceptionServeur::traitementAction(char *commande, int socketClient)
 {
-        //Le joueur veut effectuer une action (nom du sort, origine, cible, cible , ...)
-        //verifier si c'est à ce joueur de jouer ...
-        char* nomSort = NULL, *origineX = NULL, *origineY = NULL, *tmp = NULL;
-        int x = -1, y = -1, xCible = -1, yCible = -1, nombreCible = 0;
-        Sort* sortAction = NULL;
-        Action* action = NULL;
-        Case *origine = NULL, *cibleTmp = NULL;
-        vector<char*> listeCible;
-        if(this->partie->estJoueurCourrant(listeClient[socketClient]) == false)
+    //Le joueur veut effectuer une action (nom du sort, origine, cible, cible , ...)
+    //verifier si c'est à ce joueur de jouer ...
+    char* nomSort = NULL, *origineX = NULL, *origineY = NULL, *tmp = NULL;
+    int x = -1, y = -1, xCible = -1, yCible = -1, nombreCible = 0;
+    Sort* sortAction = NULL;
+    Action* action = NULL;
+    Case *origine = NULL, *cibleTmp = NULL;
+    vector<char*> listeCible;
+    if(this->partie->estJoueurCourrant(listeClient[socketClient]->getJoueur()) == false)
+    {
+        cout << "Pas current joueur" << endl;
+        return;
+    }
+    nomSort = strtok(NULL, SEPARATEUR_ELEMENT);
+    origineX = strtok(NULL, SEPARATEUR_ELEMENT);
+    origineY = strtok(NULL, SEPARATEUR_ELEMENT);
+    if(nomSort == NULL || origineX == NULL || origineY == NULL)
+    {
+        cout << "sort/originex/originy = NULL" << endl;
+        return;
+    }
+    x = atoi(origineX);
+    y = atoi(origineY);
+    if(x >= 0 && y >= 0)
+    {
+        origine = this->partie->getPlateau()->getCase(x, y);
+    }
+    sortAction = UsineSort::fabriqueSort(nomSort);
+    if(sortAction == NULL)
+    {
+        cout << "sortAction NULL" << endl;
+        return;
+    }
+    if(listeClient[socketClient]->getJoueur()->possedeSort(nomSort) == false)
+    {
+        cout << "Pas le sort" << endl;
+        return;
+    }
+    //Il y a deux coordonnées (x et y)
+    for(int i = 0; i < sortAction->getnombreCibleMax()*2; i++)
+    {
+        tmp = strtok(NULL, SEPARATEUR_ELEMENT);
+        if(tmp == NULL)
         {
-                cout << "Pas current joueur" << endl;
-                return;
+            break;
         }
-        nomSort = strtok(NULL, SEPARATEUR_ELEMENT);
-        origineX = strtok(NULL, SEPARATEUR_ELEMENT);
-        origineY = strtok(NULL, SEPARATEUR_ELEMENT);
-        if(nomSort == NULL || origineX == NULL || origineY == NULL)
+        nombreCible ++;
+        listeCible.push_back(tmp);
+    }
+    //Pas de coordonnées valide.
+    if((nombreCible%2) != 0)
+    {
+        cout << "Pas assez de coor" << endl;
+        return;
+    }
+    action = new Action();
+    nombreCible = nombreCible/2;
+    sortAction->setProprietaire(listeClient[socketClient]->getJoueur());
+    action->setSort(sortAction);
+    action->setOrigine(origine);
+    for(int i = 0; i < nombreCible; i++)
+    {
+        xCible = yCible = -1;
+        xCible = atoi(listeCible[i*2]);
+        yCible = atoi(listeCible[(i*2)+1]);
+        if(xCible == -1 || yCible == -1)
         {
-                cout << "sort/originex/originy = NULL" << endl;
-                return;
-        }
-        x = atoi(origineX);
-        y = atoi(origineY);
-        if(x >= 0 && y >= 0)
-        {
-                origine = this->partie->getPlateau()->getCase(x, y);
-        }
-        sortAction = UsineSort::fabriqueSort(nomSort);
-        if(sortAction == NULL)
-        {
-                cout << "sortAction NULL" << endl;
-                return;
-        }
-        if(listeClient[socketClient]->possedeSort(nomSort) == false)
-        {
-            cout << "Pas le sort" << endl;
+            cout << "Coor invalide" << endl;
             return;
         }
-        //Il y a deux coordonnées (x et y)
-        for(int i = 0; i < sortAction->getnombreCibleMax()*2; i++)
+        cibleTmp = this->partie->getPlateau()->getCase(xCible, yCible);
+        if(cibleTmp == NULL)
         {
-                tmp = strtok(NULL, SEPARATEUR_ELEMENT);
-                if(tmp == NULL)
-                {
-                        break;
-                }
-                nombreCible ++;
-                listeCible.push_back(tmp);
+            cout << "Pas de case cible" << endl;
+            return;
         }
-        //Pas de coordonnées valide.
-        if((nombreCible%2) != 0)
-        {
-            cout << "Pas assez de coor" << endl;
-                return;
-        }
-        action = new Action();
-        nombreCible = nombreCible/2;
-        sortAction->setProprietaire(listeClient[socketClient]);
-        action->setSort(sortAction);
-        action->setOrigine(origine);
-        for(int i = 0; i < nombreCible; i++)
-        {
-                xCible = yCible = -1;
-                xCible = atoi(listeCible[i*2]);
-                yCible = atoi(listeCible[(i*2)+1]);
-                if(xCible == -1 || yCible == -1)
-                {
-                    cout << "Coor invalide" << endl;
-                        return;
-                }
-                cibleTmp = this->partie->getPlateau()->getCase(xCible, yCible);
-                if(cibleTmp == NULL)
-                {
-                    cout << "Pas de case cible" << endl;
-                    return;
-                }
-                action->ajouterCible(cibleTmp);
-        }
-        //TODO verifier si plusieurs fois la meme case ...
-        this->partie->effectuerAction(action, listeClient[socketClient]);
+        action->ajouterCible(cibleTmp);
+    }
+    //TODO verifier si plusieurs fois la meme case ...
+    this->partie->effectuerAction(action, listeClient[socketClient]->getJoueur());
+    delete action;
 }

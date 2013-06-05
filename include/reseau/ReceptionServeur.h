@@ -13,6 +13,7 @@
 #include "Partie.h"
 #include "UsineSort.h"
 #include "Case.h"
+#include "reseau/Client.h"
 
 //relatif au serveur
 #define SEPARATEUR_ELEMENT ";"
@@ -24,6 +25,8 @@
 #define EQUIPE "equipe"
 #define SORT "sort"
 #define ERREUR "erreur"
+#define QUITTER "quitter"
+//TODO ajouter traitement de quitter
 
 //Relatif au jeu
 #define CHANGEMENT_CASE_PROPRIAITAIRE "chgcasepropri"
@@ -33,6 +36,7 @@
 #define DEMARAGE_PARTIE "demaragepartie"
 
 class Partie;
+class Client;
 
 class ReceptionServeur
 {
@@ -57,7 +61,7 @@ class ReceptionServeur
         int port;
         string ip;
         int socketServeur;
-        map<int, Joueur*> listeClient;
+        map<int, Client*> listeClient;
 };
 
 #endif // ReceptionServeur_h

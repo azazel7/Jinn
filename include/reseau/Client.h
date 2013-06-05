@@ -4,11 +4,15 @@
 #include "Joueur.h"
 #include "Partie.h"
 
+class Partie;
+class Joueur;
+
 class Client
 {
+    public:
         Client();
         void setPartie(Partie* partie);
-        Partie* getPartie();
+        Partie* getPartie() const;
 
         void setJoueur(Joueur *joueur);
         Joueur* getJoueur();
