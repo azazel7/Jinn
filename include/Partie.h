@@ -47,7 +47,7 @@ public:
       * Verifie la fin de la partie
       */
     virtual bool finPartie(string &nomEquipeGagnante);
-
+        virtual void finirPartie(string nomEquipeGagnante);
     /**
      * @brief actionValide verifie si une action est valide
      * @param action l'action à vérifier

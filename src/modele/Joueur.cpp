@@ -29,7 +29,6 @@ Action Joueur::effectuerAction(Partie & partie)
     Action retour;
     Sort* sort;
     Plateau* plateau = partie.getPlateau();
-    //TODO a remplir quand j'aurais les sorts
 
 
     //Afficher les cases
@@ -227,7 +226,7 @@ void Joueur::setSocket(int socket)
 
 void Joueur::setEquipe(Equipe* newEquipe)
 {
-        this->equipe = newEquipe;
+    this->equipe = newEquipe;
 }
 
 void Joueur::notifierCreation() const
@@ -371,24 +370,28 @@ void Joueur::notifierFinPartie(string nomEquipeGagnante) const
 
 void Joueur::notifierSuppressionJoueur(string nomJoueur) const
 {
-        //TODO notification de suppression d'un joueur
+    //TODO notification de suppression d'un joueur
 }
 
 Equipe* Joueur::getEquipe()
 {
-        return this->equipe;
+    return this->equipe;
 }
 
 string Joueur::getNomEquipe()
 {
-        if(this->equipe != NULL)
-        {
-            return this->equipe->getNom();
-        }
-        return "";
+    if(this->equipe != NULL)
+    {
+        return this->equipe->getNom();
+    }
+    return "";
 }
 Joueur::~Joueur()
 {
-        cout << "Destruction joueur " << this->nom << endl;
+    for(int i = 0; i < this->listeSort.size(); i++)
+    {
+        delete this->listeSort[i];
+    }
+    cout << "Destruction joueur " << this->nom << endl;
 }
 //TODO penser à comment notifier d'un sort de révélation

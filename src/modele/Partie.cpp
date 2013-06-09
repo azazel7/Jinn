@@ -107,6 +107,17 @@ bool Partie::finPartie(string & nomEquipeGagnante)
     return false;
 }
 
+void Partie::finirPartie(string nomEquipeGagnante)
+{
+    cout << "Fin de partie" << endl;
+    this->estFini = true;
+    this->enCours = false;
+    for(int i = 0; i < this->joueur.size(); i++)
+    {
+        this->joueur[i]->notifierFinPartie(nomEquipeGagnante);
+    }
+}
+
 bool Partie::isEnCours()
 {
     return enCours;
@@ -280,22 +291,23 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
         //Si ce n'est pas au joueur courant on retire
         if(joueur != this->joueurCourant)
         {
-            //TODO eventuellement lancer exception
+            throw invalid_argument("Pas le joueur courant");
             return;
         }
         if(action->getSort()->getProprietaire() != joueur)
         {
-            //TODO eventuellement lancer exception
+            throw invalid_argument("Le proprietaire du sort n'est pas le joueur");
             return;
         }
         if(action->getOrigine() != NULL && action->getOrigine()->getProprietaire() != joueur)
         {
-            //TODO eventuellement lancer exception
+            throw invalid_argument("La case d'origine n'appartient pas au joueur");
             return;
         }
         //Verifier que le joueur posséde le sort
         if(joueur->possedeSort(action->getSort()) == false)
         {
+            throw invalid_argument("Le joueur ne posséde pas ce sort");
             return;
         }
         //Verification des distances
@@ -315,7 +327,7 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
                 //Tout du moins, cela vérifie si la cible est bien sur le bord, donc, si l'une de ses coordonné est sur le bord
                 if(cible[i]->getPosition()->getX() != 0 && cible[i]->getPosition()->getX() != this->plateau->getLargeur() - 1 && cible[i]->getPosition()->getY() != 0 && cible[i]->getPosition()->getX() != this->plateau->getHauteur() - 1)
                 {
-                    cout << "Cible au centre" << endl;
+                    throw invalid_argument("La cible est au centre, impossible de l'atteindre.");
                     return;
                 }
             }
@@ -323,7 +335,6 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
         plateau->appliquerAction(*action);
         if(joueur->estMort())
         {
-            //TODO notifier de la mort du joueur (tous les joueurs doivent l'être) car le joueur s'écroule dans d'atroce souffrance
             //Le joueur est retiré du plateau, ses sorts supprimés et ses cases libérées, mais il appartient toujours à l'équipe et n'est pas delete
             //Il est juste retiré du plateau
             plateau->retirerJoueur(joueur);
@@ -344,14 +355,7 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
     }
     if(this->finPartie(nomEquipeGagnante) == true)
     {
-        //Mettre un boolean à true pour indiquer la fin de partie et attendre les ordres pour tout libérer
-        cout << "Fin de partie" << endl;
-        this->estFini = true;
-        this->enCours = false;
-        for(int i = 0; i < this->joueur.size(); i++)
-        {
-            this->joueur[i]->notifierFinPartie(nomEquipeGagnante);
-        }
+        this->finirPartie(nomEquipeGagnante);
     }
     //Afficher les cases
     for(int x = 0; x < plateau->getLargeur(); x++)
@@ -410,17 +414,9 @@ void Partie::retirerJoueur(Joueur* joueur)
 
         delete equipeJoueur;
 
-        //TODO traiter le cas de quand il n'y a plus qu'une équipe
         if(this->finPartie(nomEquipeGagnante) == true)
         {
-            cout << "Fin de partie" << endl;
-            this->estFini = true;
-            this->enCours = false;
-            for(int i = 0; i < this->joueur.size(); i++)
-            {
-                this->joueur[i]->notifierFinPartie(nomEquipeGagnante);
-            }
-            //c'est la fin de partie
+            this->finirPartie(nomEquipeGagnante);
         }
     }
     else
@@ -467,19 +463,16 @@ void Partie::finTourPartie()
 
 Partie::~Partie()
 {
-    //TODO liberer les joueurs
     for(int i = 0; i < this->joueur.size(); i++)
     {
         delete this->joueur[i];
     }
     this->joueur.clear();
-    //TODO liberer les equipes
     for(int i = 0; i < this->equipe.size(); i++)
     {
         delete this->equipe[i];
     }
     this->equipe.clear();
-    //TODO liberer les equipes
     //TODO liberer le plateau
 }
 

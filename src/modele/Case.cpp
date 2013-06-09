@@ -314,5 +314,10 @@ ostream& operator<<( ostream &flux, Case const& pos)
 
 Case::~Case()
 {
-        //TODO liberer les sorts (sans les retirer)
+    list<pair<int, Sort*> >::iterator iterator;
+    //On parcour tous les sorts de la case
+    for(iterator = sort.begin(); iterator != sort.end(); iterator++)
+    {
+        delete iterator->second;
+    }
 }
