@@ -369,6 +369,11 @@ void Joueur::notifierFinPartie(string nomEquipeGagnante) const
     send(this->socket, final.c_str(), final.size(), 0);
 }
 
+void Joueur::notifierSuppressionJoueur(string nomJoueur) const
+{
+        //TODO notification de suppression d'un joueur
+}
+
 Equipe* Joueur::getEquipe()
 {
         return this->equipe;

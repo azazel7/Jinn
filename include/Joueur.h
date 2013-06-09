@@ -90,6 +90,7 @@ public:
 
     void notifierFinPartie(string nomEquipeGagnante) const;
 
+    void notifierSuppressionJoueur(string nomJoueur) const;
 
     ~Joueur();
 
