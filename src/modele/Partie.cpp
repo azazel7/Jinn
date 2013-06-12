@@ -473,7 +473,7 @@ Partie::~Partie()
         delete this->equipe[i];
     }
     this->equipe.clear();
-    //TODO liberer le plateau
+    delete this->plateau;
 }
 
 vector<Joueur*> Partie::getJoueur()

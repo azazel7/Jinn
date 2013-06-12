@@ -35,6 +35,7 @@
 #define MORT "mort"
 #define DEMARAGE_PARTIE "demaragepartie"
 #define FIN_PARTIE "finpartie"
+#define QUITTER_PARTIE "quitterpartie"
 
 class Partie;
 class Client;

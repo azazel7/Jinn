@@ -54,3 +54,15 @@ void Action::ajouterCible(Case* nouvelleCase)
 {
     cible.push_back(nouvelleCase);
 }
+
+bool Action::possedeCible(Case* nouvelleCase)
+{
+        for(int i = 0; i < cible.size(); i++)
+        {
+                if(cible[i] ==  nouvelleCase)
+                {
+                        return true;
+                }
+        }
+        return false;
+}

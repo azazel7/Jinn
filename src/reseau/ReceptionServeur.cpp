@@ -209,6 +209,10 @@ void ReceptionServeur::traitementJoueur(char *commande, int socketClient)
         this->partie->effectuerAction(coup, this->listeClient[socketClient]->getJoueur());
         delete coup;
     }
+    else if(strcmp(action, QUITTER_PARTIE) == 0)
+    {
+        this->partie->retirerJoueur(this->listeClient[socketClient]->getJoueur());
+    }
 }
 
 void ReceptionServeur::traitementClient(char *commande, int socketClient)
@@ -428,9 +432,12 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
             cout << "Pas de case cible" << endl;
             return;
         }
+        if(action->possedeCible(cibleTmp) == true)
+        {
+                cout << "Cible déjà visée" << endl;
+        }
         action->ajouterCible(cibleTmp);
     }
-    //TODO verifier si plusieurs fois la meme case ...
     this->partie->effectuerAction(action, listeClient[socketClient]->getJoueur());
     delete action;
 }

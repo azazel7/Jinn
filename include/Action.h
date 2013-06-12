@@ -39,6 +39,8 @@ public:
 
     virtual void ajouterCible(Case* nouvelleCase);
 
+    virtual bool possedeCible(Case* nouvelleCase);
+
 protected:
 
 	Case *origine;
