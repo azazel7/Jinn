@@ -434,7 +434,8 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
         }
         if(action->possedeCible(cibleTmp) == true)
         {
-                cout << "Cible déjà visée" << endl;
+            cout << "Cible déjà visée" << endl;
+            return;
         }
         action->ajouterCible(cibleTmp);
     }

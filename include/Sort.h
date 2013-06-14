@@ -79,6 +79,10 @@ public:
 
     virtual int getnombreCibleMax() const;
 
+    virtual unsigned int getId() const;
+
+    virtual void setId(unsigned int id);
+
 protected:
 	string nom;
 	int coupManaParCase;
@@ -91,6 +95,7 @@ protected:
 	int zoneEffet;
 	int effetDissipation;
 	int nombreMaxSortDissipable;
+        unsigned int id;
 
 public:
 	Joueur *proprietaire;
