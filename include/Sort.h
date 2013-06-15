@@ -10,7 +10,6 @@ using namespace std;
 class Effet;
 class Joueur;
 class Case;
-//TODO rajouter un system d'id car un meme joueur peu avoir plusieurs fois le meme sort
 class Sort
 {
 

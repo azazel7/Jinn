@@ -212,6 +212,15 @@ void ReceptionServeur::traitementJoueur(char *commande, int socketClient)
     else if(strcmp(action, QUITTER_PARTIE) == 0)
     {
         this->partie->retirerJoueur(this->listeClient[socketClient]->getJoueur());
+        delete this->listeClient[socketClient];
+        this->listeClient[socketClient] = NULL;
+    }
+    else if(strcmp(action, QUITTER) == 0)
+    {
+        this->partie->retirerJoueur(this->listeClient[socketClient]->getJoueur());
+        delete this->listeClient[socketClient];
+        this->listeClient[socketClient] = NULL;
+        traitementQuitter(socketClient);
     }
 }
 
@@ -237,6 +246,10 @@ void ReceptionServeur::traitementClient(char *commande, int socketClient)
     {
         //Envoyer la liste des sorts ("sort", nom, description, nom, description, ....)
         traitementSort(socketClient);
+    }
+    else if(strcmp(action, QUITTER) == 0)
+    {
+        traitementQuitter(socketClient);
     }
 }
 
@@ -441,4 +454,9 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
     }
     this->partie->effectuerAction(action, listeClient[socketClient]->getJoueur());
     delete action;
+}
+
+void ReceptionServeur::traitementQuitter(int socketClient)
+{
+        close(socketClient);
 }

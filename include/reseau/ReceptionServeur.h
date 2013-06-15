@@ -14,6 +14,8 @@
 #include "UsineSort.h"
 #include "Case.h"
 #include "reseau/Client.h"
+#include "logger/GestionnaireLogger.h"
+#include "logger/LoggerFileDescriptor.h"
 
 //relatif au serveur
 #define SEPARATEUR_ELEMENT ";"
@@ -27,7 +29,7 @@
 #define ERREUR "erreur"
 #define QUITTER "quitter"
 //TODO ajouter traitement de quitter
-
+//TODO les action d'un joueur ne se passe plus sur la partie, mais sur sa partie
 //Relatif au jeu
 #define CHANGEMENT_CASE_PROPRIAITAIRE "chgcasepropri"
 #define INFORMATION_PARTIE "informationpartie"
@@ -59,6 +61,7 @@ class ReceptionServeur
         void traitementEquipe(int socketClient);
         void traitementNouveauJoueur(int socketClient);
         void traitementMessage(char *commande, const string &nomJoueurParlant);
+        void traitementQuitter(int socketClient);
         Partie *partie;
         int port;
         string ip;

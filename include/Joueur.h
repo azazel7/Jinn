@@ -2,7 +2,6 @@
 #define Joueur_h
 
 #include <vector>
-#include <cstdlib>
 #include <iostream>
 #include <cstdlib>
 #include <sys/socket.h>
