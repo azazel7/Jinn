@@ -6,7 +6,7 @@
 #include <cstdlib>
 
 using namespace std;
-
+//TODO penser au pattern strategy
 class Effet;
 class Joueur;
 class Case;
