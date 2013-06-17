@@ -20,9 +20,26 @@ void GestionnaireLogger::retirerRegistre(Logger *registreur)
     {
         if((*iterator) == registreur)
         {
+                if((*iterator)->estADelete() == true)
+                {
+                        delete (*iterator);
+                }
                 GestionnaireLogger::listeRegistre.erase(iterator);
                 break;
         }
     }
 
+}
+
+void GestionnaireLogger::viderRegistre()
+{
+    for(list<Logger*>::iterator iterator = GestionnaireLogger::listeRegistre.begin(); iterator != GestionnaireLogger::listeRegistre.end(); iterator++)
+    {
+        if((*iterator)->estADelete() == true)
+        {
+            delete (*iterator);
+        }
+        GestionnaireLogger::listeRegistre.erase(iterator);
+        break;
+    }
 }

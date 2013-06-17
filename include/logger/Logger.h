@@ -12,5 +12,9 @@ class Logger
 public:
     virtual void ecrirMessage(TypeMessage type, string message) = 0;
     virtual ~Logger();
+    bool estADelete();
+
+protected:
+    bool aDelete;
 };
 #endif

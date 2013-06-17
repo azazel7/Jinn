@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <cstdio>
+#include <string.h>
 
 class LoggerFileDescriptor : public Logger
 {

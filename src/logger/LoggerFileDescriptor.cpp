@@ -4,22 +4,29 @@ LoggerFileDescriptor::LoggerFileDescriptor(int fd)
 {
     this->fd = fd;
     this->aFermer = true;
+    this->aDelete = true;
 }
 LoggerFileDescriptor::LoggerFileDescriptor(int fd, bool aFermer)
 {
     this->fd = fd;
     this->aFermer = aFermer;
+    this->aDelete = true;
 }
 void LoggerFileDescriptor::ecrirMessage(TypeMessage typeMsg, string message)
 {
     string type = "";
+    string complement = "";
     switch(typeMsg)
     {
             case FATAL:
                     type = "[x_x]";
+                    complement = " : ";
+                    complement += strerror(errno);
             break;
-            case ERREUR:
+            case ERROR:
                     type = "[-]";
+                    complement = " : ";
+                    complement += strerror(errno);
             break;
             case WARN:
                     type = "[~]";
@@ -27,9 +34,12 @@ void LoggerFileDescriptor::ecrirMessage(TypeMessage typeMsg, string message)
             case INFO:
                     type = "[i]";
             break;
+            case SUCCESS:
+                    type = "[+]";
+            break;
     }
     type = type + " ";
-    type = type + message + "\n";
+    type = type + message + complement + "\n";
     write(this->fd, type.c_str(), type.size());
 
 }

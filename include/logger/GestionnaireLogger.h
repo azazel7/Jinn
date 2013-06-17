@@ -1,7 +1,7 @@
 #ifndef GestionnaireLogger_h
 #define GestionnaireLogger_h
 
-enum  TypeMessage { FATAL, ERREUR, WARN, INFO };
+enum  TypeMessage { FATAL, ERROR, WARN, INFO, SUCCESS};
 #include <iostream>
 #include <cstdlib>
 #include <list>
@@ -17,6 +17,7 @@ class GestionnaireLogger
                 void static ecrirMessage(TypeMessage type, string message);
                 void static ajouterRegistre(Logger *newRegistreur);
                 void static retirerRegistre(Logger *registreur);
+                void static viderRegistre();
 
         private:
                 static list<Logger*> listeRegistre;
