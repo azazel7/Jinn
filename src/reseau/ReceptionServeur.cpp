@@ -231,6 +231,7 @@ void ReceptionServeur::traitementJoueur(char *commande, int socketClient)
         this->partie->retirerJoueur(this->listeClient[socketClient]->getJoueur());
         delete this->listeClient[socketClient];
         this->listeClient[socketClient] = NULL;
+        this->listeClient.erase(socketClient);
         traitementQuitter(socketClient);
     }
 }
@@ -260,6 +261,7 @@ void ReceptionServeur::traitementClient(char *commande, int socketClient)
     }
     else if(strcmp(action, QUITTER) == 0)
     {
+        this->listeClient.erase(socketClient);
         traitementQuitter(socketClient);
     }
 }
@@ -432,7 +434,7 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
     //Pas de coordonnées valide.
     if((nombreCible%2) != 0)
     {
-        cout << "Pas assez de coor" << endl;
+        GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Le nombre de coordonnée n'est pas valide");
         return;
     }
     action = new Action();
