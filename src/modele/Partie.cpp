@@ -387,9 +387,13 @@ void Partie::retirerJoueur(Joueur* joueur)
     }
     for(vector<Joueur*>::iterator it = this->joueur.begin(); it != this->joueur.end(); it++)
     {
-        if((*it)->getNom() == joueur->getNom())
+        //FIXME erreur lorsqu'un joueur quitte. *it = NULL
+        if((*it) != NULL)
         {
-            it = this->joueur.erase(it);
+            if((*it)->getNom() == joueur->getNom())
+            {
+                it = this->joueur.erase(it);
+            }
         }
     }
     //On notifie de la suppression du joueur

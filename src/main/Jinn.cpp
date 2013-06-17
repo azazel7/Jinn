@@ -10,21 +10,15 @@ using namespace std;
 
 int main()
 {
-
+        //TODO traitement des signaux
     Logger *logger = new LoggerFileDescriptor(1, false);
     GestionnaireLogger::ajouterRegistre(logger);
-    GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Bonjour le monde");
-    GestionnaireLogger::retirerRegistre(logger);
-    delete logger;
-    cout << "Loop" << endl;
-    cout << "Loop 2" << endl;
-    return 0;
-
     Partie *p = new Partie("p1", 2, 2);
     p->initialiser();
     ReceptionServeur serveur(p);
     serveur.initialiserServeur();
     serveur.miseEnEcoute();
+    GestionnaireLogger::viderRegistre();
     //TODO fermer reception avec fermeture des sockets
     return 0;
 

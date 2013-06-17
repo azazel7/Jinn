@@ -11,6 +11,7 @@ bool ReceptionServeur::initialiserServeur()
 {
     struct sockaddr_in sin;
     //Creation d'une socket en TCP/IP usant d'un protocole libre
+    GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Creation du socket");
     this->socketServeur = socket(AF_INET, SOCK_STREAM, 0);
     //On écoute sur le port fournis et sur toutes l'adresse ip fournis
     sin.sin_addr.s_addr = inet_addr(this->ip.c_str());
@@ -19,13 +20,16 @@ bool ReceptionServeur::initialiserServeur()
     //On associe la socket au contexte d'adressage
     if(bind(this->socketServeur, (struct sockaddr*) &sin, sizeof(sin)) < 0)
     {
+        GestionnaireLogger::ecrirMessage(TypeMessage::FATAL, "Erreur de bind");
         return false;
     }
     //On mes en ecoute la socket
     if(listen(this->socketServeur, 5) < 0)
     {
+        GestionnaireLogger::ecrirMessage(TypeMessage::FATAL, "Erreur listen");
         return false;
     }
+    GestionnaireLogger::ecrirMessage(TypeMessage::SUCCESS, "Initialisation du serveur terminée");
     return true;
 }
 
@@ -43,13 +47,13 @@ void ReceptionServeur::miseEnEcoute()
         /* Si une erreur est survenue au niveau du select */
         FD_ZERO(&readfs);
         this->remplirSelection(readfs);
-        cout << "Attente select " << this->socketServeur << endl;
+        GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Attente du select");
         if(select(this->maximunFileDescriptor() + 1, &readfs, NULL, NULL, NULL) < 0)
         {
-            perror("[-] select ReceptionServeur");
+            GestionnaireLogger::ecrirMessage(TypeMessage::FATAL, "Select erreur");
             exit(-1);
         }
-        cout << "Fin select" << endl;
+        GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Données reçus par le select");
         //Priorité au client qui joue on avise ensuite pour les nouvelles connexions
         this->testerSelectionClient(readfs);
         this->testerSelectionServeur(readfs);
@@ -59,8 +63,10 @@ void ReceptionServeur::miseEnEcoute()
         }
         else if(this->partie->isFinis())
         {
+                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction de la partie");
             delete this->partie;
             this->partie = NULL;
+                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction des clients");
             for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
             {
                 if(it->second != NULL)
@@ -73,6 +79,8 @@ void ReceptionServeur::miseEnEcoute()
                 close(it->first);
                 it = listeClient.erase(it);
             }
+                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Fin du serveur");
+
             return;
         }
     }
@@ -86,7 +94,6 @@ void ReceptionServeur::remplirSelection(fd_set& readfd)
         FD_SET(it->first, &readfd);
     }
     FD_SET(this->socketServeur, &readfd);
-    //        FD_SET(0, &readfd);
 }
 void ReceptionServeur::testerSelectionClient(fd_set& readfd)
 {
@@ -104,18 +111,19 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
             data = (char*)malloc(sizeof(char)*octetRecus);
             if(data == NULL)
             {
-                perror("[-] malloc");
-                exit(1);
+                        GestionnaireLogger::ecrirMessage(TypeMessage::FATAL, "Erreur malloc");
+                exit(-1);
             }
             //On lit les données
             octetLus = recv(it->first, data, octetRecus, 0);
             if( octetLus < 0)
             {
-                perror("[-] recv");
-                exit(1);
+                        GestionnaireLogger::ecrirMessage(TypeMessage::ERROR, "Erreur recv. Nombre d'octets négatif");
+                        continue;
             }
             else if (octetLus == 0)//Deconnexion du client
             {
+                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction du joueur " + it->second->getJoueur()->getNom());
                 //On retire la socket de la séléction
                 FD_CLR(it->first, &readfd);
                 //On ferme la socket
@@ -130,20 +138,22 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
                 close(it->first);
                 //On supprime l'entrée
                 it = listeClient.erase(it);
+                GestionnaireLogger::ecrirMessage(TypeMessage::SUCCESS, "Destruction réussi");
             }
             else if(octetLus != octetRecus) //Curieuse affaire
             {
+                GestionnaireLogger::ecrirMessage(TypeMessage::ERROR, "Nombre d'octet lu different du nombre d'octet reçu");
                 continue;
             }
 
             if(it->second == NULL)
             {
-                cout << "Potentiel client" << endl;
+                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Traitement client");
                 this->traitementClient(data, it->first);
             }
             else
             {
-                cout << "Joueur" << endl;
+                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Traitement joueur");
                 this->traitementJoueur(data, it->first);
             }
         }
@@ -158,7 +168,6 @@ void ReceptionServeur::testerSelectionServeur(fd_set& readfd)
            données qui serons reçues ici*/
     if(FD_ISSET(this->socketServeur, &readfd))
     {
-        cout << "Nouvelle connexion" << endl;
         int csock;
         struct sockaddr_in csin;
         int crecsize = sizeof csin;
@@ -167,6 +176,8 @@ void ReceptionServeur::testerSelectionServeur(fd_set& readfd)
         listeClient[csock] = NULL;
         //On l'ajoute à la selection
         FD_SET(csock, &readfd);
+                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Nouvelle connexion sur le serveur");
+//TODO  inet_ntoa(csin.sin_addr), htons(csin.sin_port)
     }
 }
 
@@ -458,5 +469,5 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
 
 void ReceptionServeur::traitementQuitter(int socketClient)
 {
-        close(socketClient);
+    close(socketClient);
 }
