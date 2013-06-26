@@ -4,19 +4,19 @@ Sort* UsineSort::fabriqueSort(string const& nom)
 {
     if(nom == "Sceau de Controle")
     {
-        return new SceauControle();
+//        return new SceauControle();
     }
     if(nom == "Boule de Feu")
     {
-        return new BouleDeFeu();
+//        return new BouleDeFeu();
     }
     if(nom == "Rune de Protection")
     {
-        return new RuneDeProtection();
+//        return new RuneDeProtection();
     }
     if(nom == "Sort Test Duree")
     {
-        return new SortTestDuree();
+//        return new SortTestDuree();
     }
     return NULL;
 }

@@ -8,7 +8,7 @@
 
 #include "Action.h"
 #include "Equipe.h"
-#include "Sort.h"
+#include "sort/Sort.h"
 #include "Partie.h"
 #include "UsineSort.h"
 #include "reseau/ReceptionServeur.h"

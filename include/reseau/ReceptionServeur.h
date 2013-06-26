@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <string.h>
+#include <map>
 #include "Action.h"
 #include "Partie.h"
 #include "UsineSort.h"

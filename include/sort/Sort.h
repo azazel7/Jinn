@@ -4,6 +4,9 @@
 #include <vector>
 #include <iostream>
 #include <cstdlib>
+#include "sort/SortAppliquerSurCase.h"
+#include "sort/SortActionChronique.h"
+#include "Case.h"
 
 using namespace std;
 //TODO penser au pattern strategy
@@ -19,7 +22,7 @@ public:
      * @brief appliquerSortSurCase Applique le sort sur une case
      * @param cible
      */
-    virtual void appliquerSortSurCase(Case &cible) = 0;
+    virtual void appliquerSortSurCase(Case &cible);
 
     /**
      * @brief modifierSuivantOrigine modifie le sort suivant l'origine de la case
@@ -36,13 +39,13 @@ public:
      * @brief retirerDeCase Pour les sorts à durée, faire en sorte qu'il se retire correctement
      * @param cible
      */
-    virtual void retirerDeCase(Case &cible) = 0;
+    virtual void retirerDeCase(Case &cible);
 
     /**
      * @brief effectuerActionChronique Permet de spécifier quelle action faire à chaque tour
      * @param cible la case qui est affectée
      */
-    virtual void effectuerActionChronique(Case &cible) = 0;
+    virtual void effectuerActionChronique(Case &cible);
 
     /**
      * @brief description Produit une description du sort
@@ -50,23 +53,23 @@ public:
      */
     virtual string description() = 0;
 
-	virtual ~Sort();
+    virtual ~Sort();
 
-	static int calculeNouveauTauxReussite(int dissip, int ancienTaux);
+    static int calculeNouveauTauxReussite(int dissip, int ancienTaux);
 
-	static bool testerReussite(int taux);
+    static bool testerReussite(int taux);
 
-	Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite,
-            int nbCible, int attaque, int duree, int znEffet, int dissip,
-			int nbMaxSortDissip);
+    Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite,
+         int nbCible, int attaque, int duree, int znEffet, int dissip,
+         int nbMaxSortDissip);
 
     Sort();
 
-	virtual int getPourcentageReussite();
+    virtual int getPourcentageReussite();
 
-	virtual int getCoupManaParCase();
+    virtual int getCoupManaParCase();
 
-	virtual Joueur* getProprietaire();
+    virtual Joueur* getProprietaire();
 
     virtual void setProprietaire(Joueur* proprietaire);
 
@@ -83,21 +86,23 @@ public:
     virtual void setId(unsigned int id);
 
 protected:
-	string nom;
-	int coupManaParCase;
-	bool elite;
-	int porteeMax;
-	int pourcentageReussite;
-	int nombreCibleMax;
-	int attaque;
-	int duree;
-	int zoneEffet;
-	int effetDissipation;
-	int nombreMaxSortDissipable;
-        unsigned int id;
+    string nom;
+    int coupManaParCase;
+    bool elite;
+    int porteeMax;
+    int pourcentageReussite;
+    int nombreCibleMax;
+    int attaque;
+    int duree;
+    int zoneEffet;
+    int effetDissipation;
+    int nombreMaxSortDissipable;
+    unsigned int id;
 
-public:
-	Joueur *proprietaire;
+    vector<SortAppliquerSurCase*> listeApplicationSurCase;
+    vector<SortActionChronique*> listeEffetChronique;
+    Case* origine;
+    Joueur *proprietaire;
 };
 
 #endif // Sort_h

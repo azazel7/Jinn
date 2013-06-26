@@ -1,12 +1,9 @@
 #ifndef UsineSort_h
 #define UsineSort_h
 
-#include "Sort.h"
-#include "sort/SceauControle.h"
-#include "sort/BouleDeFeu.h"
-#include "sort/RuneDeProtection.h"
-#include "sort/SortTestDuree.h"
+#include "sort/Sort.h"
 
+class Sort;
 class UsineSort
 {
 

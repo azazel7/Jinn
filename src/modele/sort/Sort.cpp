@@ -1,15 +1,7 @@
-#include "Sort.h"
+#include "sort/Sort.h"
 
-Sort::Sort()
-{
 
-}
-
-Sort::~Sort()
-{
-}
-
-Sort::Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite, int nbCible, int attaque, int duree, int znEffet, int dissip, int nbMaxSortDissip)
+/*Sort::Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite, int nbCible, int attaque, int duree, int znEffet, int dissip, int nbMaxSortDissip)
 {
     this->nom = nom;
     this->coupManaParCase = coupMana;
@@ -23,7 +15,7 @@ Sort::Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite, in
     this->effetDissipation = dissip;
     this->nombreMaxSortDissipable = nbMaxSortDissip;
 
-}
+}*/
 
 int Sort::calculeNouveauTauxReussite(int dissip, int ancienTaux)
 {
@@ -88,4 +80,35 @@ unsigned int Sort::getId() const
 void Sort::setId(unsigned int id)
 {
         this->id = id;
+}
+
+void Sort::appliquerSortSurCase(Case &cible)
+{
+        for(int i = 0; i < this->listeApplicationSurCase.size(); i++)
+        {
+                this->listeApplicationSurCase[i]->appliquerSortSurCase(cible, this);
+        }
+}
+
+
+void Sort::retirerDeCase(Case &cible)
+{
+        for(int i = 0; i < this->listeApplicationSurCase.size(); i++)
+        {
+                this->listeApplicationSurCase[i]->retirerSortDeCase(cible, this);
+        }
+
+}
+
+void Sort::effectuerActionChronique(Case &cible)
+{
+        for(int i = 0; i < this->listeEffetChronique.size(); i++)
+        {
+                this->listeEffetChronique[i]->effectuerActionChronique(cible, this);
+        }
+}
+
+Sort::~Sort()
+{
+
 }

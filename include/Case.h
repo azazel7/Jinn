@@ -4,13 +4,14 @@
 #include "Joueur.h"
 #include "Position.h"
 #include "list"
+#include "sort/Sort.h"
 
 
 #include <iostream>
 using namespace std;
 
 class Joueur;
-
+class Sort;
 class Case
 {
 

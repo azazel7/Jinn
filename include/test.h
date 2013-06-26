@@ -7,8 +7,7 @@
 #include "Position.h"
 #include "Joueur.h"
 #include "Case.h"
-#include "Sort.h"
-#include "sort/SortTestDuree.h"
+#include "sort/Sort.h"
 
 bool testFabriqueIdentique();
 bool testFabriqueDifferente();
