@@ -56,8 +56,7 @@ public:
          int nbMaxSortDissip);
 
     Sort();
-    Sort(Sort const& sortModele);
-
+    Sort& operator=(Sort const& sortModele);
     int getPourcentageReussite();
 
     int getCoupManaParCase();
