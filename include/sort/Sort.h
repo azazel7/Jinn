@@ -13,6 +13,9 @@ using namespace std;
 class Effet;
 class Joueur;
 class Case;
+
+static unsigned int nextId = 1;
+
 class Sort
 {
 
@@ -22,38 +25,27 @@ public:
      * @brief appliquerSortSurCase Applique le sort sur une case
      * @param cible
      */
-    virtual void appliquerSortSurCase(Case &cible);
-
-    /**
-     * @brief modifierSuivantOrigine modifie le sort suivant l'origine de la case
-     * @param origine
-     */
-//    virtual void modifierSuivantOrigine(Case const& origine) = 0;
-
-    /**
-     * @brief modifierSuivantProprietaire modifie le sort suivant les statistiques de sont proprietaire
-     */
-//    virtual void modifierSuivantProprietaire() = 0;
+    void appliquerSortSurCase(Case &cible);
 
     /**
      * @brief retirerDeCase Pour les sorts à durée, faire en sorte qu'il se retire correctement
      * @param cible
      */
-    virtual void retirerDeCase(Case &cible);
+    void retirerDeCase(Case &cible);
 
     /**
      * @brief effectuerActionChronique Permet de spécifier quelle action faire à chaque tour
      * @param cible la case qui est affectée
      */
-    virtual void effectuerActionChronique(Case &cible);
+    void effectuerActionChronique(Case &cible);
 
     /**
      * @brief description Produit une description du sort
      * @return
      */
-    virtual string description();
+    string getDescription();
 
-    virtual ~Sort();
+    ~Sort();
 
     static int calculeNouveauTauxReussite(int dissip, int ancienTaux);
 
@@ -64,31 +56,35 @@ public:
          int nbMaxSortDissip);
 
     Sort();
+    Sort(Sort const& sortModele);
 
-    virtual int getPourcentageReussite();
+    int getPourcentageReussite();
 
-    virtual int getCoupManaParCase();
+    int getCoupManaParCase();
 
-    virtual Joueur* getProprietaire();
+    Joueur* getProprietaire() const;
 
-    virtual void setProprietaire(Joueur* proprietaire);
+    void setProprietaire(Joueur* proprietaire);
 
-    virtual string getNom();
+    string getNom() const;
 
-    virtual bool getElite();
+    bool getElite();
 
-    virtual int getPorteeMax() const;
+    int getPorteeMax() const;
 
-    virtual int getnombreCibleMax() const;
+    int getnombreCibleMax() const;
 
-    virtual unsigned int getId() const;
+    unsigned int getId() const;
 
-    virtual void setId(unsigned int id);
+    void setId(unsigned int id);
 
-    virtual void ajouterApplication(SortAppliquerSurCase* newEffect);
+    void ajouterApplication(SortAppliquerSurCase* newEffect);
+
+    void setDescription(string const& newDescription);
 
 protected:
     string nom;
+    string description;
     int coupManaParCase;
     bool elite;
     int porteeMax;

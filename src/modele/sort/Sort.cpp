@@ -14,11 +14,14 @@ Sort::Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite, in
     this->zoneEffet = znEffet;
     this->effetDissipation = dissip;
     this->nombreMaxSortDissipable = nbMaxSortDissip;
+    this->id = nextId;
+    nextId +=1;
 
 }
 Sort::Sort()
 {
-
+    this->id = nextId;
+    nextId +=1;
 }
 
 int Sort::calculeNouveauTauxReussite(int dissip, int ancienTaux)
@@ -41,7 +44,7 @@ bool Sort::testerReussite(int taux)
     return false;
 }
 
-Joueur* Sort::getProprietaire()
+Joueur* Sort::getProprietaire() const
 {
 	return proprietaire;
 }
@@ -51,7 +54,7 @@ int Sort::getCoupManaParCase()
 	return coupManaParCase;
 }
 
-string Sort::getNom()
+string Sort::getNom() const
 {
     return nom;
 }
@@ -129,7 +132,21 @@ Sort::~Sort()
         this->listeEffetChronique.clear();
 }
 
-string Sort::description()
+string Sort::getDescription()
 {
-        return "Une descri";
+        return this->description;
+}
+
+void Sort::setDescription(string const& newDescription)
+{
+        this->description = newDescription;
+}
+
+Sort::Sort(Sort const& sortModele)
+{
+    Sort* sort = UsineSort::fabriqueSort(sortModele.getNom());
+    sort->setProprietaire(sortModele.getProprietaire());
+    sort->origine = sortModele.origine;
+//        return *sort;
+//        return NULL;
 }

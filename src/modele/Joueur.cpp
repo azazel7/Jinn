@@ -144,7 +144,7 @@ string Joueur::saisieSort(vector<Sort* > const& sort)
     for(int i = 0; i < sort.size(); i++)
     {
         cout << sort[i]->getNom() <<  "(" << i << ") :" << endl;
-        cout << sort[i]->description() << endl << endl;
+        cout << sort[i]->getDescription() << endl << endl;
     }
     cout << "choix numero sort : ";
     cin >> choix;

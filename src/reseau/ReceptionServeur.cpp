@@ -274,7 +274,7 @@ void ReceptionServeur::traitementSort(int socketClient)
     for(int i = 0; i < listeNomSort.size(); i++)
     {
         sort = UsineSort::fabriqueSort(listeNomSort[i]);
-        final += SEPARATEUR_ELEMENT + sort->getNom() + SEPARATEUR_SOUS_ELEMENT + sort->description();
+        final += SEPARATEUR_ELEMENT + sort->getNom() + SEPARATEUR_SOUS_ELEMENT + sort->getDescription();
         delete sort;
     }
     send(socketClient, final.c_str(), final.size(), 0);
