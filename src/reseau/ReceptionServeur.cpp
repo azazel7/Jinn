@@ -63,10 +63,10 @@ void ReceptionServeur::miseEnEcoute()
         }
         else if(this->partie->isFinis())
         {
-                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction de la partie");
+            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction de la partie");
             delete this->partie;
             this->partie = NULL;
-                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction des clients");
+            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction des clients");
             for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
             {
                 if(it->second != NULL)
@@ -79,7 +79,7 @@ void ReceptionServeur::miseEnEcoute()
                 close(it->first);
                 it = listeClient.erase(it);
             }
-                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Fin du serveur");
+            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Fin du serveur");
 
             return;
         }
@@ -111,15 +111,15 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
             data = (char*)malloc(sizeof(char)*octetRecus);
             if(data == NULL)
             {
-                        GestionnaireLogger::ecrirMessage(TypeMessage::FATAL, "Erreur malloc");
+                GestionnaireLogger::ecrirMessage(TypeMessage::FATAL, "Erreur malloc");
                 exit(-1);
             }
             //On lit les données
             octetLus = recv(it->first, data, octetRecus, 0);
             if( octetLus < 0)
             {
-                        GestionnaireLogger::ecrirMessage(TypeMessage::ERROR, "Erreur recv. Nombre d'octets négatif");
-                        continue;
+                GestionnaireLogger::ecrirMessage(TypeMessage::ERROR, "Erreur recv. Nombre d'octets négatif");
+                continue;
             }
             else if (octetLus == 0)//Deconnexion du client
             {
@@ -176,8 +176,8 @@ void ReceptionServeur::testerSelectionServeur(fd_set& readfd)
         listeClient[csock] = NULL;
         //On l'ajoute à la selection
         FD_SET(csock, &readfd);
-                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Nouvelle connexion sur le serveur");
-//TODO  inet_ntoa(csin.sin_addr), htons(csin.sin_port)
+        GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Nouvelle connexion sur le serveur");
+        //TODO  inet_ntoa(csin.sin_addr), htons(csin.sin_port)
     }
 }
 

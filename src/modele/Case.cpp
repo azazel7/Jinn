@@ -2,35 +2,34 @@
 
 void Case::setProprietaire(Joueur *nouveauProprietaire)
 {
-	//TODO Notifier ancien propriétaire
-	this->proprietaire = nouveauProprietaire;
+    //TODO Notifier ancien propriétaire
+    this->proprietaire = nouveauProprietaire;
 }
 
 Case::Case(int defIni, int bonOff, int dissip, int attenu, int mana, int regenDef, int camoufla, Position* position)
 {
     this->defenseInitiale = defIni;
-	this->defenseActuelle = defIni;
-	this->defenseReel = defIni;
-        this->defenseReelEffective = defIni;
+    this->defenseActuelle = defIni;
+    this->defenseReel = defIni;
+    this->defenseReelEffective = defIni;
 
-	this->bonusOffensifInitial = bonOff;
-	this->bonusOffensifActuel = bonOff;
+    this->bonusOffensifInitial = bonOff;
+    this->bonusOffensifActuel = bonOff;
 
-	this->effetDissipation = dissip;
-	this->effetAttenuation = attenu;
-	this->apportMana = mana;
-	this->regenerationDefense = regenDef;
-	this->camouflageInitial = camoufla;
-	this->camouflageReel = camoufla;
-	this->controlable = true;
-	this->position = position;
-	this->proprietaire = NULL;
+    this->effetDissipation = dissip;
+    this->effetAttenuation = attenu;
+    this->apportMana = mana;
+    this->regenerationDefense = regenDef;
+    this->camouflageInitial = camoufla;
+    this->camouflageReel = camoufla;
+    this->controlable = true;
+    this->position = position;
+    this->proprietaire = NULL;
 }
 
 void Case::retirerSortEcoule()
 {
     list<pair<int, Sort*> >::iterator iterator;
-    Sort* courant;
     for(iterator = sort.begin(); iterator != sort.end(); ++iterator)
     {
         iterator->first--;
@@ -107,22 +106,22 @@ void Case::modifierDefenseReel(int nombre)
 
 void Case::retirerJoueur(Joueur* joueur)
 {
-        list<pair<int, Sort*> >::iterator it;
-        Sort* courant = NULL;
-        for(it = this->sort.begin(); it != this->sort.end(); it++)
+    list<pair<int, Sort*> >::iterator it;
+    Sort* courant = NULL;
+    for(it = this->sort.begin(); it != this->sort.end(); it++)
+    {
+        courant = it->second;
+        if(courant->getProprietaire() == joueur)
         {
-                courant = it->second;
-                if(courant->getProprietaire() == joueur)
-                {
-                        courant->retirerDeCase(*this);
-                        delete courant;
-                        it = this->sort.erase(it);
-                }
+            courant->retirerDeCase(*this);
+            delete courant;
+            it = this->sort.erase(it);
         }
-        if(this->proprietaire == joueur)
-        {
-                this->proprietaire = NULL;
-        }
+    }
+    if(this->proprietaire == joueur)
+    {
+        this->proprietaire = NULL;
+    }
 }
 
 void Case::retirerSort(int index)
@@ -133,10 +132,10 @@ void Case::retirerSort(int index)
     {
         if(i == index)
         {
-           iterator->second->retirerDeCase(*this);
-           delete iterator->second;
-           sort.erase(iterator);
-           return;
+            iterator->second->retirerDeCase(*this);
+            delete iterator->second;
+            sort.erase(iterator);
+            return;
         }
         i++;
     }
@@ -144,156 +143,156 @@ void Case::retirerSort(int index)
 
 Position* Case::getPosition() const
 {
-	return position;
+    return position;
 }
 int Case::getApportMana() const
 {
-	return apportMana;
+    return apportMana;
 }
 
 void Case::setApportMana(int apportMana)
 {
-	this->apportMana = apportMana;
+    this->apportMana = apportMana;
 }
 
 int Case::getBonusOffensifActuel() const
 {
-	return bonusOffensifActuel;
+    return bonusOffensifActuel;
 }
 
 void Case::setBonusOffensifActuel(int bonusOffensifActuel)
 {
-	this->bonusOffensifActuel = bonusOffensifActuel;
+    this->bonusOffensifActuel = bonusOffensifActuel;
 }
 
 int Case::getBonusOffensifInitial() const
 {
-	return bonusOffensifInitial;
+    return bonusOffensifInitial;
 }
 
 void Case::setBonusOffensifInitial(int bonusOffensifInitial)
 {
-	this->bonusOffensifInitial = bonusOffensifInitial;
+    this->bonusOffensifInitial = bonusOffensifInitial;
 }
 
 int Case::getCamouflageInitial() const
 {
-	return camouflageInitial;
+    return camouflageInitial;
 }
 
 void Case::setCamouflageInitial(int camouflageInitial)
 {
-	this->camouflageInitial = camouflageInitial;
+    this->camouflageInitial = camouflageInitial;
 }
 
 int Case::getCamouflageReel() const
 {
-	return camouflageReel;
+    return camouflageReel;
 }
 
 void Case::setCamouflageReel(int camouflageReel)
 {
-	this->camouflageReel = camouflageReel;
+    this->camouflageReel = camouflageReel;
 }
 
 bool Case::isControlable() const
 {
-	return controlable;
+    return controlable;
 }
 
 void Case::setControlable(bool controlable)
 {
-	this->controlable = controlable;
+    this->controlable = controlable;
 }
 
 int Case::getDefenseActuelle() const
 {
-	return defenseActuelle;
+    return defenseActuelle;
 }
 
 void Case::setDefenseActuelle(int defenseActuelle)
 {
-	this->defenseActuelle = defenseActuelle;
+    this->defenseActuelle = defenseActuelle;
 }
 
 int Case::getDefenseInitiale() const
 {
-	return defenseInitiale;
+    return defenseInitiale;
 }
 
 void Case::setDefenseInitiale(int defenseInitiale)
 {
-	this->defenseInitiale = defenseInitiale;
+    this->defenseInitiale = defenseInitiale;
 }
 
 int Case::getDefenseReel() const
 {
-	return defenseReel;
+    return defenseReel;
 }
 
 void Case::setDefenseReel(int defenseReel)
 {
-	this->defenseReel = defenseReel;
+    this->defenseReel = defenseReel;
 }
 
 int Case::getEffetAttenuation() const
 {
-	return effetAttenuation;
+    return effetAttenuation;
 }
 
 void Case::setEffetAttenuation(int effetAttenuation)
 {
-	this->effetAttenuation = effetAttenuation;
+    this->effetAttenuation = effetAttenuation;
 }
 
 int Case::getEffetDissipation() const
 {
-	return effetDissipation;
+    return effetDissipation;
 }
 
 void Case::setEffetDissipation(int effetDissipation)
 {
-	this->effetDissipation = effetDissipation;
+    this->effetDissipation = effetDissipation;
 }
 
 void Case::setPosition(Position* position)
 {
-	this->position = position;
+    this->position = position;
 }
 
 Joueur* Case::getProprietaire() const
 {
-	return proprietaire;
+    return proprietaire;
 }
 
 int Case::getRegenerationDefense() const
 {
-	return regenerationDefense;
+    return regenerationDefense;
 }
 
 void Case::setRegenerationDefense(int regenerationDefense)
 {
-	this->regenerationDefense = regenerationDefense;
+    this->regenerationDefense = regenerationDefense;
 }
 
 int Case::nombreDeSortEnCour()
 {
-        return this->sort.size();
+    return this->sort.size();
 }
 
 list<pair<int, Sort*> > Case::getListSort()
 {
-        return this->sort;
+    return this->sort;
 }
 Sort* Case::getSort(int index)
 {
-   int i = 0;
+    int i = 0;
     list<pair<int, Sort*> >::iterator iterator;
     for(iterator = sort.begin(); iterator != sort.end(); iterator++)
     {
         if(i == index)
         {
-                return iterator->second;
+            return iterator->second;
         }
         i++;
     }

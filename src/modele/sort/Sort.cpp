@@ -1,6 +1,5 @@
 #include "sort/Sort.h"
 
-
 Sort::Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite, int nbCible, int attaque, int duree, int znEffet, int dissip, int nbMaxSortDissip)
 {
     this->nom = nom;
@@ -31,7 +30,7 @@ int Sort::calculeNouveauTauxReussite(int dissip, int ancienTaux)
 
 int Sort::getPourcentageReussite()
 {
-	return pourcentageReussite;
+    return pourcentageReussite;
 }
 
 bool Sort::testerReussite(int taux)
@@ -46,12 +45,12 @@ bool Sort::testerReussite(int taux)
 
 Joueur* Sort::getProprietaire() const
 {
-	return proprietaire;
+    return proprietaire;
 }
 
 int Sort::getCoupManaParCase()
 {
-	return coupManaParCase;
+    return coupManaParCase;
 }
 
 string Sort::getNom() const
@@ -76,70 +75,70 @@ int Sort::getPorteeMax() const
 
 int Sort::getnombreCibleMax() const
 {
-        return this->nombreCibleMax;
+    return this->nombreCibleMax;
 }
 
 unsigned int Sort::getId() const
 {
-        return this->id;
+    return this->id;
 }
 
 void Sort::setId(unsigned int id)
 {
-        this->id = id;
+    this->id = id;
 }
 
 void Sort::appliquerSortSurCase(Case &cible)
 {
-        for(int i = 0; i < this->listeApplicationSurCase.size(); i++)
-        {
-                this->listeApplicationSurCase[i]->appliquerSortSurCase(cible, this);
-        }
+    for(int i = 0; i < this->listeApplicationSurCase.size(); i++)
+    {
+        this->listeApplicationSurCase[i]->appliquerSortSurCase(cible, this);
+    }
 }
 
 
 void Sort::retirerDeCase(Case &cible)
 {
-        for(int i = 0; i < this->listeApplicationSurCase.size(); i++)
-        {
-                this->listeApplicationSurCase[i]->retirerSortDeCase(cible, this);
-        }
+    for(int i = 0; i < this->listeApplicationSurCase.size(); i++)
+    {
+        this->listeApplicationSurCase[i]->retirerSortDeCase(cible, this);
+    }
 }
 
 void Sort::effectuerActionChronique(Case &cible)
 {
-        for(int i = 0; i < this->listeEffetChronique.size(); i++)
-        {
-                this->listeEffetChronique[i]->effectuerActionChronique(cible, this);
-        }
+    for(int i = 0; i < this->listeEffetChronique.size(); i++)
+    {
+        this->listeEffetChronique[i]->effectuerActionChronique(cible, this);
+    }
 }
 
 void Sort::ajouterApplication(SortAppliquerSurCase* newEffect)
 {
-        this->listeApplicationSurCase.push_back(newEffect);
+    this->listeApplicationSurCase.push_back(newEffect);
 }
 Sort::~Sort()
 {
-        for(int i = 0; i < this->listeApplicationSurCase.size(); i++)
-        {
-                delete this->listeApplicationSurCase[i];
-        }
-        for(int i = 0; i < this->listeEffetChronique.size(); i++)
-        {
-                delete this->listeEffetChronique[i];
-        }
-        this->listeApplicationSurCase.clear();
-        this->listeEffetChronique.clear();
+    for(int i = 0; i < this->listeApplicationSurCase.size(); i++)
+    {
+        delete this->listeApplicationSurCase[i];
+    }
+    for(int i = 0; i < this->listeEffetChronique.size(); i++)
+    {
+        delete this->listeEffetChronique[i];
+    }
+    this->listeApplicationSurCase.clear();
+    this->listeEffetChronique.clear();
 }
 
 string Sort::getDescription()
 {
-        return this->description;
+    return this->description;
 }
 
 void Sort::setDescription(string const& newDescription)
 {
-        this->description = newDescription;
+    this->description = newDescription;
 }
 
 Sort& Sort::operator =(Sort const& sortModele)
@@ -153,5 +152,5 @@ Sort& Sort::operator =(Sort const& sortModele)
 
 int Sort::getDuree() const
 {
-        return this->duree;
+    return this->duree;
 }

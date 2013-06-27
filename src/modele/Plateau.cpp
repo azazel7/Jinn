@@ -1,6 +1,5 @@
 #include "Plateau.h"
 
-
 Plateau::Plateau()
 {
     largeur = hauteur = 2;
@@ -42,7 +41,7 @@ Case* Plateau::getCase(Position const& position)
 void Plateau::appliquerAction(Action action)
 {
     Sort* sort = action.getSort();
-//    sort->modifierSuivantProprietaire();
+    //    sort->modifierSuivantProprietaire();
     Case* origine = action.getOrigine();
     Joueur* proprietaire = sort->getProprietaire();
     std::vector<Case*> cible;
@@ -50,7 +49,7 @@ void Plateau::appliquerAction(Action action)
     //Le sort modifie ses attributs selon la case où il est lancé
     if(origine != NULL)
     {
-//        sort->modifierSuivantOrigine(*origine);
+        //        sort->modifierSuivantOrigine(*origine);
     }
     cible = action.getCible();
     for(int i = 0; i < cible.size(); i++)
@@ -59,7 +58,7 @@ void Plateau::appliquerAction(Action action)
         nouveauTaux = Sort::calculeNouveauTauxReussite(dissipation, sort->getPourcentageReussite());
         if(origine != NULL)
         {
-                distance = Position::distance(*(origine->getPosition()), *(cible[i]->getPosition()));
+            distance = Position::distance(*(origine->getPosition()), *(cible[i]->getPosition()));
         }
         else
         {

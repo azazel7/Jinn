@@ -45,29 +45,29 @@ class Client;
 
 class ReceptionServeur
 {
-    public:
-        ReceptionServeur(Partie* partie, string ip = "0.0.0.0", int port = 14790);
-        bool initialiserServeur();
-        void miseEnEcoute();
+public:
+    ReceptionServeur(Partie* partie, string ip = "0.0.0.0", int port = 14790);
+    bool initialiserServeur();
+    void miseEnEcoute();
 
-    private:
-        void remplirSelection(fd_set& readfd);
-        void testerSelectionClient(fd_set& readfd);
-        void testerSelectionServeur(fd_set& readfd);
-        int maximunFileDescriptor();
-        void traitementJoueur(char *commande, int socketClient);
-        void traitementClient(char *commande, int socketClient);
-        void traitementAction(char *commande, int socketClient);
-        void traitementSort(int socketClient);
-        void traitementEquipe(int socketClient);
-        void traitementNouveauJoueur(int socketClient);
-        void traitementMessage(char *commande, const string &nomJoueurParlant);
-        void traitementQuitter(int socketClient);
-        Partie *partie;
-        int port;
-        string ip;
-        int socketServeur;
-        map<int, Client*> listeClient;
+private:
+    void remplirSelection(fd_set& readfd);
+    void testerSelectionClient(fd_set& readfd);
+    void testerSelectionServeur(fd_set& readfd);
+    int maximunFileDescriptor();
+    void traitementJoueur(char *commande, int socketClient);
+    void traitementClient(char *commande, int socketClient);
+    void traitementAction(char *commande, int socketClient);
+    void traitementSort(int socketClient);
+    void traitementEquipe(int socketClient);
+    void traitementNouveauJoueur(int socketClient);
+    void traitementMessage(char *commande, const string &nomJoueurParlant);
+    void traitementQuitter(int socketClient);
+    Partie *partie;
+    int port;
+    string ip;
+    int socketServeur;
+    map<int, Client*> listeClient;
 };
 
 #endif // ReceptionServeur_h
