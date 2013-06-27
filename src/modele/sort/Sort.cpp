@@ -1,7 +1,7 @@
 #include "sort/Sort.h"
 
 
-/*Sort::Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite, int nbCible, int attaque, int duree, int znEffet, int dissip, int nbMaxSortDissip)
+Sort::Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite, int nbCible, int attaque, int duree, int znEffet, int dissip, int nbMaxSortDissip)
 {
     this->nom = nom;
     this->coupManaParCase = coupMana;
@@ -15,7 +15,11 @@
     this->effetDissipation = dissip;
     this->nombreMaxSortDissipable = nbMaxSortDissip;
 
-}*/
+}
+Sort::Sort()
+{
+
+}
 
 int Sort::calculeNouveauTauxReussite(int dissip, int ancienTaux)
 {
@@ -97,7 +101,6 @@ void Sort::retirerDeCase(Case &cible)
         {
                 this->listeApplicationSurCase[i]->retirerSortDeCase(cible, this);
         }
-
 }
 
 void Sort::effectuerActionChronique(Case &cible)
@@ -108,7 +111,16 @@ void Sort::effectuerActionChronique(Case &cible)
         }
 }
 
+void Sort::ajouterApplication(SortAppliquerSurCase* newEffect)
+{
+        this->listeApplicationSurCase.push_back(newEffect);
+}
 Sort::~Sort()
 {
 
+}
+
+string Sort::description()
+{
+        return "Une descri";
 }

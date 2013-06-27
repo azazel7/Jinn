@@ -1,14 +1,17 @@
 #include "UsineSort.h"
+#include "sort/AppliqueDegat.h"
 
 Sort* UsineSort::fabriqueSort(string const& nom)
 {
+    Sort* retour = NULL;
     if(nom == "Sceau de Controle")
     {
 //        return new SceauControle();
     }
     if(nom == "Boule de Feu")
     {
-//        return new BouleDeFeu();
+        retour = new Sort("Boule de Feu", 1, false, 5, 100, 1, 5, 0, 0, 0, 0);
+        retour->ajouterApplication(new AppliqueDegat());
     }
     if(nom == "Rune de Protection")
     {
@@ -18,7 +21,7 @@ Sort* UsineSort::fabriqueSort(string const& nom)
     {
 //        return new SortTestDuree();
     }
-    return NULL;
+    return retour;
 }
 
 std::vector<string> UsineSort::liste()

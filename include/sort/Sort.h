@@ -28,12 +28,12 @@ public:
      * @brief modifierSuivantOrigine modifie le sort suivant l'origine de la case
      * @param origine
      */
-    virtual void modifierSuivantOrigine(Case const& origine) = 0;
+//    virtual void modifierSuivantOrigine(Case const& origine) = 0;
 
     /**
      * @brief modifierSuivantProprietaire modifie le sort suivant les statistiques de sont proprietaire
      */
-    virtual void modifierSuivantProprietaire() = 0;
+//    virtual void modifierSuivantProprietaire() = 0;
 
     /**
      * @brief retirerDeCase Pour les sorts à durée, faire en sorte qu'il se retire correctement
@@ -51,7 +51,7 @@ public:
      * @brief description Produit une description du sort
      * @return
      */
-    virtual string description() = 0;
+    virtual string description();
 
     virtual ~Sort();
 
@@ -84,6 +84,8 @@ public:
     virtual unsigned int getId() const;
 
     virtual void setId(unsigned int id);
+
+    virtual void ajouterApplication(SortAppliquerSurCase* newEffect);
 
 protected:
     string nom;
