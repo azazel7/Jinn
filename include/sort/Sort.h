@@ -56,7 +56,7 @@ public:
          int nbMaxSortDissip);
 
     Sort();
-    Sort& operator=(Sort const& sortModele);
+    Sort& operator =(Sort const& sortModele);
     int getPourcentageReussite();
 
     int getCoupManaParCase();
@@ -76,6 +76,8 @@ public:
     unsigned int getId() const;
 
     void setId(unsigned int id);
+
+    int getDuree() const;
 
     void ajouterApplication(SortAppliquerSurCase* newEffect);
 
