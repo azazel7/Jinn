@@ -117,7 +117,16 @@ void Sort::ajouterApplication(SortAppliquerSurCase* newEffect)
 }
 Sort::~Sort()
 {
-
+        for(int i = 0; i < this->listeApplicationSurCase.size(); i++)
+        {
+                delete this->listeApplicationSurCase[i];
+        }
+        for(int i = 0; i < this->listeEffetChronique.size(); i++)
+        {
+                delete this->listeEffetChronique[i];
+        }
+        this->listeApplicationSurCase.clear();
+        this->listeEffetChronique.clear();
 }
 
 string Sort::description()
