@@ -387,7 +387,6 @@ void Partie::retirerJoueur(Joueur* joueur)
     }
     for(vector<Joueur*>::iterator it = this->joueur.begin(); it != this->joueur.end(); it++)
     {
-        //FIXME erreur lorsqu'un joueur quitte. *it = NULL
         if((*it) != NULL && it != this->joueur.end())
         {
             if((*it)->getNom() == joueur->getNom())
@@ -447,6 +446,12 @@ void Partie::changerJoueur()
         this->finTourPartie();
         this->nombreDeJoueurAyantJoue = 0;
     }
+    for(int i = 0; i < this->joueur.size(); i++)
+    {
+        this->joueur[i]->notifierPartie((*this));
+    }
+
+
     this->joueurCourant = choisirJoueur();
     if(this->joueurCourant != NULL) //TODO traiter le cas où une équipe n'a plus de joueur
     {
@@ -464,7 +469,6 @@ void Partie::finTourPartie()
     this->plateau->regenererManaPourJoueur();
     this->plateau->retirerSortDeDureeEcoulee();
     this->regenererManaJoueur();
-    //TODO, il va falloir notifier les changements ....
 }
 
 Partie::~Partie()

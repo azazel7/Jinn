@@ -131,7 +131,7 @@ Sort::~Sort()
     this->listeEffetChronique.clear();
 }
 
-string Sort::getDescription()
+string Sort::getDescription() const
 {
     return this->description;
 }

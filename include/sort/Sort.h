@@ -43,7 +43,7 @@ public:
      * @brief description Produit une description du sort
      * @return
      */
-    string getDescription();
+    string getDescription() const;
 
     ~Sort();
 

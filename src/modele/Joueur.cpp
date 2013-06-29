@@ -259,7 +259,13 @@ void Joueur::notifierActionSort(string information) const
 
 void Joueur::notifierPartie(Partie & partie) const
 {
-    vector<Equipe* > listeEquipe;
+    //TODO, il va falloir notifier les changements ....
+    //Un joueur n'est informer que de ce qu'il peut voir ou sentir ~~
+    //Pour une case: Deffense initial, proprio
+    //Pour une case en sa possession, informer des sorts dessus en excluant les siens ? (Au début, pas de case, donc tout va bien)
+    //La position de tout ses sorts et leurs durée restante (Au début, pas de sort, donc pas de soucis)
+    //De la liste des joueurs avec leurs équipe
+    //Pour chaque joueur de son equipe: le mana actuel et le mana maximum
     vector<Joueur* > listeJoueur;
     Case* courante = NULL;
     string final = INFORMATION_PARTIE;
@@ -370,7 +376,11 @@ void Joueur::notifierFinPartie(string nomEquipeGagnante) const
 
 void Joueur::notifierSuppressionJoueur(string nomJoueur) const
 {
-    //TODO notification de suppression d'un joueur
+    string final = QUITTER_PARTIE;
+    final += SEPARATEUR_ELEMENT;
+    final += nomJoueur;
+    final += SEPARATEUR_ELEMENT;
+    send(this->socket, final.c_str(), final.size(), 0);
 }
 
 Equipe* Joueur::getEquipe()
@@ -386,12 +396,38 @@ string Joueur::getNomEquipe()
     }
     return "";
 }
+void Joueur::notifierSort(Sort &sort) const
+{
+
+}
+
+string Joueur::creerChaineNotificationSort(Sort const& sort, int duree = -1) const
+{
+    string retour = INFORMATION_SORT;
+    retour += SEPARATEUR_ELEMENT;
+    retour += sort.getNom();
+    retour += SEPARATEUR_ELEMENT;
+    retour += sort.getDescription();
+    retour += SEPARATEUR_ELEMENT;
+    if(sort.getProprietaire() != NULL)
+    {
+        retour += sort.getProprietaire()->getNom();
+    }
+    else
+    {
+        retour += "empty";
+    }
+    retour += SEPARATEUR_ELEMENT;
+    retour += to_string(duree);
+    retour += SEPARATEUR_ELEMENT;
+    return retour;
+}
+
 Joueur::~Joueur()
 {
     for(int i = 0; i < this->listeSort.size(); i++)
     {
         delete this->listeSort[i];
     }
-    cout << "Destruction joueur " << this->nom << endl;
 }
 //TODO penser à comment notifier d'un sort de révélation

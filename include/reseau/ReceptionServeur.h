@@ -29,7 +29,6 @@
 #define SORT "sort"
 #define ERREUR "erreur"
 #define QUITTER "quitter"
-//TODO ajouter traitement de quitter
 //TODO les action d'un joueur ne se passe plus sur la partie, mais sur sa partie
 //Relatif au jeu
 #define CHANGEMENT_CASE_PROPRIAITAIRE "chgcasepropri"
@@ -39,6 +38,7 @@
 #define DEMARAGE_PARTIE "demaragepartie"
 #define FIN_PARTIE "finpartie"
 #define QUITTER_PARTIE "quitterpartie"
+#define INFORMATION_SORT "infosort"
 
 class Partie;
 class Client;
@@ -49,6 +49,7 @@ public:
     ReceptionServeur(Partie* partie, string ip = "0.0.0.0", int port = 14790);
     bool initialiserServeur();
     void miseEnEcoute();
+    void fermerServeur();
 
 private:
     void remplirSelection(fd_set& readfd);

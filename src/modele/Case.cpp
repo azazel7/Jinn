@@ -57,6 +57,14 @@ void Case::ajouterSort(Sort* nouveauSort, int duree)
 {
     //On créer un nouvelle paire
     pair<int, Sort*> nouvellePaire = make_pair(duree, nouveauSort);
+    for(list<pair<int, Sort*> >::iterator it = this->sort.begin(); it != this->sort.end(); it++)
+    {
+        //On n'applique pas deux fois le meme sort sur une case.
+        if(it->second->getId() == nouveauSort->getId())
+        {
+            return;
+        }
+    }
     //On ajoute la nouvelle paire
     sort.push_front(nouvellePaire);
 }

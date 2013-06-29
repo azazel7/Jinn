@@ -273,6 +273,7 @@ void ReceptionServeur::traitementSort(int socketClient)
     string final = SORT;
     for(int i = 0; i < listeNomSort.size(); i++)
     {
+        //TODO ajouter d'autre info. Le client n'a pas forcément tout. (Mana, précision ...)
         sort = UsineSort::fabriqueSort(listeNomSort[i]);
         final += SEPARATEUR_ELEMENT + sort->getNom() + SEPARATEUR_SOUS_ELEMENT + sort->getDescription();
         delete sort;
@@ -472,4 +473,9 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
 void ReceptionServeur::traitementQuitter(int socketClient)
 {
     close(socketClient);
+}
+
+void ReceptionServeur::fermerServeur()
+{
+    close(this->socketServeur);
 }
