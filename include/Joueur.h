@@ -91,9 +91,9 @@ public:
 
     void notifierSuppressionJoueur(string nomJoueur) const;
 
-    void notifierSort(Sort &sort) const;
+    void notifierSort(const Sort &sort, int duree, Position *position) const;
 
-    string creerChaineNotificationSort(Sort const& sort, int duree) const;
+    string creerChaineNotificationSort(Sort const& sort, int duree, Position *position) const;
 
     ~Joueur();
 

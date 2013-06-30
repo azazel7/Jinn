@@ -396,12 +396,13 @@ string Joueur::getNomEquipe()
     }
     return "";
 }
-void Joueur::notifierSort(Sort &sort) const
+void Joueur::notifierSort(Sort const& sort, int duree, Position* position) const
 {
-
+    string final = this->creerChaineNotificationSort(sort, duree, position);
+    send(this->socket, final.c_str(), final.size(), 0);
 }
 
-string Joueur::creerChaineNotificationSort(Sort const& sort, int duree = -1) const
+string Joueur::creerChaineNotificationSort(Sort const& sort, int duree, Position* position) const
 {
     string retour = INFORMATION_SORT;
     retour += SEPARATEUR_ELEMENT;
@@ -419,6 +420,10 @@ string Joueur::creerChaineNotificationSort(Sort const& sort, int duree = -1) con
     }
     retour += SEPARATEUR_ELEMENT;
     retour += to_string(duree);
+    retour += SEPARATEUR_ELEMENT;
+    retour += to_string(position->getX());
+    retour += SEPARATEUR_ELEMENT;
+    retour += to_string(position->getY());
     retour += SEPARATEUR_ELEMENT;
     return retour;
 }
