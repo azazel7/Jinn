@@ -6,6 +6,9 @@
 #include "Partie.h"
 #include "Joueur.h"
 #include "reseau/ReceptionServeur.h"
+#include "sort/Sort.h"
+#include <signal.h>
+
 using namespace std;
 
 int main()
@@ -18,11 +21,13 @@ int main()
     ReceptionServeur serveur(p);
     serveur.initialiserServeur();
     serveur.miseEnEcoute();
+    serveur.fermerServeur();
     GestionnaireLogger::viderRegistre();
     Position::libererPositions();
     //TODO fermer reception avec fermeture des sockets
     return 0;
 
+    /*
     Partie partie("Partie 1", 2, 2);
     Joueur *j1 = NULL, *j2 = NULL;
     Plateau *pl = NULL;
@@ -48,7 +53,6 @@ int main()
                 partie.effectuerAction(action, j2);
                 partie.effectuerAction(action, j2);
                 partie.effectuerAction(action, j2);
-    /*
     pl = partie.getPlateau();
     action = j1.effectuerAction(partie);
     pl->appliquerAction(action);

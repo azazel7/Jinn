@@ -51,6 +51,7 @@ public:
     ReceptionServeur(Partie* partie, string ip = "0.0.0.0", int port = 14790);
     bool initialiserServeur();
     void miseEnEcoute();
+    void finirServeur();
     void fermerServeur();
 
 private:
@@ -71,6 +72,7 @@ private:
     string ip;
     int socketServeur;
     map<int, Client*> listeClient;
+    bool eteindre;
 };
 
 #endif // ReceptionServeur_h

@@ -342,9 +342,8 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
             {
                 this->joueur[i]->notifierMort(joueur->getNom());
             }
-            cout << "Joueur mort " << joueur->getNom() << endl;
+            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Un joueur est mort");
         }
-        //TODO notifier des changement eventuel
     }
     else
     {

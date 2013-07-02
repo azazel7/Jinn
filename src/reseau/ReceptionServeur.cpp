@@ -5,6 +5,7 @@ ReceptionServeur::ReceptionServeur(Partie* partie, string ip, int port)
     this->partie = partie;
     this->ip = ip;
     this->port = port;
+    this->eteindre = false;
 }
 
 bool ReceptionServeur::initialiserServeur()
@@ -42,7 +43,7 @@ void ReceptionServeur::miseEnEcoute()
          la socket serveur */
     FD_ZERO(&readfs);
     FD_SET(this->socketServeur, &readfs);
-    while(true)
+    while(this->eteindre == false)
     {
         /* Si une erreur est survenue au niveau du select */
         FD_ZERO(&readfs);
@@ -63,27 +64,11 @@ void ReceptionServeur::miseEnEcoute()
         }
         else if(this->partie->isFinis())
         {
-            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction de la partie");
-            delete this->partie;
-            this->partie = NULL;
-            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction des clients");
-            for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
-            {
-                if(it->second != NULL)
-                {
-                    it->second->setPartie(NULL);
-                    it->second->setJoueur(NULL);
-                    delete it->second;
-                    it->second = NULL;
-                }
-                close(it->first);
-                it = listeClient.erase(it);
-            }
-            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Fin du serveur");
-
+            this->finirServeur();
             return;
         }
     }
+    FD_ZERO(&readfs);
 }
 
 void ReceptionServeur::remplirSelection(fd_set& readfd)
@@ -132,9 +117,9 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
                 {
                     //Si c'était un joueur on le retire de la partie
                     this->partie->retirerJoueur(it->second->getJoueur());
+                    delete it->second;
+                    it->second = NULL;
                 }
-                delete it->second;
-                it->second = NULL;
                 close(it->first);
                 //On supprime l'entrée
                 it = listeClient.erase(it);
@@ -156,6 +141,7 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
                 GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Traitement joueur");
                 this->traitementJoueur(data, it->first);
             }
+            free(data);
         }
     }
 }
@@ -493,4 +479,27 @@ void ReceptionServeur::traitementQuitter(int socketClient)
 void ReceptionServeur::fermerServeur()
 {
     close(this->socketServeur);
+}
+
+void ReceptionServeur::finirServeur()
+{
+            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction de la partie");
+            delete this->partie;
+            this->partie = NULL;
+            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction des clients");
+            for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
+            {
+                if(it->second != NULL)
+                {
+                    it->second->setPartie(NULL);
+                    it->second->setJoueur(NULL);
+                    //Destuction du client
+                    delete it->second;
+                    it->second = NULL;
+                }
+                //Fermeture du descripteur de fichier
+                close(it->first);
+            }
+            this->listeClient.clear();
+            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Fin du serveur");
 }
