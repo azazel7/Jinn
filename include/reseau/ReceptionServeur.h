@@ -39,6 +39,8 @@
 #define FIN_PARTIE "finpartie"
 #define QUITTER_PARTIE "quitterpartie"
 #define INFORMATION_SORT "infosort"
+#define INFORMATION_JOUEUR "infojoueur"
+#define INFORMATION_CASE "infocase"
 
 class Partie;
 class Client;

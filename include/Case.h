@@ -59,6 +59,7 @@ public:
     int getRegenerationDefense() const;
     void setRegenerationDefense(int regenerationDefense);
     int nombreDeSortEnCour();
+    string getNomProprietaire() const;
 
     ~Case();
 

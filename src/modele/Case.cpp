@@ -306,6 +306,15 @@ Sort* Case::getSort(int index)
     }
 }
 
+string Case::getNomProprietaire() const
+{
+   if(this->proprietaire == NULL)
+   {
+        return "";
+   }
+   return this->proprietaire->getNom();
+}
+
 ostream& operator<<( ostream &flux, Case const& pos)
 {
     string nom = "Sans proprietaire";

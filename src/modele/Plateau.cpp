@@ -174,3 +174,8 @@ void Plateau::retirerJoueur(Joueur* joueur)
         listeCase[i]->retirerJoueur(joueur);
     }
 }
+
+vector<Case*> Plateau::getListeCase()
+{
+    return this->listeCase;
+}

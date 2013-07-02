@@ -13,6 +13,7 @@
 #include "UsineSort.h"
 #include "reseau/ReceptionServeur.h"
 #include "Tools.h"
+#include "Position.h"
 
 using namespace std;
 
@@ -65,7 +66,7 @@ public:
 
     Equipe* getEquipe();
 
-    string getNomEquipe();
+    string getNomEquipe() const;
 
     bool possedeSort(Sort* sort);
 
@@ -94,6 +95,10 @@ public:
     void notifierSort(const Sort &sort, int duree, Position *position) const;
 
     string creerChaineNotificationSort(Sort const& sort, int duree, Position *position) const;
+
+    string creerChaineNotificationJoueur(Joueur const& joueur) const;
+
+    string creerChaineNotificationCase(Case const& caseANotif) const;
 
     ~Joueur();
 

@@ -2,7 +2,6 @@
 #define Plateau_h
 
 #include <vector>
-#include <map>
 
 #include "Action.h"
 #include "Case.h"
@@ -37,6 +36,8 @@ class Plateau {
     virtual int getHauteur();
 
     virtual int getLargeur();
+
+    virtual vector<Case*> getListeCase();
 
     virtual void retirerSortDeDureeEcoulee();
 

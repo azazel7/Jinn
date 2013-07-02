@@ -267,49 +267,29 @@ void Joueur::notifierPartie(Partie & partie) const
     //De la liste des joueurs avec leurs équipe
     //Pour chaque joueur de son equipe: le mana actuel et le mana maximum
     vector<Joueur* > listeJoueur;
-    Case* courante = NULL;
+    vector<Case* > listeCase;
+    list<pair<int, Sort*> > listeSortCase;
     string final = INFORMATION_PARTIE;
     final += SEPARATEUR_ELEMENT;
-    final += to_string(partie.getPlateau()->nombreCaseControlable());
-    final += SEPARATEUR_ELEMENT;
-    for(int x = 0; x < partie.getPlateau()->getLargeur(); x++)
+    listeJoueur = partie.getJoueur();
+    listeCase = partie.getPlateau()->getListeCase();
+    for(int i = 0; i < listeJoueur.size(); i ++)
     {
-        for(int y = 0;  y < partie.getPlateau()->getHauteur(); y++)
+        final += this->creerChaineNotificationJoueur(*(listeJoueur[i]));
+    }
+    for(int i = 0; i < listeCase.size(); i++)
+    {
+        final += this->creerChaineNotificationCase(*(listeCase[i]));
+        listeSortCase = listeCase[i]->getListSort();
+        for(list<pair<int, Sort*> >::iterator iterator = listeSortCase.begin(); iterator != listeSortCase.end(); iterator++)
         {
-            courante = partie.getPlateau()->getCase(x, y);
-            if(courante != NULL && courante->isControlable() == true)
+            if(iterator->second->getProprietaire() != NULL && iterator->second->getProprietaire()->getNom() == this->nom)
             {
-                final += to_string(courante->getPosition()->getX());
-                final += SEPARATEUR_SOUS_ELEMENT;
-                final += to_string(courante->getPosition()->getY());
-                final += SEPARATEUR_SOUS_ELEMENT;
-                final += to_string(courante->getDefenseInitiale());
-                final += SEPARATEUR_SOUS_ELEMENT;
-                if(courante->getProprietaire() != NULL)
-                {
-                    final += courante->getProprietaire()->getNom();
-                }
-                else
-                {
-                    final += "empty";
-                }
-                final += SEPARATEUR_ELEMENT;
+                   final += this->creerChaineNotificationSort(*(iterator->second), iterator->first, listeCase[i]->getPosition());
             }
         }
     }
-    final += to_string(partie.nombreDeJoueur());
-    final += SEPARATEUR_ELEMENT;
-    listeJoueur = partie.getJoueur();
-    for(int i = 0; i < listeJoueur.size(); i++)
-    {
-        for(int i = 0; i < listeJoueur.size(); i++)
-        {
-            final += listeJoueur[i]->getNom();
-            final += SEPARATEUR_SOUS_ELEMENT;
-            final += listeJoueur[i]->getNomEquipe();
-            final += SEPARATEUR_ELEMENT;
-        }
-    }
+
     send(this->socket, final.c_str(), final.size(), 0);
 }
 
@@ -388,7 +368,7 @@ Equipe* Joueur::getEquipe()
     return this->equipe;
 }
 
-string Joueur::getNomEquipe()
+string Joueur::getNomEquipe() const
 {
     if(this->equipe != NULL)
     {
@@ -408,15 +388,11 @@ string Joueur::creerChaineNotificationSort(Sort const& sort, int duree, Position
     retour += SEPARATEUR_ELEMENT;
     retour += sort.getNom();
     retour += SEPARATEUR_ELEMENT;
-    retour += sort.getDescription();
+    retour += to_string(sort.getId());
     retour += SEPARATEUR_ELEMENT;
     if(sort.getProprietaire() != NULL)
     {
         retour += sort.getProprietaire()->getNom();
-    }
-    else
-    {
-        retour += "empty";
     }
     retour += SEPARATEUR_ELEMENT;
     retour += to_string(duree);
@@ -426,6 +402,82 @@ string Joueur::creerChaineNotificationSort(Sort const& sort, int duree, Position
     retour += to_string(position->getY());
     retour += SEPARATEUR_ELEMENT;
     return retour;
+}
+
+string Joueur::creerChaineNotificationJoueur(Joueur const& joueur) const
+{
+    string retour = INFORMATION_JOUEUR;
+    retour += SEPARATEUR_ELEMENT;
+    retour += joueur.getNom();
+    retour += SEPARATEUR_ELEMENT;
+    retour += joueur.getNomEquipe();
+    retour += SEPARATEUR_ELEMENT;
+    if(joueur.getNomEquipe() == this->getNomEquipe())
+    {
+        retour += joueur.getManaMaximum();
+        retour += SEPARATEUR_ELEMENT;
+        retour += joueur.getManaMaximum();
+        retour += SEPARATEUR_ELEMENT;
+        joueur.getGainInitialMana();
+        retour += SEPARATEUR_ELEMENT;
+    }
+    else
+    {
+        retour += to_string(-1);
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(-1);
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(-1);
+        retour += SEPARATEUR_ELEMENT;
+    }
+    return retour;
+}
+
+string Joueur::creerChaineNotificationCase(Case const& caseANotif) const
+{
+   string retour = INFORMATION_CASE;
+   retour += SEPARATEUR_ELEMENT;
+   retour += to_string(caseANotif.getPosition()->getX());
+   retour += SEPARATEUR_ELEMENT;
+   retour += to_string(caseANotif.getPosition()->getY());
+   retour += SEPARATEUR_ELEMENT;
+   retour += caseANotif.getNomProprietaire();
+   retour += SEPARATEUR_ELEMENT;
+   if(caseANotif.getNomProprietaire() == this->nom)
+   {
+        retour += to_string(caseANotif.getDefenseInitiale());
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(caseANotif.getDefenseReel());
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(caseANotif.getDefenseActuelle());
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(caseANotif.getRegenerationDefense());
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(caseANotif.getApportMana());
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(caseANotif.getBonusOffensifInitial());
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(caseANotif.getBonusOffensifActuel());
+        retour += SEPARATEUR_ELEMENT;
+   }
+   else
+   {
+        retour += to_string(caseANotif.getDefenseInitiale());
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(-1);
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(-1);
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(-1);
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(-1);
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(caseANotif.getBonusOffensifInitial());
+        retour += SEPARATEUR_ELEMENT;
+        retour += to_string(-1);
+        retour += SEPARATEUR_ELEMENT;
+   }
+   return retour;
 }
 
 Joueur::~Joueur()
