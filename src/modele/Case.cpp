@@ -2,7 +2,6 @@
 
 void Case::setProprietaire(Joueur *nouveauProprietaire)
 {
-    //TODO Notifier ancien propriétaire
     this->proprietaire = nouveauProprietaire;
 }
 

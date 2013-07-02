@@ -18,14 +18,13 @@ public:
 	static int codePosition(int x, int y);
 	int getX() const;
 	int getY() const;
-	bool operator==(Position const& a) const;
+    bool operator ==(Position const& a) const;
 	static int distance(Position const& a, Position const& b);
+    static void libererPositions();
 
 private:
 
 	Position(int x, int y);
-
-private:
 	int x;
 	int y;
 	static map<int, Position*> listePosition;

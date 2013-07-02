@@ -271,11 +271,26 @@ void ReceptionServeur::traitementSort(int socketClient)
     vector<string> listeNomSort = UsineSort::liste();
     Sort* sort = NULL;
     string final = SORT;
+    final += SEPARATEUR_ELEMENT;
     for(int i = 0; i < listeNomSort.size(); i++)
     {
-        //TODO ajouter d'autre info. Le client n'a pas forcément tout. (Mana, précision ...)
         sort = UsineSort::fabriqueSort(listeNomSort[i]);
-        final += SEPARATEUR_ELEMENT + sort->getNom() + SEPARATEUR_SOUS_ELEMENT + sort->getDescription();
+        final += sort->getNom();
+        final += SEPARATEUR_ELEMENT;
+        final += sort->getDescription();
+        final += SEPARATEUR_ELEMENT;
+        final += to_string(sort->getElite());
+        final += SEPARATEUR_ELEMENT;
+        final += to_string(sort->getCoupManaParCase());
+        final += SEPARATEUR_ELEMENT;
+        final += to_string(sort->getDuree());
+        final += SEPARATEUR_ELEMENT;
+        final += to_string(sort->getPorteeMax());
+        final += SEPARATEUR_ELEMENT;
+        final += to_string(sort->getnombreCibleMax());
+        final += SEPARATEUR_ELEMENT;
+        final += to_string(sort->getPourcentageReussite());
+        final += SEPARATEUR_ELEMENT;
         delete sort;
     }
     send(socketClient, final.c_str(), final.size(), 0);

@@ -1,12 +1,4 @@
-/*
- * Position.cpp
- *
- *  Created on: 31 mars 2013
- *      Author: magoa
- */
-
 #include "Position.h"
-
 
 Position::Position(int x, int y)
 {
@@ -50,7 +42,7 @@ int Position::getY() const
 	return y;
 }
 
-bool Position::operator==(Position const& a) const
+bool Position::operator ==(Position const& a) const
 {
 	if(a.getX() == x && a.getY() == y)
 	{
@@ -67,6 +59,14 @@ int Position::distance(Position const& a, Position const& b)
 	return retour;
 }
 
+void Position::libererPositions()
+{
+    for(map<int, Position*>::iterator it = listePosition.begin(); it != listePosition.end(); it++)
+    {
+        delete (it->second);
+    }
+    listePosition.clear();
+}
 
 ostream& operator<<( ostream &flux, Position const& pos)
 {

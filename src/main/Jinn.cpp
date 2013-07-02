@@ -19,6 +19,7 @@ int main()
     serveur.initialiserServeur();
     serveur.miseEnEcoute();
     GestionnaireLogger::viderRegistre();
+    Position::libererPositions();
     //TODO fermer reception avec fermeture des sockets
     return 0;
 

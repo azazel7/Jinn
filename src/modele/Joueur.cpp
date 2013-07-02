@@ -269,18 +269,23 @@ void Joueur::notifierPartie(Partie & partie) const
     vector<Joueur* > listeJoueur;
     vector<Case* > listeCase;
     list<pair<int, Sort*> > listeSortCase;
-    string final = INFORMATION_PARTIE;
-    final += SEPARATEUR_ELEMENT;
+    string final = "";
+    //On récupére la liste des joueurs
     listeJoueur = partie.getJoueur();
+    //On récupére la liste des cases
     listeCase = partie.getPlateau()->getListeCase();
+    //On informe sur chaque joueur
     for(int i = 0; i < listeJoueur.size(); i ++)
     {
         final += this->creerChaineNotificationJoueur(*(listeJoueur[i]));
     }
+    //On informe sur chaque case
     for(int i = 0; i < listeCase.size(); i++)
     {
         final += this->creerChaineNotificationCase(*(listeCase[i]));
+        //On récupére la liste des sorts de la case
         listeSortCase = listeCase[i]->getListSort();
+        //On informe sur les sorts s'ils appartiennent au joueur courent
         for(list<pair<int, Sort*> >::iterator iterator = listeSortCase.begin(); iterator != listeSortCase.end(); iterator++)
         {
             if(iterator->second->getProprietaire() != NULL && iterator->second->getProprietaire()->getNom() == this->nom)
@@ -414,11 +419,11 @@ string Joueur::creerChaineNotificationJoueur(Joueur const& joueur) const
     retour += SEPARATEUR_ELEMENT;
     if(joueur.getNomEquipe() == this->getNomEquipe())
     {
-        retour += joueur.getManaMaximum();
+        retour += to_string(joueur.getManaActuel());
         retour += SEPARATEUR_ELEMENT;
-        retour += joueur.getManaMaximum();
+        retour += to_string(joueur.getManaMaximum());
         retour += SEPARATEUR_ELEMENT;
-        joueur.getGainInitialMana();
+        retour += to_string(joueur.getGainInitialMana());
         retour += SEPARATEUR_ELEMENT;
     }
     else
