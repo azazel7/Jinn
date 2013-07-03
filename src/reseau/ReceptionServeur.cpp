@@ -504,5 +504,6 @@ void ReceptionServeur::finirServeur()
                 close(it->first);
             }
             this->listeClient.clear();
+            this->eteindre = true;
             GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Fin du serveur");
 }

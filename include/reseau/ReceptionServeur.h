@@ -41,6 +41,7 @@
 #define INFORMATION_SORT "infosort"
 #define INFORMATION_JOUEUR "infojoueur"
 #define INFORMATION_CASE "infocase"
+#define REUSSITE_SORT "reussitesort"
 
 class Partie;
 class Client;

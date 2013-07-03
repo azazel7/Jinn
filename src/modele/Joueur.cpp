@@ -486,6 +486,28 @@ string Joueur::creerChaineNotificationCase(Case const& caseANotif) const
    return retour;
 }
 
+void Joueur::notifierResultatSort(string const& nom, Position const& cible, bool reussite)
+{
+    string final = REUSSITE_SORT;
+    final += SEPARATEUR_ELEMENT;
+    final += nom;
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(cible.getX());
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(cible.getY());
+    final += SEPARATEUR_ELEMENT;
+    if(reussite == true)
+    {
+        final += "TRUE";
+    }
+    else
+    {
+        final += "FALSE";
+    }
+    final += SEPARATEUR_ELEMENT;
+    send(this->socket, final.c_str(), final.size(), 0);
+}
+
 Joueur::~Joueur()
 {
     for(int i = 0; i < this->listeSort.size(); i++)

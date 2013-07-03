@@ -94,6 +94,8 @@ public:
 
     void notifierSort(const Sort &sort, int duree, Position *position) const;
 
+    void notifierResultatSort(string const& nom, Position const& cible, bool reussite);
+
     string creerChaineNotificationSort(Sort const& sort, int duree, Position *position) const;
 
     string creerChaineNotificationJoueur(Joueur const& joueur) const;
