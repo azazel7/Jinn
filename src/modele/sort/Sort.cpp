@@ -141,16 +141,17 @@ void Sort::setDescription(string const& newDescription)
     this->description = newDescription;
 }
 
-Sort& Sort::operator =(Sort const& sortModele)
-{
-    Sort* sort = UsineSort::fabriqueSort(sortModele.getNom());
-    sort->setProprietaire(sortModele.getProprietaire());
-    sort->origine = sortModele.origine;
-    sort->id = sortModele.id;
-    return *sort;
-}
-
 int Sort::getDuree() const
 {
     return this->duree;
+}
+
+Case* Sort::getOrigine()
+{
+    return this->origine;
+}
+
+void Sort::setOrigine(Case* origine)
+{
+    this->origine = origine;
 }

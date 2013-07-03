@@ -92,6 +92,25 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
             //On calcule combien il y a d'octet à lire
             ioctl(it->first, FIONREAD, &octetRecus);
 
+            //Deconnexion du client
+            if(octetRecus == 0)
+            {
+                //On ferme la socket
+                close(it->first);
+                if(it->second != NULL)
+                {
+                    GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction du joueur " + it->second->getJoueur()->getNom());
+                    //Si c'était un joueur on le retire de la partie
+                    this->partie->retirerJoueur(it->second->getJoueur());
+                    delete it->second;
+                    it->second = NULL;
+                }
+                close(it->first);
+                //On supprime l'entrée
+                it = listeClient.erase(it);
+                GestionnaireLogger::ecrirMessage(TypeMessage::SUCCESS, "Destruction réussi");
+                continue;
+            }
             //On alloue en conséquence
             data = (char*)malloc(sizeof(char)*octetRecus);
             if(data == NULL)
@@ -104,30 +123,13 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
             if( octetLus < 0)
             {
                 GestionnaireLogger::ecrirMessage(TypeMessage::ERROR, "Erreur recv. Nombre d'octets négatif");
+                free(data);
                 continue;
-            }
-            else if (octetLus == 0)//Deconnexion du client
-            {
-                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction du joueur " + it->second->getJoueur()->getNom());
-                //On retire la socket de la séléction
-                FD_CLR(it->first, &readfd);
-                //On ferme la socket
-                close(it->first);
-                if(it->second != NULL)
-                {
-                    //Si c'était un joueur on le retire de la partie
-                    this->partie->retirerJoueur(it->second->getJoueur());
-                    delete it->second;
-                    it->second = NULL;
-                }
-                close(it->first);
-                //On supprime l'entrée
-                it = listeClient.erase(it);
-                GestionnaireLogger::ecrirMessage(TypeMessage::SUCCESS, "Destruction réussi");
             }
             else if(octetLus != octetRecus) //Curieuse affaire
             {
                 GestionnaireLogger::ecrirMessage(TypeMessage::ERROR, "Nombre d'octet lu different du nombre d'octet reçu");
+                free(data);
                 continue;
             }
 
@@ -394,7 +396,7 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
     vector<char*> listeCible;
     if(this->partie->estJoueurCourrant(listeClient[socketClient]->getJoueur()) == false)
     {
-        cout << "Pas current joueur" << endl;
+        GestionnaireLogger::ecrirMessage(TypeMessage::WARN, "N'est pas le joueur courant");
         return;
     }
     nomSort = strtok(NULL, SEPARATEUR_ELEMENT);
@@ -402,7 +404,7 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
     origineY = strtok(NULL, SEPARATEUR_ELEMENT);
     if(nomSort == NULL || origineX == NULL || origineY == NULL)
     {
-        cout << "sort/originex/originy = NULL" << endl;
+        GestionnaireLogger::ecrirMessage(TypeMessage::WARN, "Nom sort, X ou Y sont possiblement NULL");
         return;
     }
     x = atoi(origineX);
@@ -469,6 +471,7 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
     }
     this->partie->effectuerAction(action, listeClient[socketClient]->getJoueur());
     delete action;
+    delete sortAction;
 }
 
 void ReceptionServeur::traitementQuitter(int socketClient)

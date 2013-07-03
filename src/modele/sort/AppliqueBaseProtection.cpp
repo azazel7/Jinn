@@ -2,9 +2,10 @@
 
 void AppliqueBaseProtection::appliquerSortSurCase(Case &cible, Sort* sortExecutant)
 {
-    Sort& sort = *sortExecutant;
+    Sort* sort = NULL;
+    sort = UsineSort::fabriqueSort(sortExecutant);
     cible.modifierDefenseReel(+1);
-    cible.ajouterSort(&sort, sort.getDuree());
+    cible.ajouterSort(sort, sort->getDuree());
 }
 void AppliqueBaseProtection::retirerSortDeCase(Case &cible, Sort* sortExecutant)
 {

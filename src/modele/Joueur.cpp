@@ -290,7 +290,8 @@ void Joueur::notifierPartie(Partie & partie) const
         {
             if(iterator->second->getProprietaire() != NULL && iterator->second->getProprietaire()->getNom() == this->nom)
             {
-                   final += this->creerChaineNotificationSort(*(iterator->second), iterator->first, listeCase[i]->getPosition());
+                Sort* sor = iterator->second;
+                   final += this->creerChaineNotificationSort(*sor, iterator->first, listeCase[i]->getPosition());
             }
         }
     }

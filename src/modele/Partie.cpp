@@ -203,7 +203,6 @@ vector<string> Partie::listeEquipe()
 
 int Partie::getNombreSortParJoueur()
 {
-    cout << this->nombreSortParJoueur << endl;
     return this->nombreSortParJoueur;
 }
 
@@ -285,7 +284,7 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
 {
     vector<Case*> cible;
     string nomEquipeGagnante;
-    cout << "Action de faite" << endl;
+    GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Action effectuée");
     if(action->getSort() != NULL && action->getCible().size() != 0)
     {
         //Si ce n'est pas au joueur courant on retire

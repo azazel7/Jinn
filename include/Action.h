@@ -21,25 +21,25 @@ public:
 	/**
 	 *  Permet de recupérer le sort lié à une action
 	 */
-    virtual Sort* getSort();
+    Sort* getSort();
 
 	/**
 	 *  Récupére l'origine du sort
 	 */
-	virtual Case* getOrigine();
+    Case* getOrigine();
 
 	/**
 	 *  Récupére la liste des cibles du sort
 	 */
-	virtual std::vector<Case*> getCible();
+    std::vector<Case*> getCible();
 
-    virtual void setOrigine(Case* origine);
+    void setOrigine(Case* origine);
 
-    virtual void setSort(Sort* sort);
+    void setSort(Sort* sort);
 
-    virtual void ajouterCible(Case* nouvelleCase);
+    void ajouterCible(Case* nouvelleCase);
 
-    virtual bool possedeCible(Case* nouvelleCase);
+    bool possedeCible(Case* nouvelleCase);
 
 protected:
 

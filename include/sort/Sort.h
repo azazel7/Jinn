@@ -14,6 +14,7 @@ class Effet;
 class Joueur;
 class Case;
 
+//TODO que faire une fois la boucle des ID bouclée ?
 static unsigned int nextId = 1;
 
 class Sort
@@ -56,7 +57,7 @@ public:
          int nbMaxSortDissip);
 
     Sort();
-    Sort& operator =(Sort const& sortModele);
+
     int getPourcentageReussite();
 
     int getCoupManaParCase();
@@ -82,6 +83,10 @@ public:
     void ajouterApplication(SortAppliquerSurCase* newEffect);
 
     void setDescription(string const& newDescription);
+
+    Case* getOrigine();
+
+    void setOrigine(Case* origine);
 
 protected:
     string nom;

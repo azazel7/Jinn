@@ -20,7 +20,7 @@ Sort* UsineSort::fabriqueSort(string const& nom)
     }
     if(nom == "Rune de Protection")
     {
-        retour = new Sort("Rune de Protection", 1, false, 5, 100, 1, 0, 3, 0, 0, 0);
+        retour = new Sort("Rune de Protection", 1, false, 5, 100, 1, 0, 2, 0, 0, 0);
         retour->ajouterApplication(new AppliqueBaseProtection());
         retour->setDescription("Augmente la defense maximal d'une case de 1 pendant 3 tours");
     }
@@ -38,4 +38,13 @@ std::vector<string> UsineSort::liste()
     retour.push_back("Boule de Feu");
     retour.push_back("Rune de Protection");
     return retour;
+}
+
+Sort* UsineSort::fabriqueSort(Sort* sortModele)
+{
+    Sort* sort = UsineSort::fabriqueSort(sortModele->getNom());
+    sort->setProprietaire(sortModele->getProprietaire());
+    sort->setOrigine(sortModele->getOrigine());
+    sort->setId(sortModele->getId());
+    return sort;
 }
