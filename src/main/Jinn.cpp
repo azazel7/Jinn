@@ -32,7 +32,6 @@ void traitement_sigint(int sig)
 }
 int main()
 {
-        //TODO traitement des signaux
     signal(SIGINT, &traitement_sigint);
     Logger *logger = new LoggerFileDescriptor(1, false);
     GestionnaireLogger::ajouterRegistre(logger);
@@ -46,7 +45,6 @@ int main()
     serveur = NULL;
     GestionnaireLogger::viderRegistre();
     Position::libererPositions();
-    //TODO fermer reception avec fermeture des sockets
     return 0;
 
     /*

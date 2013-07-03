@@ -109,7 +109,7 @@ bool Partie::finPartie(string & nomEquipeGagnante)
 
 void Partie::finirPartie(string nomEquipeGagnante)
 {
-    cout << "Fin de partie" << endl;
+    GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Fin de la partie");
     this->estFini = true;
     this->enCours = false;
     for(int i = 0; i < this->joueur.size(); i++)
@@ -451,7 +451,7 @@ void Partie::changerJoueur()
 
 
     this->joueurCourant = choisirJoueur();
-    if(this->joueurCourant != NULL) //TODO traiter le cas où une équipe n'a plus de joueur
+    if(this->joueurCourant != NULL)
     {
         for(int i = 0; i < this->joueur.size(); i++)
         {

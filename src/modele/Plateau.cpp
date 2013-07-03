@@ -75,11 +75,11 @@ void Plateau::appliquerAction(Action action)
             if (Sort::testerReussite(nouveauTaux))
             {
                 sort->appliquerSortSurCase(*(cible[i]));
-                //TODO notifier joueur de la réussite sur une case
+                sort->getProprietaire()->notifierResultatSort(sort->getNom(), *(cible[i]->getPosition()), true);
             }
             else
             {
-                //TODO notifier joueur de l'echec
+                sort->getProprietaire()->notifierResultatSort(sort->getNom(), *(cible[i]->getPosition()), false);
             }
         }
 
