@@ -96,11 +96,15 @@ public:
 
     void notifierResultatSort(string const& nom, Position const& cible, bool reussite);
 
+    void notifierCase(Case const& caseANotif, bool compteProprietaire) const;
+
+    void notifierJoueur(Joueur const& joueur, bool compteEquipe = true) const;
+
     string creerChaineNotificationSort(Sort const& sort, int duree, Position *position) const;
 
-    string creerChaineNotificationJoueur(Joueur const& joueur) const;
+    string creerChaineNotificationJoueur(Joueur const& joueur, bool compteEquipe = true) const;
 
-    string creerChaineNotificationCase(Case const& caseANotif) const;
+    string creerChaineNotificationCase(Case const& caseANotif, bool compteProprietaire = true) const;
 
     ~Joueur();
 

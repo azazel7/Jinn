@@ -388,6 +388,18 @@ void Joueur::notifierSort(Sort const& sort, int duree, Position* position) const
     send(this->socket, final.c_str(), final.size(), 0);
 }
 
+void Joueur::notifierCase(Case const& caseANotif, bool compteProprietaire = true) const
+{
+    string final = this->creerChaineNotificationCase(caseANotif, compteProprietaire);
+    send(this->socket, final.c_str(), final.size(), 0);
+}
+
+void Joueur::notifierJoueur(Joueur const& joueur, bool compteEquipe) const
+{
+    string final = this->creerChaineNotificationJoueur(joueur, compteEquipe);
+    send(this->socket, final.c_str(), final.size(), 0);
+}
+
 string Joueur::creerChaineNotificationSort(Sort const& sort, int duree, Position* position) const
 {
     string retour = INFORMATION_SORT;
@@ -410,7 +422,7 @@ string Joueur::creerChaineNotificationSort(Sort const& sort, int duree, Position
     return retour;
 }
 
-string Joueur::creerChaineNotificationJoueur(Joueur const& joueur) const
+string Joueur::creerChaineNotificationJoueur(Joueur const& joueur, bool compteEquipe) const
 {
     string retour = INFORMATION_JOUEUR;
     retour += SEPARATEUR_ELEMENT;
@@ -418,7 +430,7 @@ string Joueur::creerChaineNotificationJoueur(Joueur const& joueur) const
     retour += SEPARATEUR_ELEMENT;
     retour += joueur.getNomEquipe();
     retour += SEPARATEUR_ELEMENT;
-    if(joueur.getNomEquipe() == this->getNomEquipe())
+    if(joueur.getNomEquipe() == this->getNomEquipe() || compteEquipe == false)
     {
         retour += to_string(joueur.getManaActuel());
         retour += SEPARATEUR_ELEMENT;
@@ -439,7 +451,7 @@ string Joueur::creerChaineNotificationJoueur(Joueur const& joueur) const
     return retour;
 }
 
-string Joueur::creerChaineNotificationCase(Case const& caseANotif) const
+string Joueur::creerChaineNotificationCase(Case const& caseANotif, bool compteProprietaire) const
 {
    string retour = INFORMATION_CASE;
    retour += SEPARATEUR_ELEMENT;
@@ -449,7 +461,7 @@ string Joueur::creerChaineNotificationCase(Case const& caseANotif) const
    retour += SEPARATEUR_ELEMENT;
    retour += caseANotif.getNomProprietaire();
    retour += SEPARATEUR_ELEMENT;
-   if(caseANotif.getNomProprietaire() == this->nom)
+   if(caseANotif.getNomProprietaire() == this->nom || compteProprietaire == false)
    {
         retour += to_string(caseANotif.getDefenseInitiale());
         retour += SEPARATEUR_ELEMENT;
@@ -515,4 +527,3 @@ Joueur::~Joueur()
         delete this->listeSort[i];
     }
 }
-//TODO penser à comment notifier d'un sort de révélation

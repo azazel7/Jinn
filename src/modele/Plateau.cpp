@@ -41,16 +41,11 @@ Case* Plateau::getCase(Position const& position)
 void Plateau::appliquerAction(Action action)
 {
     Sort* sort = action.getSort();
-    //    sort->modifierSuivantProprietaire();
     Case* origine = action.getOrigine();
     Joueur* proprietaire = sort->getProprietaire();
     std::vector<Case*> cible;
     int dissipation, nouveauTaux, distance;
     //Le sort modifie ses attributs selon la case où il est lancé
-    if(origine != NULL)
-    {
-        //        sort->modifierSuivantOrigine(*origine);
-    }
     cible = action.getCible();
     for(int i = 0; i < cible.size(); i++)
     {
@@ -74,8 +69,8 @@ void Plateau::appliquerAction(Action action)
             //tester réussite
             if (Sort::testerReussite(nouveauTaux))
             {
-                sort->appliquerSortSurCase(*(cible[i]));
                 sort->getProprietaire()->notifierResultatSort(sort->getNom(), *(cible[i]->getPosition()), true);
+                sort->appliquerSortSurCase(*(cible[i]));
             }
             else
             {

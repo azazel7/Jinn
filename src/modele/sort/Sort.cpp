@@ -25,6 +25,7 @@ Sort::Sort()
 
 int Sort::calculeNouveauTauxReussite(int dissip, int ancienTaux)
 {
+    //TODO faire le calcule de réussite, eventuellement, prendre en compte l'abilité
     return ancienTaux;
 }
 
