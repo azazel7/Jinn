@@ -1,6 +1,0 @@
-class ActionJoueur
-{
-public:
-    ActionJoueur();
-
-};

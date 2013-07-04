@@ -1,4 +1,4 @@
-#include "sort/AppliqueControle.h"
+#include "sort/actionApplique/AppliqueControle.h"
 
 void AppliqueControle::appliquerSortSurCase(Case &cible, Sort* sortExecutant)
 {

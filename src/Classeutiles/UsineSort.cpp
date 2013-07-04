@@ -1,8 +1,9 @@
 #include "UsineSort.h"
-#include "sort/AppliqueDegat.h"
-#include "sort/AppliqueControle.h"
-#include "sort/AppliqueBaseProtection.h"
-#include "sort/AppliqueRevelationCase.h"
+#include "sort/actionApplique/AppliqueDegat.h"
+#include "sort/actionApplique/AppliqueControle.h"
+#include "sort/actionApplique/AppliqueBaseProtection.h"
+#include "sort/actionApplique/AppliqueRevelationCase.h"
+#include "sort/actionApplique/AppliqueSortDuree.h"
 
 Sort* UsineSort::fabriqueSort(string const& nom)
 {
@@ -22,6 +23,7 @@ Sort* UsineSort::fabriqueSort(string const& nom)
     else if(nom == "Rune de Protection")
     {
         retour = new Sort("Rune de Protection", 1, false, 5, 100, 1, 0, 2, 0, 0, 0);
+        retour->ajouterApplication(new AppliquerSortDuree());
         retour->ajouterApplication(new AppliqueBaseProtection());
         retour->setDescription("Augmente la defense maximal d'une case de 1 pendant 3 tours");
     }

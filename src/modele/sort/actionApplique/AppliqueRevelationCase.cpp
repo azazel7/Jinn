@@ -1,4 +1,4 @@
-#include "sort/AppliqueRevelationCase.h"
+#include "sort/actionApplique/AppliqueRevelationCase.h"
 
 void AppliqueRevelationCase::appliquerSortSurCase(Case &cible, Sort* sortExecutant)
 {
