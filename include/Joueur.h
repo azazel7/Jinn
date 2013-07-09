@@ -62,6 +62,10 @@ public:
 
     void setSocket(int socket);
 
+    void setManaActuel(int valeur);
+
+    void setManaMaximum(int valeur);
+
     void setEquipe(Equipe* newEquipe);
 
     Equipe* getEquipe();

@@ -21,6 +21,7 @@ Joueur::Joueur(int gainInit, int manaMax, int abiliteInit, string  nom)
     this->manaActuel = manaMax;
     this->nom = nom;
     this->socket = 1; //La sortie standard
+    this->equipe = NULL;
 }
 
 Action Joueur::effectuerAction(Partie & partie)
@@ -222,6 +223,30 @@ int Joueur::getSocket() const
 void Joueur::setSocket(int socket)
 {
     this->socket = socket;
+}
+
+void Joueur::setManaActuel(int valeur)
+{
+    this->manaActuel = valeur;
+    if(this->manaActuel > this->manaMaximum)
+    {
+        this->manaActuel = this->manaMaximum;
+    }
+    else if(this->manaActuel < 0)
+    {
+        this->manaActuel = 0;
+    }
+}
+
+void Joueur::setManaMaximum(int valeur)
+{
+    this->manaMaximum = valeur;
+    if(this->manaMaximum < 0)
+    {
+        this->manaMaximum = 0;
+    }
+    //On applique les controlles sur manaActuel
+    this->setManaActuel(this->manaActuel);
 }
 
 void Joueur::setEquipe(Equipe* newEquipe)
