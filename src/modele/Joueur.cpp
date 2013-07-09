@@ -249,6 +249,11 @@ void Joueur::setManaMaximum(int valeur)
     this->setManaActuel(this->manaActuel);
 }
 
+void Joueur::setGainMana(int valeur)
+{
+    this->gainInitialMana = valeur;
+}
+
 void Joueur::setEquipe(Equipe* newEquipe)
 {
     this->equipe = newEquipe;

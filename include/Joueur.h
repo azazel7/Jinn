@@ -66,6 +66,8 @@ public:
 
     void setManaMaximum(int valeur);
 
+    void setGainMana(int valeur);
+
     void setEquipe(Equipe* newEquipe);
 
     Equipe* getEquipe();
