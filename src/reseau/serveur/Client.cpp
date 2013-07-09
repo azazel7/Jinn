@@ -1,4 +1,4 @@
-#include "reseau/Client.h"
+#include "reseau/serveur/Client.h"
 
 Client::Client()
 {

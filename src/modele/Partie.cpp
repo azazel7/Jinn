@@ -65,10 +65,6 @@ bool Partie::verifierVictoire(Equipe & equipe)
     return false;
 }
 
-
-/** 
-     *  Initialise la partie, les different joueurs, les differentes equipes et le terrain
-     */
 void Partie::initialiser()
 {
     plateau = new Plateau(2,2);
@@ -164,10 +160,11 @@ bool Partie::joueurExiste(string nom)
 
 bool Partie::prete()
 {
-    if(this->nombreDePlace != this->nombreDeJoueur())
+    if(this->nombreDePlace != this->nombreDeJoueur() || this->equipe.size() < 2)
     {
         return false;
     }
+    return true;
 }
 
 
@@ -285,6 +282,7 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
     vector<Case*> cible;
     string nomEquipeGagnante;
     GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Action effectuée");
+    //Cas des sorts
     if(action->getSort() != NULL && action->getCible().size() != 0)
     {
         //Si ce n'est pas au joueur courant on retire
@@ -315,14 +313,14 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
         {
             if(action->getOrigine() != NULL)
             {
-                if(Position::distance(* (action->getOrigine()->getPosition()), *(cible[i]->getPosition())) > action->getSort()->getPorteeMax())
+                if(Position::distance( *(action->getOrigine()->getPosition()), *(cible[i]->getPosition())) > action->getSort()->getPorteeMax())
                 {
+                    throw invalid_argument("Impossible de lancer le sort sur une telle distance");
                     return;
                 }
             }
             else
             {
-                //Je fait une négation car je ne suis pas s^ur de bien l'inverser
                 //Tout du moins, cela vérifie si la cible est bien sur le bord, donc, si l'une de ses coordonné est sur le bord
                 if(cible[i]->getPosition()->getX() != 0 && cible[i]->getPosition()->getX() != this->plateau->getLargeur() - 1 && cible[i]->getPosition()->getY() != 0 && cible[i]->getPosition()->getX() != this->plateau->getHauteur() - 1)
                 {
@@ -344,13 +342,16 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
             GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Un joueur est mort");
         }
     }
+    //Cas des autre action comme la fin de tour
     else
     {
+        //Cela correspond au changement de joueur
         if(action->getOrigine() == NULL && action->getSort() == NULL && action->getCible().size() == 0 && this->estJoueurCourrant(joueur) == true)
         {
             this->changerJoueur();
         }
     }
+    //On verifie si la partie s'est finie
     if(this->finPartie(nomEquipeGagnante) == true)
     {
         this->finirPartie(nomEquipeGagnante);
@@ -379,10 +380,6 @@ void Partie::retirerJoueur(Joueur* joueur)
     //retirer un joueur: retirer de ses cases, retirer ses sorts, retirer de l'equipe,
     Equipe *equipeJoueur = joueur->getEquipe();
     plateau->retirerJoueur(joueur);
-    if(joueur == this->joueurCourant)
-    {
-        this->changerJoueur();
-    }
     for(vector<Joueur*>::iterator it = this->joueur.begin(); it != this->joueur.end(); it++)
     {
         if((*it) != NULL && it != this->joueur.end())
@@ -401,6 +398,10 @@ void Partie::retirerJoueur(Joueur* joueur)
     }
     //On le retire de l'équipe
     equipeJoueur->setNombreJoueur(equipeJoueur->getNombreJoueur() - 1);
+    if(joueur == this->joueurCourant)
+    {
+        this->changerJoueur();
+    }
     //Une équipe n'a plus de joueur
     if(equipeJoueur->getNombreJoueur() == 0)
     {
@@ -422,10 +423,8 @@ void Partie::retirerJoueur(Joueur* joueur)
             this->finirPartie(nomEquipeGagnante);
         }
     }
-    else
-    {
-        equipeJoueur->tournerIndex();
-    }
+    //On tourne
+    equipeJoueur->tournerIndex();
     delete joueur;
 
 }

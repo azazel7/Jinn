@@ -11,7 +11,7 @@
 #include "sort/Sort.h"
 #include "Partie.h"
 #include "UsineSort.h"
-#include "reseau/ReceptionServeur.h"
+#include "reseau/serveur/ReceptionServeur.h"
 #include "Tools.h"
 #include "Position.h"
 
@@ -67,6 +67,10 @@ public:
     Equipe* getEquipe();
 
     string getNomEquipe() const;
+
+    void ajouterSort(string const& nom);
+
+    void retirerSort(string const& nom);
 
     bool possedeSort(Sort* sort);
 

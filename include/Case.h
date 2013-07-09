@@ -28,7 +28,8 @@ public:
     void modifierDefense(int nombre);
     void modifierDefenseReel(int nombre);
     void retirerJoueur(Joueur* joueur);
-    void retirerSort(int index);
+    void retirerSort(int index, bool compteEffet);
+    void retirerSortId(int id, bool compteEffet);
     list<pair<int, Sort*> > getListSort();
     Sort* getSort(int index);
     int getApportMana() const;

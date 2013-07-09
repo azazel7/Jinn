@@ -28,5 +28,4 @@ void testMortJoueur()
     assert(pl->getCase(0,0)->getDefenseActuelle() == pl->getCase(0,0)->getDefenseInitiale());
     delete action;
     delete sort;
-    //TODO tout n'est pas libéré
 }

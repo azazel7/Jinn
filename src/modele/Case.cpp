@@ -131,7 +131,7 @@ void Case::retirerJoueur(Joueur* joueur)
     }
 }
 
-void Case::retirerSort(int index)
+void Case::retirerSort(int index, bool compteEffet = true)
 {
     int i = 0;
     list<pair<int, Sort*> >::iterator iterator;
@@ -139,12 +139,33 @@ void Case::retirerSort(int index)
     {
         if(i == index)
         {
-            iterator->second->retirerDeCase(*this);
+            if(compteEffet == true)
+            {
+                iterator->second->retirerDeCase(*this);
+            }
             delete iterator->second;
             sort.erase(iterator);
             return;
         }
         i++;
+    }
+}
+
+void Case::retirerSortId(int id, bool compteEffet = true)
+{
+    list<pair<int, Sort*> >::iterator iterator;
+    for(iterator = sort.begin(); iterator != sort.end(); iterator++)
+    {
+        if((iterator->second)->getId() == id)
+        {
+            if(compteEffet == true)
+            {
+                iterator->second->retirerDeCase(*this);
+            }
+            delete iterator->second;
+            sort.erase(iterator);
+            return;
+        }
     }
 }
 

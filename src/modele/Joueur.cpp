@@ -229,6 +229,28 @@ void Joueur::setEquipe(Equipe* newEquipe)
     this->equipe = newEquipe;
 }
 
+void Joueur::ajouterSort(string const& nom)
+{
+    if(this->possedeSort(nom) == false)
+    {
+        Sort* sort = UsineSort::fabriqueSort(nom);
+        sort->setProprietaire(this);
+        this->listeSort.push_back(sort);
+    }
+}
+
+void Joueur::retirerSort(string const& nom)
+{
+    for(vector<Sort*>::iterator it = this->listeSort.begin(); it != this->listeSort.end(); it++)
+    {
+        if((*it)->getNom() == nom)
+        {
+            it = this->listeSort.erase(it);
+            break;
+        }
+    }
+}
+
 void Joueur::notifierCreation() const
 {
     string final = NOUVEAU_JOUEUR;
@@ -259,7 +281,6 @@ void Joueur::notifierActionSort(string information) const
 
 void Joueur::notifierPartie(Partie & partie) const
 {
-    //TODO, il va falloir notifier les changements ....
     //Un joueur n'est informer que de ce qu'il peut voir ou sentir ~~
     //Pour une case: Deffense initial, proprio
     //Pour une case en sa possession, informer des sorts dessus en excluant les siens ? (Au début, pas de case, donc tout va bien)

@@ -1,4 +1,4 @@
-#include "reseau/ReceptionServeur.h"
+#include "reseau/serveur/ReceptionServeur.h"
 
 ReceptionServeur::ReceptionServeur(Partie* partie, string ip, int port)
 {
@@ -165,7 +165,7 @@ void ReceptionServeur::testerSelectionServeur(fd_set& readfd)
         //On l'ajoute à la selection
         FD_SET(csock, &readfd);
         GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Nouvelle connexion sur le serveur");
-        //TODO  inet_ntoa(csin.sin_addr), htons(csin.sin_port)
+        //TODO améliorer ce log  inet_ntoa(csin.sin_addr), htons(csin.sin_port)
     }
 }
 

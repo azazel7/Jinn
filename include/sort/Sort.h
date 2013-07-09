@@ -12,7 +12,7 @@ using namespace std;
 class Joueur;
 class Case;
 
-//TODO que faire une fois la boucle des ID bouclée ?
+//que faire une fois la boucle des ID bouclée ? Il faut 1 an à raison de 100 sorts lancé par seconde pour la boucler. Et aucun sort ne dure 2^32 tours
 static unsigned int nextId = 1;
 
 class Sort
