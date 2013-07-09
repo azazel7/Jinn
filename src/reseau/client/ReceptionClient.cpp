@@ -130,16 +130,10 @@ void ReceptionClient::traitementInfoCase()
     char* argument[10] = {NULL};
     Case* caseCible = NULL;
     int x = -1, y = -1, defReel = -1, defActuelle = -1, defInit = -1, regenDef = -1, apportMana = -1, bonusOffInit = -1, bonusOffActuel = -1;
-    argument[0] = strtok (NULL, SEPARATEUR_ELEMENT);
-    argument[1] = strtok (NULL, SEPARATEUR_ELEMENT);
-    argument[2] = strtok (NULL, SEPARATEUR_ELEMENT);
-    argument[3] = strtok (NULL, SEPARATEUR_ELEMENT);
-    argument[4] = strtok (NULL, SEPARATEUR_ELEMENT);
-    argument[5] = strtok (NULL, SEPARATEUR_ELEMENT);
-    argument[6] = strtok (NULL, SEPARATEUR_ELEMENT);
-    argument[7] = strtok (NULL, SEPARATEUR_ELEMENT);
-    argument[8] = strtok (NULL, SEPARATEUR_ELEMENT);
-    argument[9] = strtok (NULL, SEPARATEUR_ELEMENT);
+    for(int i = 0; i < 10; i++)
+    {
+        argument[i] = strtok (NULL, SEPARATEUR_ELEMENT);
+    }
 
     for(int i = 0; i < 10; i++)
     {
@@ -201,5 +195,71 @@ void ReceptionClient::traitementInfoCase()
 void ReceptionClient::traitementInfoJoueur()
 {
     char* argument[5] = {NULL};
+    int manaActuel = -1, manaMax = -1, gainMana = -1;
+    Joueur* joueur;
+    for(int i = 0; i < 5; i++)
+    {
+        argument[i] = strtok (NULL, SEPARATEUR_ELEMENT);
+    }
 
+    for(int i = 0; i < 5; i++)
+    {
+        if(argument[i] == NULL)
+        {
+            //Info fausse
+            return;
+        }
+    }
+    manaActuel = atoi(argument[2]);
+    manaMax = atoi(argument[3]);
+    gainMana = atoi(argument[4]);
+    joueur = this->partie->getJoueur(argument[0]);
+    if(joueur == NULL)
+    {
+        joueur = new Joueur(gainMana, manaMax, -1, argument[0]);
+        joueur->setManaActuel(manaActuel);
+        //TODO Setter l'equipe
+        this->partie->ajouterJoueur(joueur);
+    }
+    else
+    {
+        if(manaMax != -1)
+        {
+               joueur->setManaMaximum(manaMax);
+        }
+        if(manaActuel != -1)
+        {
+            joueur->setManaActuel(manaActuel);
+        }
+        if(gainMana != -1)
+        {
+            joueur->setGainMana(gainMana);
+        }
+    }
+}
+
+void ReceptionClient::traitementInfoSort()
+{
+    char* argument[6] = {NULL};
+    Sort* sort = NULL;
+    int x = -1, y = -1, duree = -1;
+    unsigned int id = 0;
+    for(int i = 0; i < 6; i++)
+    {
+        argument[i] = strtok (NULL, SEPARATEUR_ELEMENT);
+    }
+    for(int i = 0; i < 6; i++)
+    {
+        if(argument[i] == NULL)
+        {
+            //Info fausse
+            return;
+        }
+    }
+    x = atoi(argument[4]);
+    y = atoi(argument[5]);
+    duree = atoi(argument[3]);
+    id = atoi(argument[1]);
+
+    //TODO Comment ajouter un sort ? Créer une fonction d'accés au sort par sont id et sa position
 }

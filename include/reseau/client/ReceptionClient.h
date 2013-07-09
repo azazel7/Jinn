@@ -26,6 +26,7 @@ private:
     void traitementCommande(char* commande);
     void traitementInfoCase();
     void traitementInfoJoueur();
+    void traitementInfoSort();
     int port;
     string ip;
     int socketClient;
