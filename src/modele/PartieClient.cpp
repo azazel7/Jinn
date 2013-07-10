@@ -1,5 +1,9 @@
 #include "PartieClient.h"
 
+PartieClient::PartieClient()
+{
+    this->joueurCourant = NULL;
+}
 void PartieClient::ajouterJoueur(Joueur *joueur)
 {
     if(this->listeJoueur[joueur->getNom()] == NULL)
@@ -54,4 +58,22 @@ Case* PartieClient::getCase(Position * position)
 {
     int code = Position::codePosition(position->getX(), position->getY());
     return this->listeCase[code];
+}
+Sort* PartieClient::getSort(Position* position, int id_sort)
+{
+    Case* caseCible = this->getCase(position);
+    if(caseCible == NULL)
+    {
+        return NULL;
+    }
+    return caseCible->getSortId(id_sort);
+}
+
+void PartieClient::setJoueurCourant(Joueur* joueur)
+{
+    this->joueurCourant = joueur;
+}
+Joueur* PartieClient::getJoueurCourant()
+{
+    return this->joueurCourant;
 }

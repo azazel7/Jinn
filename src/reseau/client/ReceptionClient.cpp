@@ -111,7 +111,7 @@ void ReceptionClient::traitementCommande(char* commande)
     {
         if(strcmp(action, MESSAGE) == 0)
         {
-
+            //Message
         }
         else if(strcmp(action, INFORMATION_CASE) == 0)
         {
@@ -119,7 +119,31 @@ void ReceptionClient::traitementCommande(char* commande)
         }
         else if(strcmp(action, INFORMATION_JOUEUR) == 0)
         {
-
+            traitementInfoJoueur();
+        }
+        else if(strcmp(action, INFORMATION_SORT) == 0)
+        {
+            traitementInfoSort();
+        }
+        else if(strcmp(action, TOUR_DE) == 0)
+        {
+            traitementTourDe();
+            //Message
+        }
+        else if(strcmp(action, MORT) == 0)
+        {
+            //Message, supprimer les sorts et le joueur
+        }
+        else if(strcmp(action, DEMARAGE_PARTIE) == 0)
+        {
+        }
+        else if(strcmp(action, FIN_PARTIE) == 0)
+        {
+            //Message
+        }
+        else if(strcmp(action, REUSSITE_SORT) == 0)
+        {
+            //Message
         }
     }
 
@@ -242,6 +266,8 @@ void ReceptionClient::traitementInfoSort()
 {
     char* argument[6] = {NULL};
     Sort* sort = NULL;
+    Case* caseCible = NULL;
+    Joueur* proprietaire = NULL;
     int x = -1, y = -1, duree = -1;
     unsigned int id = 0;
     for(int i = 0; i < 6; i++)
@@ -261,5 +287,41 @@ void ReceptionClient::traitementInfoSort()
     duree = atoi(argument[3]);
     id = atoi(argument[1]);
 
-    //TODO Comment ajouter un sort ? Créer une fonction d'accés au sort par sont id et sa position
+    sort = this->partie->getSort(Position::fabriquePosition(x, y), id);
+    //Sort inexistant sur la case
+    if(sort == NULL)
+    {
+        sort = UsineSort::fabriqueSort(argument[0]);
+        //Pas de sort de ce nom
+        if(sort == NULL)
+        {
+            return;
+        }
+        proprietaire = this->partie->getJoueur((argument[2]));
+        //Pas de joueur de ce nom
+        if(proprietaire == NULL)
+        {
+            return;
+        }
+        sort->setProprietaire(proprietaire);
+        sort->setId(id);
+        caseCible = this->partie->getCase(Position::fabriquePosition(x, y));
+        //Pas de case à cette position
+        if(caseCible != NULL)
+        {
+            caseCible->ajouterSort(sort, duree);
+        }
+    }
+}
+
+void ReceptionClient::traitementTourDe()
+{
+    char* nom = NULL;
+    Joueur* joueur = NULL;
+    nom = strtok (NULL, SEPARATEUR_ELEMENT);
+    if(nom != NULL)
+    {
+        joueur = this->partie->getJoueur(nom);
+    }
+    this->partie->setJoueurCourant(joueur);
 }

@@ -32,6 +32,7 @@ public:
     void retirerSortId(int id, bool compteEffet);
     list<pair<int, Sort*> > getListSort();
     Sort* getSort(int index);
+    Sort* getSortId(int id);
     int getApportMana() const;
     void setApportMana(int apportMana);
     int getBonusOffensifActuel() const;

@@ -324,6 +324,20 @@ Sort* Case::getSort(int index)
         }
         i++;
     }
+    return NULL;
+}
+
+Sort* Case::getSortId(int id)
+{
+    list<pair<int, Sort*> >::iterator iterator;
+    for(iterator = sort.begin(); iterator != sort.end(); iterator++)
+    {
+        if(iterator->second->getId() == id)
+        {
+            return iterator->second;
+        }
+    }
+    return NULL;
 }
 
 string Case::getNomProprietaire() const
