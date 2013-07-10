@@ -292,6 +292,7 @@ void ReceptionServeur::traitementEquipe(int socketClient)
     {
         final += SEPARATEUR_ELEMENT + listeEquipe[i];
     }
+    final += SEPARATEUR_ELEMENT;
     send(socketClient, final.c_str(), final.size(), 0);
 }
 

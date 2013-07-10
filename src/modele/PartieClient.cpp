@@ -77,3 +77,25 @@ Joueur* PartieClient::getJoueurCourant()
 {
     return this->joueurCourant;
 }
+
+vector<Sort*> PartieClient::getListeSortDispo()
+{
+    return this->listeSortDispo;
+}
+void PartieClient::setListeSortDispo(vector<Sort*> nouvelleListe)
+{
+    for(int i = 0; i < this->listeSortDispo.size(); i++)
+    {
+        delete this->listeSortDispo[i];
+    }
+    this->listeSortDispo.clear();
+    this->listeSortDispo = nouvelleListe;
+}
+vector<string> PartieClient::getListeEquipe()
+{
+    return this->listeEquipe;
+}
+void PartieClient::setListeEquipe(vector<string> nouvelleListe)
+{
+    this->listeEquipe = nouvelleListe;
+}

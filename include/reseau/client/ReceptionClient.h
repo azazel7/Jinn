@@ -28,6 +28,8 @@ private:
     void traitementInfoJoueur();
     void traitementInfoSort();
     void traitementTourDe();
+    void traitementSort();
+    void traitementEquipe();
     int port;
     string ip;
     int socketClient;

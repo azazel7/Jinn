@@ -26,9 +26,17 @@ public:
     void setJoueurCourant(Joueur* joueur);
     Joueur* getJoueurCourant();
 
+    vector<Sort*> getListeSortDispo();
+    void setListeSortDispo(vector<Sort*> nouvelleListe);
+
+    vector<string> getListeEquipe();
+    void setListeEquipe(vector<string> nouvelleListe);
+
 private:
     map<string, Joueur*> listeJoueur;
     map<int, Case*> listeCase;
     Joueur* joueurCourant;
+    vector<Sort*> listeSortDispo;
+    vector<string> listeEquipe;
 };
 #endif

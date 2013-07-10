@@ -145,6 +145,14 @@ void ReceptionClient::traitementCommande(char* commande)
         {
             //Message
         }
+        else if(strcmp(action, SORT) == 0)
+        {
+            //Message
+        }
+        else if(strcmp(action, EQUIPE) == 0)
+        {
+            //Message
+        }
     }
 
 }
@@ -324,4 +332,35 @@ void ReceptionClient::traitementTourDe()
         joueur = this->partie->getJoueur(nom);
     }
     this->partie->setJoueurCourant(joueur);
+}
+
+void ReceptionClient::traitementSort()
+{
+    vector<Sort*> listeSort;
+    char* nomSort = NULL;
+    Sort* courant = NULL;
+    int compteur = 0;
+    while( (nomSort = strtok (NULL, SEPARATEUR_ELEMENT)) != NULL)
+    {
+        if((compteur%8) == 0)
+        {
+            courant = UsineSort::fabriqueSort(nomSort);
+            if(courant != NULL)
+            {
+                listeSort.push_back(courant);
+            }
+        }
+    }
+    this->partie->setListeSortDispo(listeSort);
+}
+
+void ReceptionClient::traitementEquipe()
+{
+    vector<string> listeEquipe;
+    char* nom = NULL;
+    while( (nom = strtok (NULL, SEPARATEUR_ELEMENT)) != NULL)
+    {
+        listeEquipe.push_back(nom);
+    }
+    this->partie->setListeEquipe(listeEquipe);
 }
