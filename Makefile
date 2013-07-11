@@ -9,12 +9,15 @@ EXEC=Jinn
 SRC = $(shell find $(SRCDIR) -name "*.cpp"  ! -path '$(MAINDIR)*')
 OBJ = $(patsubst $(SRCDIR)%.cpp, $(OBJDIR)%.o, $(SRC))
 OBJSUBDIR = $(dir $(OBJ))
-FLAG= -std=c++11
+FLAG= -std=c++11 -lcurses
 OPTION=-g
 
 compile: directory $(OBJ)
 
 Jinn: compile 
+	$(CC) $(OPTION) -I $(INCDIR)  $(OBJ) $(MAINDIR)$@.cpp -o $@ $(FLAG)
+
+ClientJinn: compile
 	$(CC) $(OPTION) -I $(INCDIR)  $(OBJ) $(MAINDIR)$@.cpp -o $@ $(FLAG)
 
 TestUnitaire: compile
