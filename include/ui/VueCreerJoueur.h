@@ -2,10 +2,13 @@
 #define VueCreerJoueur_h
 
 #include "PartieClient.h"
+#include <curses.h>
+#include <algorithm>
+
 namespace IndexCreerJoueur
 {
-    static const int curseur_liste_sort = 0;
-    static const int curseur_liste_equipe = 1;
+    static const int curseur_liste_equipe = 0;
+    static const int curseur_liste_sort = 1;
     static const int curseur_nom_joueur = 2;
     static const int curseur_nom_equipe = 3;
 }
@@ -23,11 +26,16 @@ class VueCreerJoueur
         void ajouterLettre(char lettre);
         //Retire la dernière lettre
         void retirerLettre();
+
+        void saisieInformation();
+        void enterSort();
+        void enterEquipe();
     private:
         PartieClient* partie;
         int curseur;
         string nomJoueur;
         string nomEquipe;
         int positionEquipe, positionSort;
+        list<string> sortChoisie;
 };
 #endif

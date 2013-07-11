@@ -364,3 +364,12 @@ void ReceptionClient::traitementEquipe()
     }
     this->partie->setListeEquipe(listeEquipe);
 }
+
+void ReceptionClient::envoyerCommandeSort()
+{
+
+}
+void ReceptionClient::envoyerCommandeEquipe()
+{
+
+}

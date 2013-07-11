@@ -30,6 +30,8 @@ private:
     void traitementTourDe();
     void traitementSort();
     void traitementEquipe();
+    void envoyerCommandeSort();
+    void envoyerCommandeEquipe();
     int port;
     string ip;
     int socketClient;
