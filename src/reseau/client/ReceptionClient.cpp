@@ -375,7 +375,6 @@ void ReceptionClient::traitementEquipe()
     char* nom = NULL;
     while( (nom = strtok (NULL, SEPARATEUR_ELEMENT)) != NULL)
     {
-        cout << "Ici" << endl;
         listeEquipe.push_back(nom);
     }
     this->partie->setListeEquipe(listeEquipe);
@@ -390,7 +389,6 @@ void ReceptionClient::envoyerCommandeSort()
 }
 void ReceptionClient::envoyerCommandeEquipe()
 {
-    cout << "commande client" << endl;
     string final = EQUIPE;
     final += SEPARATEUR_ELEMENT;
     final += SEPARATEUR_COMMANDE;

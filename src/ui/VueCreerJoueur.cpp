@@ -222,7 +222,8 @@ void VueCreerJoueur::saisieInformation()
                 return;
             break;
             case KEY_F(3):
-                //Valider et envoyer
+                this->receptionClient->envoyerCommandeNouveauJoueur(this->nomJoueur, this->nomEquipe, this->sortChoisie);
+                return;
             break;
             default:
                 this->ajouterLettre(touche);
