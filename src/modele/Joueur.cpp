@@ -301,6 +301,7 @@ void Joueur::notifierCreation() const
         final += listeSort[i]->getNom();
     }
     final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
     send(this->socket, final.c_str(), final.size(), 0);
 }
 
@@ -342,7 +343,7 @@ void Joueur::notifierPartie(Partie & partie) const
             if(iterator->second->getProprietaire() != NULL && iterator->second->getProprietaire()->getNom() == this->nom)
             {
                 Sort* sor = iterator->second;
-                   final += this->creerChaineNotificationSort(*sor, iterator->first, listeCase[i]->getPosition());
+                final += this->creerChaineNotificationSort(*sor, iterator->first, listeCase[i]->getPosition());
             }
         }
     }
@@ -354,6 +355,7 @@ void Joueur::notifierDebutPartie() const
 {
     string final = DEMARAGE_PARTIE;
     final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
     send(this->socket, final.c_str(), final.size(), 0);
 }
 
@@ -363,6 +365,7 @@ void Joueur::notifierDebutTour(string nomJoueur) const
     final += SEPARATEUR_ELEMENT;
     final += nomJoueur;
     final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
     send(this->socket, final.c_str(), final.size(), 0);
 }
 void Joueur::notifierFinTourPartie() const
@@ -376,6 +379,7 @@ void Joueur::notifierMort(string nomJoueur) const
     final += SEPARATEUR_ELEMENT;
     final += nomJoueur;
     final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
     send(this->socket, final.c_str(), final.size(), 0);
 }
 
@@ -398,6 +402,7 @@ void Joueur::notifierPropriaitaireCase(string nomJoueur, bool type, int x, int y
     final += SEPARATEUR_ELEMENT;
     final += to_string(y);
     final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
 
     send(this->socket, final.c_str(), final.size(), 0);
 
@@ -408,6 +413,7 @@ void Joueur::notifierFinPartie(string nomEquipeGagnante) const
     final += SEPARATEUR_ELEMENT;
     final += nomEquipeGagnante;
     final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
     send(this->socket, final.c_str(), final.size(), 0);
 }
 
@@ -417,6 +423,7 @@ void Joueur::notifierSuppressionJoueur(string nomJoueur) const
     final += SEPARATEUR_ELEMENT;
     final += nomJoueur;
     final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
     send(this->socket, final.c_str(), final.size(), 0);
 }
 
@@ -470,6 +477,7 @@ string Joueur::creerChaineNotificationSort(Sort const& sort, int duree, Position
     retour += SEPARATEUR_ELEMENT;
     retour += to_string(position->getY());
     retour += SEPARATEUR_ELEMENT;
+    retour += SEPARATEUR_COMMANDE;
     return retour;
 }
 
@@ -499,21 +507,22 @@ string Joueur::creerChaineNotificationJoueur(Joueur const& joueur, bool compteEq
         retour += to_string(-1);
         retour += SEPARATEUR_ELEMENT;
     }
+    retour += SEPARATEUR_COMMANDE;
     return retour;
 }
 
 string Joueur::creerChaineNotificationCase(Case const& caseANotif, bool compteProprietaire) const
 {
-   string retour = INFORMATION_CASE;
-   retour += SEPARATEUR_ELEMENT;
-   retour += to_string(caseANotif.getPosition()->getX());
-   retour += SEPARATEUR_ELEMENT;
-   retour += to_string(caseANotif.getPosition()->getY());
-   retour += SEPARATEUR_ELEMENT;
-   retour += caseANotif.getNomProprietaire();
-   retour += SEPARATEUR_ELEMENT;
-   if(caseANotif.getNomProprietaire() == this->nom || compteProprietaire == false)
-   {
+    string retour = INFORMATION_CASE;
+    retour += SEPARATEUR_ELEMENT;
+    retour += to_string(caseANotif.getPosition()->getX());
+    retour += SEPARATEUR_ELEMENT;
+    retour += to_string(caseANotif.getPosition()->getY());
+    retour += SEPARATEUR_ELEMENT;
+    retour += caseANotif.getNomProprietaire();
+    retour += SEPARATEUR_ELEMENT;
+    if(caseANotif.getNomProprietaire() == this->nom || compteProprietaire == false)
+    {
         retour += to_string(caseANotif.getDefenseInitiale());
         retour += SEPARATEUR_ELEMENT;
         retour += to_string(caseANotif.getDefenseReel());
@@ -528,9 +537,9 @@ string Joueur::creerChaineNotificationCase(Case const& caseANotif, bool comptePr
         retour += SEPARATEUR_ELEMENT;
         retour += to_string(caseANotif.getBonusOffensifActuel());
         retour += SEPARATEUR_ELEMENT;
-   }
-   else
-   {
+    }
+    else
+    {
         retour += to_string(caseANotif.getDefenseInitiale());
         retour += SEPARATEUR_ELEMENT;
         retour += to_string(-1);
@@ -545,8 +554,9 @@ string Joueur::creerChaineNotificationCase(Case const& caseANotif, bool comptePr
         retour += SEPARATEUR_ELEMENT;
         retour += to_string(-1);
         retour += SEPARATEUR_ELEMENT;
-   }
-   return retour;
+    }
+    retour += SEPARATEUR_COMMANDE;
+    return retour;
 }
 
 void Joueur::notifierResultatSort(string const& nom, Position const& cible, bool reussite)
@@ -568,6 +578,7 @@ void Joueur::notifierResultatSort(string const& nom, Position const& cible, bool
         final += "FALSE";
     }
     final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
     send(this->socket, final.c_str(), final.size(), 0);
 }
 

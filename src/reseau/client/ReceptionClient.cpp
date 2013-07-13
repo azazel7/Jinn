@@ -38,6 +38,7 @@ bool ReceptionClient::initialiserClient()
         }
         sleep(2);
     }
+    return true;
 }
 bool ReceptionClient::miseEnEcoute()
 {
@@ -57,6 +58,7 @@ bool ReceptionClient::miseEnEcoute()
             exit(-1);
         }
         GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Données reçus par le select");
+        this->testerSelection(readfs);
     }
 }
 
@@ -77,13 +79,14 @@ void ReceptionClient::testerSelection(fd_set readfd)
         {
             GestionnaireLogger::ecrirMessage(TypeMessage::ERROR, "Erreur de lecture du nombre d'octet par ioctl");
         }
-        data = (char*)malloc(sizeof(char)*octetRecus);
+        //On ajoute 1 car c'est une chaine et qu'il faut le 0 final
+        data = (char*)malloc(sizeof(char)*(octetRecus + 1));
         if(data == NULL)
         {
             GestionnaireLogger::ecrirMessage(TypeMessage::FATAL, "Erreur malloc");
             exit(-1);
         }
-
+        data[octetRecus] = 0;
         octetLus = recv(this->socketClient, data, octetRecus, 0);
         if( octetLus < 0)
         {
@@ -97,8 +100,18 @@ void ReceptionClient::testerSelection(fd_set readfd)
             free(data);
             return;
         }
-        this->traitementCommande(data);
+        GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Traitement des données en cour ...");
+        string ligne = data;
         free(data);
+        vector<string> listeCommande;
+        boost::split(listeCommande, ligne, boost::is_any_of(SEPARATEUR_COMMANDE));
+        for(int i = 0; i < listeCommande.size(); i++)
+        {
+            data = (char*)malloc((listeCommande[i].size() + 1) * sizeof(char));
+            strncpy(data, listeCommande[i].c_str(), listeCommande[i].size());
+            this->traitementCommande(data);
+            free(data);
+        }
     }
 
 }
@@ -107,8 +120,9 @@ void ReceptionClient::traitementCommande(char* commande)
 {
     char *action = NULL;
     action = strtok (commande, SEPARATEUR_ELEMENT);
-    while(action != NULL)
+    if(action != NULL)
     {
+        GestionnaireLogger::ecrirMessage(TypeMessage::INFO, action);
         if(strcmp(action, MESSAGE) == 0)
         {
             //Message
@@ -128,7 +142,6 @@ void ReceptionClient::traitementCommande(char* commande)
         else if(strcmp(action, TOUR_DE) == 0)
         {
             traitementTourDe();
-            //Message
         }
         else if(strcmp(action, MORT) == 0)
         {
@@ -147,11 +160,13 @@ void ReceptionClient::traitementCommande(char* commande)
         }
         else if(strcmp(action, SORT) == 0)
         {
-            //Message
+            cout << "On passe par lou" << endl;
+            traitementSort();
         }
         else if(strcmp(action, EQUIPE) == 0)
         {
-            //Message
+            cout << "On passe par là" << endl;
+            traitementEquipe();
         }
     }
 
@@ -257,7 +272,7 @@ void ReceptionClient::traitementInfoJoueur()
     {
         if(manaMax != -1)
         {
-               joueur->setManaMaximum(manaMax);
+            joueur->setManaMaximum(manaMax);
         }
         if(manaActuel != -1)
         {
@@ -360,6 +375,7 @@ void ReceptionClient::traitementEquipe()
     char* nom = NULL;
     while( (nom = strtok (NULL, SEPARATEUR_ELEMENT)) != NULL)
     {
+        cout << "Ici" << endl;
         listeEquipe.push_back(nom);
     }
     this->partie->setListeEquipe(listeEquipe);
@@ -367,9 +383,30 @@ void ReceptionClient::traitementEquipe()
 
 void ReceptionClient::envoyerCommandeSort()
 {
-
+    string final = SORT;
+    final += SEPARATEUR_ELEMENT;
+    send(this->socketClient, final.c_str(), final.size(), 0);
 }
 void ReceptionClient::envoyerCommandeEquipe()
 {
+    cout << "commande client" << endl;
+    string final = EQUIPE;
+    final += SEPARATEUR_ELEMENT;
+    send(this->socketClient, final.c_str(), final.size(), 0);
+}
 
+void ReceptionClient::envoyerCommandeNouveauJoueur(string const& nomJoueur, string const& nomEquipe, list<string> & listeSort)
+{
+    string final = NOUVEAU_JOUEUR;
+    final += SEPARATEUR_ELEMENT;
+    final += nomJoueur;
+    final += SEPARATEUR_ELEMENT;
+    final += nomEquipe;
+    final += SEPARATEUR_ELEMENT;
+    for(list<string>::iterator it = listeSort.begin(); it != listeSort.end(); it++)
+    {
+        final += (*it);
+        final += SEPARATEUR_ELEMENT;
+    }
+    send(this->socketClient, final.c_str(), final.size(), 0);
 }

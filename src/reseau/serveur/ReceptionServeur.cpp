@@ -111,8 +111,9 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
                 GestionnaireLogger::ecrirMessage(TypeMessage::SUCCESS, "Destruction réussi");
                 continue;
             }
+            cout << "Octet reçus : " << octetRecus << endl;
             //On alloue en conséquence
-            data = (char*)malloc(sizeof(char)*octetRecus);
+            data = (char*)malloc(sizeof(char)*(octetRecus + 1));
             if(data == NULL)
             {
                 GestionnaireLogger::ecrirMessage(TypeMessage::FATAL, "Erreur malloc");
@@ -120,6 +121,7 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
             }
             //On lit les données
             octetLus = recv(it->first, data, octetRecus, 0);
+            data[octetRecus] = 0;
             if( octetLus < 0)
             {
                 GestionnaireLogger::ecrirMessage(TypeMessage::ERROR, "Erreur recv. Nombre d'octets négatif");
@@ -132,18 +134,27 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
                 free(data);
                 continue;
             }
-
-            if(it->second == NULL)
-            {
-                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Traitement client");
-                this->traitementClient(data, it->first);
-            }
-            else
-            {
-                GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Traitement joueur");
-                this->traitementJoueur(data, it->first);
-            }
+            string ligne = data;
             free(data);
+            vector<string> listeCommande;
+            boost::split(listeCommande, ligne, boost::is_any_of(SEPARATEUR_COMMANDE));
+            for(int i = 0; i < listeCommande.size(); i++)
+            {
+                data = (char*)malloc((listeCommande[i].size() + 1) * sizeof(char));
+                strncpy(data, listeCommande[i].c_str(), listeCommande[i].size());
+                cout << listeCommande[i] << endl;
+
+                if(it->second == NULL)
+                {
+                    GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Traitement client");
+                    this->traitementClient(data, it->first);
+                }
+                else
+                {
+                    GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Traitement joueur");
+                    this->traitementJoueur(data, it->first);
+                }
+            }
         }
     }
 }
@@ -487,24 +498,24 @@ void ReceptionServeur::fermerServeur()
 
 void ReceptionServeur::finirServeur()
 {
-            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction de la partie");
-            delete this->partie;
-            this->partie = NULL;
-            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction des clients");
-            for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
-            {
-                if(it->second != NULL)
-                {
-                    it->second->setPartie(NULL);
-                    it->second->setJoueur(NULL);
-                    //Destuction du client
-                    delete it->second;
-                    it->second = NULL;
-                }
-                //Fermeture du descripteur de fichier
-                close(it->first);
-            }
-            this->listeClient.clear();
-            this->eteindre = true;
-            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Fin du serveur");
+    GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction de la partie");
+    delete this->partie;
+    this->partie = NULL;
+    GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction des clients");
+    for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
+    {
+        if(it->second != NULL)
+        {
+            it->second->setPartie(NULL);
+            it->second->setJoueur(NULL);
+            //Destuction du client
+            delete it->second;
+            it->second = NULL;
+        }
+        //Fermeture du descripteur de fichier
+        close(it->first);
+    }
+    this->listeClient.clear();
+    this->eteindre = true;
+    GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Fin du serveur");
 }

@@ -19,6 +19,9 @@ public:
     ReceptionClient(PartieClient* partie, string ip, int port);
     bool initialiserClient();
     bool miseEnEcoute();
+    void envoyerCommandeSort();
+    void envoyerCommandeEquipe();
+    void envoyerCommandeNouveauJoueur(string const& nomJoueur, string const& nomEquipe, list<string> &listeSort);
 
 
 private:
@@ -30,8 +33,6 @@ private:
     void traitementTourDe();
     void traitementSort();
     void traitementEquipe();
-    void envoyerCommandeSort();
-    void envoyerCommandeEquipe();
     int port;
     string ip;
     int socketClient;
