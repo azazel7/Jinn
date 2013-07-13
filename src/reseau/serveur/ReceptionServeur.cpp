@@ -355,6 +355,8 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
         final = ERREUR;
         final += SEPARATEUR_ELEMENT;
         final += e.what();
+    final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
         send(socketClient, final.c_str(), final.size(), 0);
         return;
     }
@@ -362,6 +364,7 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
     {
         final = ERREUR;
         final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
         send(socketClient, final.c_str(), final.size(), 0);
         return;
     }
@@ -387,6 +390,8 @@ void ReceptionServeur::traitementMessage(char *commande, string const& nomJoueur
     final += nomJoueurParlant;
     final += SEPARATEUR_ELEMENT;
     final += message;
+    final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
     for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
     {
         if(it->second->getJoueur() != NULL)

@@ -385,6 +385,7 @@ void ReceptionClient::envoyerCommandeSort()
 {
     string final = SORT;
     final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
     send(this->socketClient, final.c_str(), final.size(), 0);
 }
 void ReceptionClient::envoyerCommandeEquipe()
@@ -392,6 +393,7 @@ void ReceptionClient::envoyerCommandeEquipe()
     cout << "commande client" << endl;
     string final = EQUIPE;
     final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
     send(this->socketClient, final.c_str(), final.size(), 0);
 }
 
@@ -408,5 +410,6 @@ void ReceptionClient::envoyerCommandeNouveauJoueur(string const& nomJoueur, stri
         final += (*it);
         final += SEPARATEUR_ELEMENT;
     }
+    final += SEPARATEUR_COMMANDE;
     send(this->socketClient, final.c_str(), final.size(), 0);
 }
