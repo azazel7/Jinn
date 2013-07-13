@@ -2,7 +2,7 @@
 #define constanteReseau_h
 //relatif au serveur
 #define SEPARATEUR_ELEMENT ";"
-#define SEPARATEUR_SOUS_ELEMENT "#"
+#define SEPARATEUR_COMMANDE "#"
 #define ACTION "action"
 #define MESSAGE "message"
 #define NOUVEAU_JOUEUR "joueur"
