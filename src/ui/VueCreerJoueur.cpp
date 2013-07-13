@@ -1,8 +1,9 @@
 #include "ui/VueCreerJoueur.h"
 
-VueCreerJoueur::VueCreerJoueur(PartieClient* partie)
+VueCreerJoueur::VueCreerJoueur(PartieClient* partie, ReceptionClient *reception)
 {
     this->partie = partie;
+    this->receptionClient = reception;
     this->curseur = IndexCreerJoueur::curseur_liste_equipe;
     this->nomEquipe = "";
     this->nomJoueur = "";
@@ -65,7 +66,10 @@ void VueCreerJoueur::dessinerFenetre()
     //Print description du sort
     wmove(win, 0, 2*l_colonne);
     //Description
-    wprintw(win, "%s", this->partie->getListeSortDispo()[this->positionSort]->getDescription().c_str());
+    if(this->partie->getListeSortDispo().empty() == false)
+    {
+        wprintw(win, "%s", this->partie->getListeSortDispo()[this->positionSort]->getDescription().c_str());
+    }
     //Print nom Joueur
     if(this->curseur == IndexCreerJoueur::curseur_nom_joueur)
     {
@@ -76,10 +80,6 @@ void VueCreerJoueur::dessinerFenetre()
     if(this->curseur == IndexCreerJoueur::curseur_nom_joueur)
     {
         wattroff(win, COLOR_PAIR(1));
-    }
-    else
-    {
-        wprintw(win, " ");
     }
     //Print nom equipe
     if(this->curseur == IndexCreerJoueur::curseur_nom_equipe)
@@ -92,10 +92,17 @@ void VueCreerJoueur::dessinerFenetre()
     {
         wattroff(win, COLOR_PAIR(1));
     }
-    else
-    {
-        wprintw(win, " ");
-    }
+
+    wmove(win, (hauteur/2) + 3, 2*l_colonne);
+    wprintw(win, " ↓↑ : Deplace le curseur sur les listes");
+    wmove(win, (hauteur/2) + 4, 2*l_colonne);
+    wprintw(win, " <- -> : Deplace le curseur entre les colonnes");
+    wmove(win, (hauteur/2) + 5, 2*l_colonne);
+    wprintw(win, " F2 : Quitte sans valider");
+    wmove(win, (hauteur/2) + 6, 2*l_colonne);
+    wprintw(win, " F3 : Valide les informations");
+    wmove(win, (hauteur/2) + 7, 2*l_colonne);
+    wprintw(win, " + : Ajouter un sort à la liste ou choisir une équipe");
 
     wrefresh(win);
 
@@ -213,6 +220,9 @@ void VueCreerJoueur::saisieInformation()
             break;
             case KEY_F(2):
                 return;
+            break;
+            case KEY_F(3):
+                //Valider et envoyer
             break;
             default:
                 this->ajouterLettre(touche);

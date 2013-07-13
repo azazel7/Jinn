@@ -1,6 +1,7 @@
 #ifndef VueCreerJoueur_h
 #define VueCreerJoueur_h
 
+#include "reseau/client/ReceptionClient.h"
 #include "PartieClient.h"
 #include <curses.h>
 #include <algorithm>
@@ -16,7 +17,7 @@ namespace IndexCreerJoueur
 class VueCreerJoueur
 {
     public:
-        VueCreerJoueur(PartieClient* partie);
+        VueCreerJoueur(PartieClient* partie, ReceptionClient* reception);
         void dessinerFenetre();
         //Modifie la position dans les listes
         void modifierPosition(int valeur);
@@ -32,6 +33,7 @@ class VueCreerJoueur
         void enterEquipe();
     private:
         PartieClient* partie;
+        ReceptionClient* receptionClient;
         int curseur;
         string nomJoueur;
         string nomEquipe;
