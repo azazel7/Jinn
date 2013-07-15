@@ -15,6 +15,7 @@ public:
     void ajouterSortJoueur(string const& nomJoueur, string const& nomSort);
     void retirerSortJoueur(string const& nomJoueur, string const& nomSort);
     Joueur* getJoueur(string const& nom);
+    map<string, Joueur*> getListeJoueur();
 
     void ajouterCase(Case * newCase);
     void retirerCase(Position * position);
@@ -32,11 +33,15 @@ public:
     vector<string> getListeEquipe();
     void setListeEquipe(vector<string> nouvelleListe);
 
+    void ajouterMessage(string auteur, string message);
+    list<pair<string, string> > getListeMessage();
+
 private:
     map<string, Joueur*> listeJoueur;
     map<int, Case*> listeCase;
     Joueur* joueurCourant;
     vector<Sort*> listeSortDispo;
     vector<string> listeEquipe;
+    list<pair<string, string> > listeMessage;
 };
 #endif

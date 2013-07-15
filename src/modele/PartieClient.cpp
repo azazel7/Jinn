@@ -99,3 +99,18 @@ void PartieClient::setListeEquipe(vector<string> nouvelleListe)
 {
     this->listeEquipe = nouvelleListe;
 }
+
+void PartieClient::ajouterMessage(string auteur, string message)
+{
+    pair<string, string> nouvellePaire = make_pair(auteur, message);
+    this->listeMessage.push_front(nouvellePaire);
+}
+
+list<pair<string, string> > PartieClient::getListeMessage()
+{
+    return this->listeMessage;
+}
+map<string, Joueur*> PartieClient::getListeJoueur()
+{
+    return this->listeJoueur;
+}
