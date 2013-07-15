@@ -15,7 +15,8 @@ void VueCreerJoueur::dessinerFenetre()
     int hauteur, largeur, l_colonne;
     getmaxyx(stdscr, hauteur, largeur);
     l_colonne = largeur/4;
-    WINDOW * win = subwin(stdscr, hauteur, largeur, 0, 0);
+    erase();
+    WINDOW * win = stdscr;
 //    wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     for(int i = 0; i < this->partie->getListeEquipe().size(); i++)
     {
