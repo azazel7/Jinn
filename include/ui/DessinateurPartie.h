@@ -14,11 +14,15 @@ class DessinateurPartie
         void dessinerMessage(int hauteur, int largeur);
         void dessinerPlateau(int hauteur, int largeur);
         void dessinerCaseCourante(int hauteur, int largeur);
+        void saisie();
+        void effectuerAction(int n);
 
     private:
         PartieClient* partie;
         ReceptionClient* recepteur;
         Position* positionCourante;
+        string message;
+
 
 };
 #endif

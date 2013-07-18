@@ -33,6 +33,10 @@ void DessinateurPartie::dessinerJoueurs(int hauteur, int largeur)
         joueur = it->second;
         if(joueur != NULL)
         {
+            if(joueur == this->partie->getJoueurCourant())
+            {
+                    wattron(win, COLOR_PAIR(2));
+            }
             wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
             wprintw(win, "Nom : %s   Equipe : %s", it->first.c_str(), joueur->getNomEquipe().c_str());
             wmove(win, i + 1, 1); //1 pour éviter d'empiéter sur la bordure
@@ -41,6 +45,10 @@ void DessinateurPartie::dessinerJoueurs(int hauteur, int largeur)
             {
                 wmove(win, i + 2, 1); //1 pour éviter d'empiéter sur la bordure
                 wprintw(win, "** Tour **");
+            }
+            if(joueur == this->partie->getJoueurCourant())
+            {
+                    wattroff(win, COLOR_PAIR(2));
             }
             i += 4; //lignes d'écriture et une pour l'espace
         }
@@ -70,9 +78,22 @@ void DessinateurPartie::dessinerMessage(int hauteur, int largeur)
         i++;
     }
     wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
-    //    wprintw(win, "Moi  | %s", , it->second.c_str());
+    wprintw(win, "%s : %s", this->partie->getJoueurClient().c_str(), this->message.c_str());
     wrefresh(win);
     //TODO un message en fonction du nombre de ligne
+}
+
+void DessinateurPartie::effectuerAction(int n)
+{
+    try
+    {
+        string nomSort = this->partie->getJoueurCourant()->getListeSort()[n]->getNom();
+        this->recepteur->envoyerCommandeAction(nomSort, NULL, this->positionCourante);
+    }
+    catch(exception e)
+    {
+        GestionnaireLogger::ecrirMessage(TypeMessage::WARN, "Pas sort pour cette touche");
+    }
 }
 
 void DessinateurPartie::dessinerPlateau(int hauteur, int largeur)
@@ -119,27 +140,71 @@ void DessinateurPartie::dessinerCaseCourante(int hauteur, int largeur)
     Case* caseCourante = this->partie->getCase(this->positionCourante);
     if(caseCourante != NULL)
     {
-        wmove(win, 1, 1); //1 pour éviter d'empiéter sur la bordure
+        int i = 1;
+        wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
         wprintw(win, "[%d;%d]", this->positionCourante->getX(), this->positionCourante->getY());
-        wmove(win, 2, 1); //1 pour éviter d'empiéter sur la bordure
+        wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
         wprintw(win, "Def Init : %d", caseCourante->getDefenseInitiale());
-        wmove(win, 3, 1); //1 pour éviter d'empiéter sur la bordure
+        wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
         wprintw(win, "Defense : %d/%d", caseCourante->getDefenseActuelle(), caseCourante->getDefenseReel());
-        wmove(win, 4, 1); //1 pour éviter d'empiéter sur la bordure
+        wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
         wprintw(win, "Apport Mana : %d", caseCourante->getApportMana());
-        wmove(win, 5, 1); //1 pour éviter d'empiéter sur la bordure
+        wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
         wprintw(win, "Regeneration : %d", caseCourante->getRegenerationDefense());
-        wmove(win, 6, 1); //1 pour éviter d'empiéter sur la bordure
+        wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
         wprintw(win, "Proprietaire : %s", caseCourante->getNomProprietaire().c_str());
-        wmove(win, 7, 1); //1 pour éviter d'empiéter sur la bordure
+        wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
         wprintw(win, "  --- Sort ---  ");
-        int i = 8;
         list<pair<int, Sort*> > listeSort = caseCourante->getListSort();
         for(list<pair<int, Sort*> >::iterator it = listeSort.begin(); it != listeSort.end(); it++)
          {
-            wmove(win, 8, 1); //1 pour éviter d'empiéter sur la bordure
+            wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
             wprintw(win, "%s (%d)", it->second->getNom().c_str(), it->first);
         }
     }
     wrefresh(win);
+}
+
+void DessinateurPartie::saisie()
+{
+    int touche = 0;
+    while(true)
+    {
+        touche = getch();
+        switch(touche)
+        {
+            case KEY_BACKSPACE:
+                this->message = this->message.substr(0, this->message.size() - 1);
+            break;
+            case KEY_UP:
+                if(this->positionCourante->getY() > 0)
+                {
+                    this->positionCourante = Position::fabriquePosition(this->positionCourante->getX(), this->positionCourante->getY() -1);
+                }
+            break;
+            case KEY_DOWN:
+                    this->positionCourante = Position::fabriquePosition(this->positionCourante->getX(), this->positionCourante->getY() +1);
+            break;
+            case KEY_LEFT:
+                if(this->positionCourante->getX() > 0)
+                {
+                    this->positionCourante = Position::fabriquePosition(this->positionCourante->getX() -1, this->positionCourante->getY());
+                }
+            break;
+            case KEY_RIGHT:
+                    this->positionCourante = Position::fabriquePosition(this->positionCourante->getX() +1, this->positionCourante->getY());
+            break;
+            case '\n':
+                this->recepteur->envoyerCommandeMessage(this->message);
+            break;
+            case 27:
+                this->recepteur->envoyerCommandeQuitter();
+                return;
+            break;
+            default:
+                this->message += touche;
+            break;
+        }
+        this->dessinerPartie();
+    }
 }
