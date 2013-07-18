@@ -22,17 +22,21 @@ public:
     void envoyerCommandeSort();
     void envoyerCommandeEquipe();
     void envoyerCommandeNouveauJoueur(string const& nomJoueur, string const& nomEquipe, list<string> &listeSort);
+    void envoyerCommandeMessage(string const& message);
+    void envoyerCommandeAction(string const& sort, Position* origine, Position* cible);
+    void envoyerCommandeQuitter();
 
 
 private:
     void testerSelection(fd_set readfd);
     void traitementCommande(char* commande);
     void traitementInfoCase();
-    void traitementInfoJoueur();
+    string traitementInfoJoueur();
     void traitementInfoSort();
     void traitementTourDe();
     void traitementSort();
     void traitementEquipe();
+    void traitementNouveauJoueur();
     int port;
     string ip;
     int socketClient;

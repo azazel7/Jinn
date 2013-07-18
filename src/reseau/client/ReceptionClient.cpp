@@ -160,13 +160,15 @@ void ReceptionClient::traitementCommande(char* commande)
         }
         else if(strcmp(action, SORT) == 0)
         {
-            cout << "On passe par lou" << endl;
             traitementSort();
         }
         else if(strcmp(action, EQUIPE) == 0)
         {
-            cout << "On passe par là" << endl;
             traitementEquipe();
+        }
+        else if(strcmp(action, NOUVEAU_JOUEUR) == 0)
+        {
+            traitementNouveauJoueur();
         }
     }
 
@@ -239,7 +241,7 @@ void ReceptionClient::traitementInfoCase()
     }
 }
 
-void ReceptionClient::traitementInfoJoueur()
+string ReceptionClient::traitementInfoJoueur()
 {
     char* argument[5] = {NULL};
     int manaActuel = -1, manaMax = -1, gainMana = -1;
@@ -254,7 +256,7 @@ void ReceptionClient::traitementInfoJoueur()
         if(argument[i] == NULL)
         {
             //Info fausse
-            return;
+            return "";
         }
     }
     manaActuel = atoi(argument[2]);
@@ -283,6 +285,7 @@ void ReceptionClient::traitementInfoJoueur()
             joueur->setGainMana(gainMana);
         }
     }
+    return joueur->getNom();
 }
 
 void ReceptionClient::traitementInfoSort()
@@ -380,6 +383,21 @@ void ReceptionClient::traitementEquipe()
     this->partie->setListeEquipe(listeEquipe);
 }
 
+void ReceptionClient::traitementNouveauJoueur()
+{
+    string nom = traitementInfoJoueur();
+    if(nom == "")
+    {
+        return;
+    }
+    char* nomSort = NULL;
+    while((nomSort = strtok(NULL, SEPARATEUR_ELEMENT)) != NULL)
+    {
+        this->partie->ajouterSortJoueur(nom, nomSort);
+        GestionnaireLogger::ecrirMessage(INFO, nomSort);
+    }
+}
+
 void ReceptionClient::envoyerCommandeSort()
 {
     string final = SORT;
@@ -408,6 +426,50 @@ void ReceptionClient::envoyerCommandeNouveauJoueur(string const& nomJoueur, stri
         final += (*it);
         final += SEPARATEUR_ELEMENT;
     }
+    final += SEPARATEUR_COMMANDE;
+    send(this->socketClient, final.c_str(), final.size(), 0);
+}
+
+void ReceptionClient::envoyerCommandeMessage(string const& message)
+{
+    string final = MESSAGE;
+    final += SEPARATEUR_ELEMENT;
+    final += message;
+    final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
+    send(this->socketClient, final.c_str(), final.size(), 0);
+}
+
+void ReceptionClient::envoyerCommandeAction(string const& sort, Position* origine, Position* cible)
+{
+    //TODO traiter le cas de plusieurs cible
+    string final = ACTION;
+    final += SEPARATEUR_ELEMENT;
+    if(origine == NULL)
+    {
+        final += to_string(-1);
+        final += SEPARATEUR_ELEMENT;
+        final += to_string(-1);
+        final += SEPARATEUR_ELEMENT;
+    }
+    else
+    {
+        final += to_string(origine->getX());
+        final += SEPARATEUR_ELEMENT;
+        final += to_string(origine->getY());
+        final += SEPARATEUR_ELEMENT;
+    }
+    final += to_string(cible->getX());
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(cible->getY());
+    final += SEPARATEUR_ELEMENT;
+    send(this->socketClient, final.c_str(), final.size(), 0);
+}
+
+void ReceptionClient::envoyerCommandeQuitter()
+{
+    string final = QUITTER;
+    final += SEPARATEUR_ELEMENT;
     final += SEPARATEUR_COMMANDE;
     send(this->socketClient, final.c_str(), final.size(), 0);
 }
