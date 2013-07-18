@@ -165,8 +165,11 @@ void Joueur::setNom(string nom)
 
 void Joueur::ajouterSort(Sort* sort)
 {
-    sort->setProprietaire(this);
-    listeSort.push_back(sort);
+    if(sort != NULL)
+    {
+        sort->setProprietaire(this);
+        listeSort.push_back(sort);
+    }
 }
 
 int Joueur::getManaActuel() const
@@ -264,8 +267,11 @@ void Joueur::ajouterSort(string const& nom)
     if(this->possedeSort(nom) == false)
     {
         Sort* sort = UsineSort::fabriqueSort(nom);
-        sort->setProprietaire(this);
-        this->listeSort.push_back(sort);
+        if(sort != NULL)
+        {
+            sort->setProprietaire(this);
+            this->listeSort.push_back(sort);
+        }
     }
 }
 
@@ -281,19 +287,24 @@ void Joueur::retirerSort(string const& nom)
     }
 }
 
+vector<Sort* > Joueur::getListeSort()
+{
+    return this->listeSort;
+}
+
 void Joueur::notifierCreation() const
 {
     string final = NOUVEAU_JOUEUR;
     final += SEPARATEUR_ELEMENT;
     final += this->nom;
     final += SEPARATEUR_ELEMENT;
+    final += this->getNomEquipe();
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(this->manaActuel);
+    final += SEPARATEUR_ELEMENT;
     final += to_string(this->manaMaximum);
     final += SEPARATEUR_ELEMENT;
     final += to_string(this->gainInitialMana);
-    final += SEPARATEUR_ELEMENT;
-    final += to_string(this->abilite);
-    final += SEPARATEUR_ELEMENT;
-    final += this->nom;
 
     for(int i = 0; i < this->listeSort.size(); i++)
     {

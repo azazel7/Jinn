@@ -50,8 +50,6 @@ public:
 
     virtual void setNom(string nom);
 
-    virtual void ajouterSort(Sort *sort);
-
     int getManaActuel() const;
 
     int getManaMaximum() const;
@@ -74,6 +72,8 @@ public:
 
     string getNomEquipe() const;
 
+    void ajouterSort(Sort *sort);
+
     void ajouterSort(string const& nom);
 
     void retirerSort(string const& nom);
@@ -81,6 +81,8 @@ public:
     bool possedeSort(Sort* sort);
 
     bool possedeSort(string nomsort);
+
+    vector<Sort* > getListeSort();
 
     void notifierCreation() const;
 
