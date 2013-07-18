@@ -251,6 +251,9 @@ void DessinateurPartie::traitementTouchePlateau(int touche)
     case ' ':
         //TODO toggle selection case cible
         break;
+    case 't':
+            this->recepteur->envoyerCommandeFinTour();
+        break;
     default:
         for(int i = 2; i < 16; i++)
         {
