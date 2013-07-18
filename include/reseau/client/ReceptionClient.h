@@ -25,6 +25,7 @@ public:
     void envoyerCommandeMessage(string const& message);
     void envoyerCommandeAction(string const& sort, Position* origine, Position* cible);
     void envoyerCommandeQuitter();
+    void envoyerCommandeFinTour();
 
 
 private:

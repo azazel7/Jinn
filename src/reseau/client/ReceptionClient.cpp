@@ -476,3 +476,11 @@ void ReceptionClient::envoyerCommandeQuitter()
     final += SEPARATEUR_COMMANDE;
     send(this->socketClient, final.c_str(), final.size(), 0);
 }
+
+void ReceptionClient::envoyerCommandeFinTour()
+{
+    string final = FIN_TOUR;
+    final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
+    send(this->socketClient, final.c_str(), final.size(), 0);
+}
