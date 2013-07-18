@@ -45,5 +45,8 @@ void  Equipe::setIndexCourrant(int newIndex)
 
 void Equipe::tournerIndex()
 {
-        this->indexJoueurCourrant = (this->indexJoueurCourrant + 1)% this->nombreJoueur;
+    if(this->nombreJoueur > 0)
+    {
+        this->indexJoueurCourrant = (this->indexJoueurCourrant + 1) % this->nombreJoueur;
+    }
 }
