@@ -446,6 +446,8 @@ void ReceptionClient::envoyerCommandeAction(string const& sort, Position* origin
     //TODO traiter le cas de plusieurs cible
     string final = ACTION;
     final += SEPARATEUR_ELEMENT;
+    final += sort;
+    final += SEPARATEUR_ELEMENT;
     if(origine == NULL)
     {
         final += to_string(-1);

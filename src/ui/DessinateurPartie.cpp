@@ -87,8 +87,12 @@ void DessinateurPartie::effectuerAction(int n)
 {
     try
     {
-        string nomSort = this->partie->getJoueurCourant()->getListeSort()[n]->getNom();
-        this->recepteur->envoyerCommandeAction(nomSort, NULL, this->positionCourante);
+        Sort* sort = this->partie->getJoueurCourant()->getListeSort()[n];
+        if(sort != NULL)
+        {
+            string nomSort = sort->getNom();
+            this->recepteur->envoyerCommandeAction(nomSort, NULL, this->positionCourante);
+        }
     }
     catch(exception e)
     {
@@ -208,9 +212,9 @@ void DessinateurPartie::saisie()
             default:
                 for(int i = 2; i < 16; i++)
                 {
-                    if(touche == KEY_F(i - 2))
+                    if(touche == KEY_F(i))
                     {
-                        this->effectuerAction(i);
+                        this->effectuerAction(i - 2);
                         break;
                     }
                 }
