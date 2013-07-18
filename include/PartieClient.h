@@ -36,10 +36,14 @@ public:
     void ajouterMessage(string auteur, string message);
     list<pair<string, string> > getListeMessage();
 
+    void setJoueurClient(string joueur);
+    string getJoueurClient();
+
 private:
     map<string, Joueur*> listeJoueur;
     map<int, Case*> listeCase;
     Joueur* joueurCourant;
+    string joueurClient;
     vector<Sort*> listeSortDispo;
     vector<string> listeEquipe;
     list<pair<string, string> > listeMessage;

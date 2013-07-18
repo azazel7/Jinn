@@ -3,6 +3,7 @@
 PartieClient::PartieClient()
 {
     this->joueurCourant = NULL;
+    this->joueurClient = "";
 }
 void PartieClient::ajouterJoueur(Joueur *joueur)
 {
@@ -113,4 +114,13 @@ list<pair<string, string> > PartieClient::getListeMessage()
 map<string, Joueur*> PartieClient::getListeJoueur()
 {
     return this->listeJoueur;
+}
+
+void PartieClient::setJoueurClient(string joueur)
+{
+    this->joueurClient = joueur;
+}
+string PartieClient::getJoueurClient()
+{
+    return this->joueurClient;
 }
