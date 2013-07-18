@@ -5,6 +5,7 @@ DessinateurPartie::DessinateurPartie(PartieClient* partie, ReceptionClient* rece
     this->partie = partie;
     this->recepteur = recepteur;
     this->positionCourante = Position::fabriquePosition(0,0);
+    this->indexPanneau = IndexDessinateurPartie::index_plateau;
 }
 
 void DessinateurPartie::dessinerPartie()
@@ -35,7 +36,7 @@ void DessinateurPartie::dessinerJoueurs(int hauteur, int largeur)
         {
             if(joueur == this->partie->getJoueurCourant())
             {
-                    wattron(win, COLOR_PAIR(2));
+                wattron(win, COLOR_PAIR(2));
             }
             wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
             wprintw(win, "Nom : %s   Equipe : %s", it->first.c_str(), joueur->getNomEquipe().c_str());
@@ -48,7 +49,7 @@ void DessinateurPartie::dessinerJoueurs(int hauteur, int largeur)
             }
             if(joueur == this->partie->getJoueurCourant())
             {
-                    wattroff(win, COLOR_PAIR(2));
+                wattroff(win, COLOR_PAIR(2));
             }
             i += 4; //lignes d'écriture et une pour l'espace
         }
@@ -120,12 +121,12 @@ void DessinateurPartie::dessinerPlateau(int hauteur, int largeur)
             if(this->partie->getCase(Position::fabriquePosition(x, y)) != NULL)
             {
                 wmove(win, y*h_case, x*l_case); //1 pour éviter d'empiéter sur la bordure
-                if(this->positionCourante == Position::fabriquePosition(x, y))
+                if(this->positionCourante == Position::fabriquePosition(x, y) && this->indexPanneau == IndexDessinateurPartie::index_plateau)
                 {
                     wattron(win, COLOR_PAIR(1));
                 }
                 wprintw(win, "[]");
-                if(this->positionCourante == Position::fabriquePosition(x, y))
+                if(this->positionCourante == Position::fabriquePosition(x, y) && this->indexPanneau == IndexDessinateurPartie::index_plateau)
                 {
                     wattroff(win, COLOR_PAIR(1));
                 }
@@ -161,7 +162,7 @@ void DessinateurPartie::dessinerCaseCourante(int hauteur, int largeur)
         wprintw(win, "  --- Sort ---  ");
         list<pair<int, Sort*> > listeSort = caseCourante->getListSort();
         for(list<pair<int, Sort*> >::iterator it = listeSort.begin(); it != listeSort.end(); it++)
-         {
+        {
             wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
             wprintw(win, "%s (%d)", it->second->getNom().c_str(), it->first);
         }
@@ -175,52 +176,109 @@ void DessinateurPartie::saisie()
     while(true)
     {
         touche = getch();
+        //TODO ajouter commande pour passer son tour
+        //TODO ajouter un système d'index comme pour la création du joueur pour jongler entre les differents panneaux
+
+
         switch(touche)
         {
-            case KEY_BACKSPACE:
-                this->message = this->message.substr(0, this->message.size() - 1);
+        case '\t':
+            this->tournerIndexPanneaux();
             break;
-            case KEY_UP:
-                if(this->positionCourante->getY() > 0)
-                {
-                    this->positionCourante = Position::fabriquePosition(this->positionCourante->getX(), this->positionCourante->getY() -1);
-                }
+        case 27: //touche echap
+            this->recepteur->envoyerCommandeQuitter();
+            return;
             break;
-            case KEY_DOWN:
-                    this->positionCourante = Position::fabriquePosition(this->positionCourante->getX(), this->positionCourante->getY() +1);
+        case KEY_F(1):
+            GestionnaireLogger::ecrirMessage(INFO, "F1 enfoncée -> demande d'aide");
+            //TODO faire un menu d'aide
             break;
-            case KEY_LEFT:
-                if(this->positionCourante->getX() > 0)
-                {
-                    this->positionCourante = Position::fabriquePosition(this->positionCourante->getX() -1, this->positionCourante->getY());
-                }
-            break;
-            case KEY_RIGHT:
-                    this->positionCourante = Position::fabriquePosition(this->positionCourante->getX() +1, this->positionCourante->getY());
-            break;
-            case '\n':
-                this->recepteur->envoyerCommandeMessage(this->message);
-            break;
-            case 27:
-                this->recepteur->envoyerCommandeQuitter();
-                return;
-            break;
-            case KEY_F(1):
-                GestionnaireLogger::ecrirMessage(INFO, "F1 enfoncée -> demande d'aide");
-                //TODO faire un menu d'aide
-            break;
-            default:
-                for(int i = 2; i < 16; i++)
-                {
-                    if(touche == KEY_F(i))
-                    {
-                        this->effectuerAction(i - 2);
-                        break;
-                    }
-                }
-                this->message += touche;
+        default:
+            this->traitementToucheParPanneaux(touche);
             break;
         }
         this->dessinerPartie();
+    }
+}
+
+void DessinateurPartie::traitementToucheParPanneaux(int touche)
+{
+    switch(this->indexPanneau)
+    {
+    case IndexDessinateurPartie::index_message:
+        this->traitementToucheMessage(touche);
+        break;
+    case IndexDessinateurPartie::index_plateau:
+        this->traitementTouchePlateau(touche);
+        break;
+    }
+}
+
+void DessinateurPartie::tournerIndexPanneaux()
+{
+    if(this->indexPanneau == IndexDessinateurPartie::index_plateau)
+    {
+        this->indexPanneau = IndexDessinateurPartie::index_message;
+    }
+    else if(this->indexPanneau == IndexDessinateurPartie::index_message)
+    {
+        this->indexPanneau = IndexDessinateurPartie::index_plateau;
+    }
+}
+
+void DessinateurPartie::traitementTouchePlateau(int touche)
+{
+    switch(touche)
+    {
+    case KEY_UP:
+        if(this->positionCourante->getY() > 0)
+        {
+            this->positionCourante = Position::fabriquePosition(this->positionCourante->getX(), this->positionCourante->getY() -1);
+        }
+        break;
+    case KEY_DOWN:
+        this->positionCourante = Position::fabriquePosition(this->positionCourante->getX(), this->positionCourante->getY() +1);
+        break;
+    case KEY_LEFT:
+        if(this->positionCourante->getX() > 0)
+        {
+            this->positionCourante = Position::fabriquePosition(this->positionCourante->getX() -1, this->positionCourante->getY());
+        }
+        break;
+    case KEY_RIGHT:
+        this->positionCourante = Position::fabriquePosition(this->positionCourante->getX() +1, this->positionCourante->getY());
+        break;
+    case ' ':
+        //TODO toggle selection case cible
+        break;
+    default:
+        for(int i = 2; i < 16; i++)
+        {
+            if(touche == KEY_F(i))
+            {
+                this->effectuerAction(i - 2);
+                break;
+            }
+        }
+        break;
+    }
+}
+
+void DessinateurPartie::traitementToucheMessage(int touche)
+{
+    switch(touche)
+    {
+    case '\n':
+        this->recepteur->envoyerCommandeMessage(this->message);
+        break;
+    case KEY_BACKSPACE:
+        this->message = this->message.substr(0, this->message.size() - 1);
+        break;
+    default:
+        if(touche >= 32 && touche <= 126)
+        {
+            this->message += touche;
+        }
+        break;
     }
 }

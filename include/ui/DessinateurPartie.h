@@ -5,6 +5,12 @@
 #include "reseau/client/ReceptionClient.h"
 #include <curses.h>
 
+namespace IndexDessinateurPartie
+{
+    static const int index_plateau = 0;
+    static const int index_message = 1;
+}
+
 class DessinateurPartie
 {
     public:
@@ -18,10 +24,18 @@ class DessinateurPartie
         void effectuerAction(int n);
 
     private:
+        void tournerIndexPanneaux();
+        void traitementTouchePlateau(int touche);
+        void traitementToucheMessage(int touche);
+        void traitementToucheParPanneaux(int touche);
+
         PartieClient* partie;
         ReceptionClient* recepteur;
         Position* positionCourante;
         string message;
+
+        int indexPanneau;
+
 
 
 };
