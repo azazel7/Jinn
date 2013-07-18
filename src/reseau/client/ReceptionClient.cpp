@@ -73,6 +73,7 @@ void ReceptionClient::testerSelection(fd_set readfd)
         if(octetRecus == 0)
         {
             GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Le serveur vous à deconnecté");
+            exit(-1);
         }
         //Erreur
         else if(octetRecus < 0)
