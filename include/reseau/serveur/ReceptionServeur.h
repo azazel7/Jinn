@@ -37,8 +37,8 @@ private:
     void testerSelectionClient(fd_set& readfd);
     void testerSelectionServeur(fd_set& readfd);
     int maximunFileDescriptor();
-    void traitementJoueur(char *commande, int socketClient);
-    void traitementClient(char *commande, int socketClient);
+    void traitementJoueur(char *commande, int socketClient, bool & clientSuppr);
+    void traitementClient(char *commande, int socketClient, bool & clientSuppr);
     void traitementAction(char *commande, int socketClient);
     void traitementSort(int socketClient);
     void traitementEquipe(int socketClient);

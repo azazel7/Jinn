@@ -75,14 +75,15 @@ void ReceptionServeur::remplirSelection(fd_set& readfd)
 {
     for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
     {
-
         FD_SET(it->first, &readfd);
     }
     FD_SET(this->socketServeur, &readfd);
 }
 void ReceptionServeur::testerSelectionClient(fd_set& readfd)
 {
-    for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); it++)
+    bool clientSupp = false;
+    //FIXME mettre à jour l'iterator pour les suppressions interne
+    for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); ++it)
     {
         if(FD_ISSET(it->first, &readfd))
         {
@@ -147,12 +148,18 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
                 if(it->second == NULL)
                 {
                     GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Traitement client");
-                    this->traitementClient(data, it->first);
+                    this->traitementClient(data, it->first, clientSupp);
                 }
                 else
                 {
                     GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Traitement joueur");
-                    this->traitementJoueur(data, it->first);
+                    this->traitementJoueur(data, it->first, clientSupp);
+                }
+                if(clientSupp == true)
+                {
+                    clientSupp = false;
+                    //On repart au début
+                    return;
                 }
             }
         }
@@ -193,7 +200,7 @@ int ReceptionServeur::maximunFileDescriptor()
     return retour;
 }
 
-void ReceptionServeur::traitementJoueur(char *commande, int socketClient)
+void ReceptionServeur::traitementJoueur(char *commande, int socketClient, bool &clientSuppr)
 {
     char *action = NULL;
     action = strtok (commande, SEPARATEUR_ELEMENT);
@@ -231,11 +238,12 @@ void ReceptionServeur::traitementJoueur(char *commande, int socketClient)
         delete this->listeClient[socketClient];
         this->listeClient[socketClient] = NULL;
         this->listeClient.erase(socketClient);
+        clientSuppr = true;
         traitementQuitter(socketClient);
     }
 }
 
-void ReceptionServeur::traitementClient(char *commande, int socketClient)
+void ReceptionServeur::traitementClient(char *commande, int socketClient, bool & clientSuppr)
 {
     char *action = NULL;
     action = strtok (commande, SEPARATEUR_ELEMENT);
@@ -261,6 +269,7 @@ void ReceptionServeur::traitementClient(char *commande, int socketClient)
     else if(strcmp(action, QUITTER) == 0)
     {
         this->listeClient.erase(socketClient);
+        clientSuppr = true;
         traitementQuitter(socketClient);
     }
 }
@@ -378,7 +387,6 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
 
 void ReceptionServeur::traitementMessage(char *commande, string const& nomJoueurParlant)
 {
-    cout << "un message" << endl;
     char* message = NULL;
     message = strtok(NULL, SEPARATEUR_ELEMENT);
     if(message == NULL)
