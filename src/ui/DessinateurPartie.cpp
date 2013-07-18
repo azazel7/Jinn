@@ -201,7 +201,19 @@ void DessinateurPartie::saisie()
                 this->recepteur->envoyerCommandeQuitter();
                 return;
             break;
+            case KEY_F(1):
+                GestionnaireLogger::ecrirMessage(INFO, "F1 enfoncée -> demande d'aide");
+                //TODO faire un menu d'aide
+            break;
             default:
+                for(int i = 2; i < 16; i++)
+                {
+                    if(touche == KEY_F(i - 2))
+                    {
+                        this->effectuerAction(i);
+                        break;
+                    }
+                }
                 this->message += touche;
             break;
         }
