@@ -70,20 +70,29 @@ void DessinateurPartie::dessinerMessage(int hauteur, int largeur)
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     wrefresh(win);
     list<pair<string, string> > listeMessage = this->partie->getListeMessage();
+    wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+    if(this->indexPanneau == IndexDessinateurPartie::index_message)
+    {
+        wattron(win, COLOR_PAIR(2));
+    }
+    wprintw(win, "%s : %s", this->partie->getJoueurClient().c_str(), this->message.c_str());
+    if(this->indexPanneau == IndexDessinateurPartie::index_message)
+    {
+        wattroff(win, COLOR_PAIR(2));
+    }
+    i++;
     for(list<pair<string, string> >::iterator it = listeMessage.begin(); it != listeMessage.end(); it++)
     {
         wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
         wprintw(win, "%s | %s", it->first.c_str(), it->second.c_str());
-        if(i > 5)
+        if(i >= h_win - 2) //-2 pour la bordure
         {
             break;
         }
         i++;
     }
-    wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
-    wprintw(win, "%s : %s", this->partie->getJoueurClient().c_str(), this->message.c_str());
     wrefresh(win);
-    //TODO un message en fonction du nombre de ligne
+    //TODO en fonction du nombre de ligne et de la taille des messages
 }
 
 void DessinateurPartie::effectuerAction(int n)
@@ -178,10 +187,6 @@ void DessinateurPartie::saisie()
     while(true)
     {
         touche = getch();
-        //TODO ajouter commande pour passer son tour
-        //TODO ajouter un système d'index comme pour la création du joueur pour jongler entre les differents panneaux
-
-
         switch(touche)
         {
         case '\t':
@@ -275,6 +280,7 @@ void DessinateurPartie::traitementToucheMessage(int touche)
     {
     case '\n':
         this->recepteur->envoyerCommandeMessage(this->message);
+        this->message = "";
         break;
     case KEY_BACKSPACE:
         this->message = this->message.substr(0, this->message.size() - 1);
