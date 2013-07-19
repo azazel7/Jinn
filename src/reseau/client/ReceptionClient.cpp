@@ -126,7 +126,7 @@ void ReceptionClient::traitementCommande(char* commande)
         GestionnaireLogger::ecrirMessage(TypeMessage::INFO, action);
         if(strcmp(action, MESSAGE) == 0)
         {
-            //Message
+            traitementMessage();
         }
         else if(strcmp(action, INFORMATION_CASE) == 0)
         {
@@ -522,4 +522,15 @@ void ReceptionClient::envoyerCommandeInformationPartie()
     final += SEPARATEUR_ELEMENT;
     final += SEPARATEUR_COMMANDE;
     send(this->socketClient, final.c_str(), final.size(), 0);
+}
+
+void ReceptionClient::traitementMessage()
+{
+    char* auteur = strtok(NULL, SEPARATEUR_ELEMENT);
+    char* message = strtok(NULL, SEPARATEUR_ELEMENT);
+    if(auteur == NULL || message == NULL)
+    {
+        return;
+    }
+    this->partie->ajouterMessage(auteur, message);
 }

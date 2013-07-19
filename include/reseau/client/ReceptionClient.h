@@ -40,6 +40,7 @@ private:
     void traitementEquipe();
     void traitementNouveauJoueur();
     void traitementInfoPartie();
+    void traitementMessage();
     int port;
     string ip;
     int socketClient;
