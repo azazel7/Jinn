@@ -10,6 +10,7 @@ DessinateurPartie::DessinateurPartie(PartieClient* partie, ReceptionClient* rece
 
 void DessinateurPartie::dessinerPartie()
 {
+    this->mut.lock();
     int hauteur, largeur, l_colonne;
     getmaxyx(stdscr, hauteur, largeur);
     l_colonne = largeur/4;
@@ -18,6 +19,7 @@ void DessinateurPartie::dessinerPartie()
     this->dessinerMessage(hauteur, largeur);
     this->dessinerPlateau(hauteur, largeur);
     this->dessinerCaseCourante(hauteur, largeur);
+    this->mut.unlock();
 }
 void DessinateurPartie::dessinerJoueurs(int hauteur, int largeur)
 {
