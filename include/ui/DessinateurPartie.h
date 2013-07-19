@@ -6,12 +6,14 @@
 #include <curses.h>
 #include <mutex>
 
+class ReceptionClient;
+
 namespace IndexDessinateurPartie
 {
     static const int index_plateau = 0;
     static const int index_message = 1;
 }
-//TODO ajouter des verrous
+
 class DessinateurPartie
 {
     public:

@@ -56,6 +56,7 @@ int main(int argc, char** argv)
    partie->ajouterMessage("Tarte", "Bonjour à tous");
    partie->ajouterMessage("L", "Salut");
    partie->ajouterMessage("Pinki Pie", "Yop");
+   ClientJinn::recepteur->setDessinateur(&dessinateur);
    initscr();
    keypad(stdscr, TRUE);
    start_color();
