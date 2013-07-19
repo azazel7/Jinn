@@ -9,9 +9,11 @@
 #include <sys/ioctl.h>
 #include "PartieClient.h"
 #include "reseau/constanteReseau.h"
+#include "ui/DessinateurPartie.h"
 
 using namespace std;
 
+class DessinateurPartie;
 
 class ReceptionClient
 {
@@ -28,6 +30,8 @@ public:
     void envoyerCommandeFinTour();
     void envoyerCommandeInformationPartie();
 
+    DessinateurPartie* getDessinateur();
+    void setDessinateur(DessinateurPartie* nouveauDessinateur);
 
 private:
     void testerSelection(fd_set readfd);
@@ -46,6 +50,7 @@ private:
     int socketClient;
     bool eteindre;
     PartieClient *partie;
+    DessinateurPartie* dessinateur;
 };
 
 #endif

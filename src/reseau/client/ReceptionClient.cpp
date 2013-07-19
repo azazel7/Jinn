@@ -6,6 +6,7 @@ ReceptionClient::ReceptionClient(PartieClient* partie, string ip, int port = 147
     this->port = port;
     this->ip = ip;
     this->eteindre = false;
+    this->dessinateur = NULL;
 }
 bool ReceptionClient::initialiserClient()
 {
@@ -173,6 +174,13 @@ void ReceptionClient::traitementCommande(char* commande)
         else if(strcmp(action, NOUVEAU_JOUEUR) == 0)
         {
             traitementNouveauJoueur();
+        }
+
+        if(this->dessinateur != NULL)
+        {
+            //ecrit sur l'entrée standard pour forcé ncurse à sortir de son trou
+            //ncurses gére mal les entrée-sortie en même temps
+            write(0, "\x01", 1);
         }
     }
 
@@ -533,4 +541,13 @@ void ReceptionClient::traitementMessage()
         return;
     }
     this->partie->ajouterMessage(auteur, message);
+}
+
+DessinateurPartie* ReceptionClient::getDessinateur()
+{
+    return this->dessinateur;
+}
+void ReceptionClient::setDessinateur(DessinateurPartie* nouveauDessinateur)
+{
+    this->dessinateur = nouveauDessinateur;
 }
