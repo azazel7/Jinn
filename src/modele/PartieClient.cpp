@@ -4,6 +4,9 @@ PartieClient::PartieClient()
 {
     this->joueurCourant = NULL;
     this->joueurClient = "";
+    this->nombreJoueur = 0;
+    this->nombrePlace = 0;
+    this->nombreSortParJouer = 0;
 }
 void PartieClient::ajouterJoueur(Joueur *joueur)
 {
@@ -123,4 +126,33 @@ void PartieClient::setJoueurClient(string joueur)
 string PartieClient::getJoueurClient()
 {
     return this->joueurClient;
+}
+void PartieClient::setNombrePlace(int value)
+{
+    this->nombrePlace = value;
+}
+
+int PartieClient::getNombrePlace()
+{
+    return this->nombrePlace;
+}
+
+void PartieClient::setNombreJoueur(int value)
+{
+    this->nombreJoueur = value;
+}
+
+int PartieClient::getNombreJoueur()
+{
+    return this->nombreJoueur;
+}
+
+void PartieClient::setNombreSortParJoueur(int value)
+{
+    this->nombreSortParJouer = value;
+}
+
+int PartieClient::getNombreSortParJoueur()
+{
+    return this->nombreSortParJouer;
 }

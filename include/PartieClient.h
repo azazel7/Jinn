@@ -39,6 +39,15 @@ public:
     void setJoueurClient(string joueur);
     string getJoueurClient();
 
+    void setNombrePlace(int value);
+    int getNombrePlace();
+
+    void setNombreJoueur(int value);
+    int getNombreJoueur();
+
+    void setNombreSortParJoueur(int value);
+    int getNombreSortParJoueur();
+
 private:
     map<string, Joueur*> listeJoueur;
     map<int, Case*> listeCase;
@@ -47,5 +56,9 @@ private:
     vector<Sort*> listeSortDispo;
     vector<string> listeEquipe;
     list<pair<string, string> > listeMessage;
+
+    int nombrePlace;
+    int nombreJoueur;
+    int nombreSortParJouer;
 };
 #endif
