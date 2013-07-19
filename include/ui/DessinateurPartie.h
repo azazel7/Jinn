@@ -10,20 +10,20 @@ namespace IndexDessinateurPartie
     static const int index_plateau = 0;
     static const int index_message = 1;
 }
-
+//TODO ajouter des verrous
 class DessinateurPartie
 {
     public:
         DessinateurPartie(PartieClient* partie, ReceptionClient* recepteur);
         void dessinerPartie();
-        void dessinerJoueurs(int hauteur, int largeur);
-        void dessinerMessage(int hauteur, int largeur);
-        void dessinerPlateau(int hauteur, int largeur);
-        void dessinerCaseCourante(int hauteur, int largeur);
         void saisie();
         void effectuerAction(int n);
 
     private:
+        void dessinerJoueurs(int hauteur, int largeur);
+        void dessinerMessage(int hauteur, int largeur);
+        void dessinerPlateau(int hauteur, int largeur);
+        void dessinerCaseCourante(int hauteur, int largeur);
         void tournerIndexPanneaux();
         void traitementTouchePlateau(int touche);
         void traitementToucheMessage(int touche);
