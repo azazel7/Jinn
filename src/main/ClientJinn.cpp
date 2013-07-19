@@ -35,6 +35,7 @@ int main(int argc, char** argv)
    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
    ClientJinn::recepteur->envoyerCommandeEquipe();
    ClientJinn::recepteur->envoyerCommandeSort();
+   ClientJinn::recepteur->envoyerCommandeInformationPartie();
    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
    cout <<"Equipe : " << partie->getListeEquipe().size() << endl;
    cout <<"Sort : " << partie->getListeSortDispo().size() << endl;
