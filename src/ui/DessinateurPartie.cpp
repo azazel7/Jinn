@@ -235,31 +235,48 @@ void DessinateurPartie::tournerIndexPanneaux()
 
 void DessinateurPartie::traitementTouchePlateau(int touche)
 {
+    Position* position;
     switch(touche)
     {
     case KEY_UP:
         if(this->positionCourante->getY() > 0)
         {
-            this->positionCourante = Position::fabriquePosition(this->positionCourante->getX(), this->positionCourante->getY() -1);
+            position = Position::fabriquePosition(this->positionCourante->getX(), this->positionCourante->getY() -1);
+            if(this->partie->getCase(position) != NULL)
+            {
+                this->positionCourante = position;
+            }
         }
         break;
     case KEY_DOWN:
-        this->positionCourante = Position::fabriquePosition(this->positionCourante->getX(), this->positionCourante->getY() +1);
+        position = Position::fabriquePosition(this->positionCourante->getX(), this->positionCourante->getY() +1);
+        if(this->partie->getCase(position) != NULL)
+        {
+            this->positionCourante = position;
+        }
         break;
     case KEY_LEFT:
         if(this->positionCourante->getX() > 0)
         {
-            this->positionCourante = Position::fabriquePosition(this->positionCourante->getX() -1, this->positionCourante->getY());
+            position = Position::fabriquePosition(this->positionCourante->getX() -1, this->positionCourante->getY());
+            if(this->partie->getCase(position) != NULL)
+            {
+                this->positionCourante = position;
+            }
         }
         break;
     case KEY_RIGHT:
-        this->positionCourante = Position::fabriquePosition(this->positionCourante->getX() +1, this->positionCourante->getY());
+        position = Position::fabriquePosition(this->positionCourante->getX() +1, this->positionCourante->getY());
+        if(this->partie->getCase(position) != NULL)
+        {
+            this->positionCourante = position;
+        }
         break;
     case ' ':
         //TODO toggle selection case cible
         break;
     case 't':
-            this->recepteur->envoyerCommandeFinTour();
+        this->recepteur->envoyerCommandeFinTour();
         break;
     default:
         for(int i = 2; i < 16; i++)
