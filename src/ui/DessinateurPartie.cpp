@@ -88,7 +88,7 @@ void DessinateurPartie::effectuerAction(int n)
 {
     try
     {
-        Sort* sort = this->partie->getJoueurCourant()->getListeSort()[n];
+        Sort* sort = this->partie->getJoueur(this->partie->getJoueurClient())->getListeSort()[n];
         if(sort != NULL)
         {
             string nomSort = sort->getNom();
