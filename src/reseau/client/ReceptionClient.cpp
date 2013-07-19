@@ -218,6 +218,7 @@ void ReceptionClient::traitementInfoCase()
     }
     else
     {
+        //TODO mauvaise maj des cases
         if(defReel != -1)
         {
             caseCible->setDefenseReel(defReel);
@@ -351,6 +352,8 @@ void ReceptionClient::traitementTourDe()
         joueur = this->partie->getJoueur(nom);
     }
     this->partie->setJoueurCourant(joueur);
+    //TODO faire diminuer et éliminer les sorts qui sont finis
+
 }
 
 void ReceptionClient::traitementSort()
@@ -391,6 +394,7 @@ void ReceptionClient::traitementNouveauJoueur()
     {
         return;
     }
+    this->partie->setJoueurClient(nom);
     char* nomSort = NULL;
     while((nomSort = strtok(NULL, SEPARATEUR_ELEMENT)) != NULL)
     {
