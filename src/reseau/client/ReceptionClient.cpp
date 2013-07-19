@@ -138,6 +138,9 @@ void ReceptionClient::traitementCommande(char* commande)
         }
         else if(strcmp(action, INFORMATION_SORT) == 0)
         {
+        }
+        else if(strcmp(action, INFORMATION_PARTIE) == 0)
+        {
             traitementInfoSort();
         }
         else if(strcmp(action, TOUR_DE) == 0)
@@ -403,6 +406,30 @@ void ReceptionClient::traitementNouveauJoueur()
     }
 }
 
+void ReceptionClient::traitementInfoPartie()
+{
+    char* argument[3] = {NULL};
+    int nombrePlace = -1, nombreJoueur = -1, nombreSortParJoueur = -1;
+    for(int i = 0; i < 3; i++)
+    {
+        argument[i] = strtok(NULL, SEPARATEUR_ELEMENT);
+        if(argument[i] == NULL)
+        {
+            return;
+        }
+    }
+    nombrePlace = atoi(argument[0]);
+    nombreJoueur = atoi(argument[1]);
+    nombreSortParJoueur = atoi(argument[2]);
+    if(nombreJoueur < 0 || nombrePlace < 0 || nombreSortParJoueur < 0)
+    {
+        return;
+    }
+    this->partie->setNombreJoueur(nombreJoueur);
+    this->partie->setNombrePlace(nombrePlace);
+    this->partie->setNombreSortParJoueur(nombreSortParJoueur);
+}
+
 void ReceptionClient::envoyerCommandeSort()
 {
     string final = SORT;
@@ -484,6 +511,14 @@ void ReceptionClient::envoyerCommandeQuitter()
 void ReceptionClient::envoyerCommandeFinTour()
 {
     string final = FIN_TOUR;
+    final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
+    send(this->socketClient, final.c_str(), final.size(), 0);
+}
+
+void ReceptionClient::envoyerCommandeInformationPartie()
+{
+    string final = INFORMATION_PARTIE;
     final += SEPARATEUR_ELEMENT;
     final += SEPARATEUR_COMMANDE;
     send(this->socketClient, final.c_str(), final.size(), 0);

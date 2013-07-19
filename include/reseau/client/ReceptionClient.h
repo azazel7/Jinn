@@ -26,6 +26,7 @@ public:
     void envoyerCommandeAction(string const& sort, Position* origine, Position* cible);
     void envoyerCommandeQuitter();
     void envoyerCommandeFinTour();
+    void envoyerCommandeInformationPartie();
 
 
 private:
@@ -38,6 +39,7 @@ private:
     void traitementSort();
     void traitementEquipe();
     void traitementNouveauJoueur();
+    void traitementInfoPartie();
     int port;
     string ip;
     int socketClient;
