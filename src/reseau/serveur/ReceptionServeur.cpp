@@ -266,6 +266,10 @@ void ReceptionServeur::traitementClient(char *commande, int socketClient, bool &
         //Envoyer la liste des sorts ("sort", nom, description, nom, description, ....)
         traitementSort(socketClient);
     }
+    else if(strcmp(action, INFORMATION_PARTIE) == 0)
+    {
+        this->traitementInformationPartie(socketClient);
+    }
     else if(strcmp(action, QUITTER) == 0)
     {
         this->listeClient.erase(socketClient);
