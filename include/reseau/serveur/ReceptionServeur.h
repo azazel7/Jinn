@@ -45,6 +45,7 @@ private:
     void traitementNouveauJoueur(int socketClient);
     void traitementMessage(char *commande, const string &nomJoueurParlant);
     void traitementQuitter(int socketClient);
+    void traitementInformationPartie(int socketClient);
     Partie *partie;
     int port;
     string ip;

@@ -441,12 +441,12 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
     sortAction = UsineSort::fabriqueSort(nomSort);
     if(sortAction == NULL)
     {
-        cout << "sortAction NULL" << endl;
+        GestionnaireLogger::ecrirMessage(TypeMessage::WARN, "Le sort requis n'existe pas");
         return;
     }
     if(listeClient[socketClient]->getJoueur()->possedeSort(nomSort) == false)
     {
-        cout << "Pas le sort" << endl;
+        GestionnaireLogger::ecrirMessage(TypeMessage::WARN, "Le joueur n'a pas ce sort");
         return;
     }
     //Il y a deux coordonnées (x et y)
@@ -531,4 +531,18 @@ void ReceptionServeur::finirServeur()
     this->listeClient.clear();
     this->eteindre = true;
     GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Fin du serveur");
+}
+
+void ReceptionServeur::traitementInformationPartie(int socketClient)
+{
+    string final = INFORMATION_PARTIE;
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(this->partie->getNombreDePlace());
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(this->partie->nombreDeJoueur());
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(this->partie->getNombreSortParJoueur());
+    final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
+    send(socketClient, final.c_str(), final.size(), 0);
 }
