@@ -464,7 +464,7 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
         nombreCible ++;
         listeCible.push_back(tmp);
     }
-    //Pas de coordonnées valide.
+    //Pas de coordonnées valide. car une position n'a qu'un x ou qu'un y
     if((nombreCible%2) != 0)
     {
         GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Le nombre de coordonnée n'est pas valide");
@@ -482,23 +482,31 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
         yCible = atoi(listeCible[(i*2)+1]);
         if(xCible == -1 || yCible == -1)
         {
-            cout << "Coor invalide" << endl;
+            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Coordonnées invalides");
             return;
         }
         cibleTmp = this->partie->getPlateau()->getCase(xCible, yCible);
         if(cibleTmp == NULL)
         {
-            cout << "Pas de case cible" << endl;
+            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Pas de case cible");
             return;
         }
         if(action->possedeCible(cibleTmp) == true)
         {
-            cout << "Cible déjà visée" << endl;
+            GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Cible déjà visée");
             return;
         }
         action->ajouterCible(cibleTmp);
     }
-    this->partie->effectuerAction(action, listeClient[socketClient]->getJoueur());
+    try
+    {
+        this->partie->effectuerAction(action, listeClient[socketClient]->getJoueur());
+    }
+    catch(invalid_argument e)
+    {
+        GestionnaireLogger::ecrirMessage(TypeMessage::INFO, e.what());
+    }
+
     delete action;
     delete sortAction;
 }
