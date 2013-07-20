@@ -62,6 +62,7 @@ int main(int argc, char** argv)
    start_color();
    init_pair(1, COLOR_BLUE, COLOR_CYAN);
    init_pair(2, COLOR_RED, COLOR_BLACK);
+   init_pair(3, COLOR_BLACK, COLOR_GREEN);
     creaJoueur.dessinerFenetre();
     creaJoueur.saisieInformation();
    std::this_thread::sleep_for(std::chrono::milliseconds(1000));

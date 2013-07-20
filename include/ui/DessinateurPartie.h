@@ -31,10 +31,13 @@ class DessinateurPartie
         void traitementTouchePlateau(int touche);
         void traitementToucheMessage(int touche);
         void traitementToucheParPanneaux(int touche);
-
+        void ajouterCible(Position *position);
+        void modifierCouleurPlateau(Position *position, bool activer, WINDOW* win);
         PartieClient* partie;
         ReceptionClient* recepteur;
         Position* positionCourante;
+        Position* origineSort;
+        list<Position*> listeCible;
         string message;
 
         int indexPanneau;

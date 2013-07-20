@@ -6,6 +6,7 @@ DessinateurPartie::DessinateurPartie(PartieClient* partie, ReceptionClient* rece
     this->recepteur = recepteur;
     this->positionCourante = Position::fabriquePosition(0,0);
     this->indexPanneau = IndexDessinateurPartie::index_plateau;
+    this->origineSort = NULL;
 }
 
 void DessinateurPartie::dessinerPartie()
@@ -103,7 +104,7 @@ void DessinateurPartie::effectuerAction(int n)
         if(sort != NULL)
         {
             string nomSort = sort->getNom();
-            this->recepteur->envoyerCommandeAction(nomSort, NULL, this->positionCourante);
+            this->recepteur->envoyerCommandeAction(nomSort, this->origineSort, this->positionCourante);
         }
     }
     catch(exception e)
@@ -124,23 +125,19 @@ void DessinateurPartie::dessinerPlateau(int hauteur, int largeur)
     int x_origine = 0;
     int y_origine = 0;
     int i = 1;
+    Position* position = NULL;
     WINDOW * win = subwin(stdscr, h_win, l_win, 0, largeur/5);
     for(int x = x_origine; x < x_origine + l_vision_case; x++)
     {
         for(int y = y_origine; y < y_origine + h_vision_case; y++)
         {
-            if(this->partie->getCase(Position::fabriquePosition(x, y)) != NULL)
+            position = Position::fabriquePosition(x, y);
+            if(this->partie->getCase(position) != NULL)
             {
                 wmove(win, y*h_case, x*l_case); //1 pour éviter d'empiéter sur la bordure
-                if(this->positionCourante == Position::fabriquePosition(x, y) && this->indexPanneau == IndexDessinateurPartie::index_plateau)
-                {
-                    wattron(win, COLOR_PAIR(1));
-                }
+                this->modifierCouleurPlateau(position, true, win);
                 wprintw(win, "[]");
-                if(this->positionCourante == Position::fabriquePosition(x, y) && this->indexPanneau == IndexDessinateurPartie::index_plateau)
-                {
-                    wattroff(win, COLOR_PAIR(1));
-                }
+                this->modifierCouleurPlateau(position, false, win);
             }
         }
     }
@@ -273,7 +270,17 @@ void DessinateurPartie::traitementTouchePlateau(int touche)
         }
         break;
     case ' ':
-        //TODO toggle selection case cible
+        this->ajouterCible(this->positionCourante);
+        break;
+    case '+':
+        if(this->positionCourante == this->origineSort)
+        {
+            this->origineSort = NULL;
+        }
+        else
+        {
+            this->origineSort = this->positionCourante;
+        }
         break;
     case 't':
         this->recepteur->envoyerCommandeFinTour();
@@ -308,5 +315,57 @@ void DessinateurPartie::traitementToucheMessage(int touche)
             this->message += touche;
         }
         break;
+    }
+}
+
+void DessinateurPartie::ajouterCible(Position* position)
+{
+    list<Position*>::iterator element = find(this->listeCible.begin(), this->listeCible.end(), position);
+    if(element == this->listeCible.end()) //il n'existe pas, on l'ajoute
+    {
+        this->listeCible.push_front(position);
+    }
+    else //Il existe, on le retire
+    {
+        this->listeCible.erase(element);
+    }
+}
+
+void DessinateurPartie::modifierCouleurPlateau(Position* position, bool activer, WINDOW *win)
+{
+    if(position == this->positionCourante && this->indexPanneau == IndexDessinateurPartie::index_plateau)
+    {
+        if(activer == true)
+        {
+                    wattron(win, COLOR_PAIR(1));
+        }
+        else
+        {
+                    wattroff(win, COLOR_PAIR(1));
+        }
+        return;
+    }
+    if(position == this->origineSort)
+    {
+        if(activer == true)
+        {
+                    wattron(win, COLOR_PAIR(2));
+        }
+        else
+        {
+                    wattroff(win, COLOR_PAIR(2));
+        }
+    }
+    list<Position*>::iterator element = find(this->listeCible.begin(), this->listeCible.end(), position);
+    if(element != this->listeCible.end())
+    {
+        if(activer == true)
+        {
+                    wattron(win, COLOR_PAIR(3));
+        }
+        else
+        {
+                    wattroff(win, COLOR_PAIR(3));
+        }
     }
 }
