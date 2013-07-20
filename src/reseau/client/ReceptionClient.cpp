@@ -480,7 +480,7 @@ void ReceptionClient::envoyerCommandeMessage(string const& message)
     send(this->socketClient, final.c_str(), final.size(), 0);
 }
 
-void ReceptionClient::envoyerCommandeAction(string const& sort, Position* origine, Position* cible)
+void ReceptionClient::envoyerCommandeAction(string const& sort, Position* origine, list<Position *> cible)
 {
     //TODO traiter le cas de plusieurs cible
     string final = ACTION;
@@ -501,10 +501,14 @@ void ReceptionClient::envoyerCommandeAction(string const& sort, Position* origin
         final += to_string(origine->getY());
         final += SEPARATEUR_ELEMENT;
     }
-    final += to_string(cible->getX());
-    final += SEPARATEUR_ELEMENT;
-    final += to_string(cible->getY());
-    final += SEPARATEUR_ELEMENT;
+    for(list<Position*>::iterator it = cible.begin(); it != cible.end(); it++)
+    {
+        final += to_string((*it)->getX());
+        final += SEPARATEUR_ELEMENT;
+        final += to_string((*it)->getY());
+        final += SEPARATEUR_ELEMENT;
+    }
+    final += SEPARATEUR_COMMANDE;
     send(this->socketClient, final.c_str(), final.size(), 0);
 }
 

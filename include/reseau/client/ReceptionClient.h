@@ -25,7 +25,7 @@ public:
     void envoyerCommandeEquipe();
     void envoyerCommandeNouveauJoueur(string const& nomJoueur, string const& nomEquipe, list<string> &listeSort);
     void envoyerCommandeMessage(string const& message);
-    void envoyerCommandeAction(string const& sort, Position* origine, Position* cible);
+    void envoyerCommandeAction(string const& sort, Position* origine, list<Position*> cible);
     void envoyerCommandeQuitter();
     void envoyerCommandeFinTour();
     void envoyerCommandeInformationPartie();

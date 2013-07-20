@@ -104,7 +104,16 @@ void DessinateurPartie::effectuerAction(int n)
         if(sort != NULL)
         {
             string nomSort = sort->getNom();
-            this->recepteur->envoyerCommandeAction(nomSort, this->origineSort, this->positionCourante);
+            if(this->listeCible.size() > 0)
+            {
+                this->recepteur->envoyerCommandeAction(nomSort, this->origineSort, this->listeCible);
+            }
+            else
+            {
+                this->listeCible.push_front(this->positionCourante);
+                this->recepteur->envoyerCommandeAction(nomSort, this->origineSort, this->listeCible);
+                this->listeCible.pop_front();
+            }
         }
     }
     catch(exception e)
