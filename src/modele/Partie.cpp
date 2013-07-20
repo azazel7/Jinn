@@ -67,7 +67,7 @@ bool Partie::verifierVictoire(Equipe & equipe)
 
 void Partie::initialiser()
 {
-    plateau = new Plateau(2,2);
+    plateau = new Plateau(3,3);
 }
 
 std::vector<Sort*> Partie::listeSort()
@@ -418,9 +418,13 @@ void Partie::retirerJoueur(Joueur* joueur)
 
         delete equipeJoueur;
 
-        if(this->finPartie(nomEquipeGagnante) == true)
+        if(this->enCours == true)
         {
-            this->finirPartie(nomEquipeGagnante);
+            if(this->finPartie(nomEquipeGagnante) == true)
+            {
+                this->finirPartie(nomEquipeGagnante);
+
+            }
         }
     }
     //On tourne

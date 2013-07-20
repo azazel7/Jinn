@@ -34,7 +34,7 @@ int main()
     signal(SIGINT, &traitement_sigint);
     Logger *logger = new LoggerFileDescriptor(1, false);
     GestionnaireLogger::ajouterRegistre(logger);
-    Partie *p = new Partie("p1", 2, 2);
+    Partie *p = new Partie("p1", 2, 3);
     p->initialiser();
     serveur = new ReceptionServeur(p);
     serveur->initialiserServeur();
