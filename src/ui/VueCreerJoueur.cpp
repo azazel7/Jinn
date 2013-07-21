@@ -223,8 +223,11 @@ void VueCreerJoueur::saisieInformation()
                 return;
             break;
             case KEY_F(3):
+            if(this->sortChoisie.size() == partie->getNombreSortParJoueur())
+            {
                 this->receptionClient->envoyerCommandeNouveauJoueur(this->nomJoueur, this->nomEquipe, this->sortChoisie);
                 return;
+            }
             break;
             default:
                 this->ajouterLettre(touche);
