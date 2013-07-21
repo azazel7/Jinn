@@ -82,7 +82,6 @@ void ReceptionServeur::remplirSelection(fd_set& readfd)
 void ReceptionServeur::testerSelectionClient(fd_set& readfd)
 {
     bool clientSupp = false;
-    //FIXME mettre à jour l'iterator pour les suppressions interne
     for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); ++it)
     {
         if(FD_ISSET(it->first, &readfd))
@@ -305,6 +304,7 @@ void ReceptionServeur::traitementSort(int socketClient)
         final += SEPARATEUR_ELEMENT;
         delete sort;
     }
+    final += SEPARATEUR_COMMANDE;
     send(socketClient, final.c_str(), final.size(), 0);
 }
 
@@ -317,6 +317,7 @@ void ReceptionServeur::traitementEquipe(int socketClient)
         final += SEPARATEUR_ELEMENT + listeEquipe[i];
     }
     final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
     send(socketClient, final.c_str(), final.size(), 0);
 }
 
@@ -354,6 +355,7 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
             final = ERREUR;
             final += SEPARATEUR_ELEMENT;
             final += "nombre de sort non valide";
+            final += SEPARATEUR_COMMANDE;
             send(socketClient, final.c_str(), final.size(), 0);
             return;
         }
