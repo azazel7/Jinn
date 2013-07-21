@@ -139,10 +139,11 @@ void ReceptionClient::traitementCommande(char* commande)
         }
         else if(strcmp(action, INFORMATION_SORT) == 0)
         {
+            traitementInfoSort();
         }
         else if(strcmp(action, INFORMATION_PARTIE) == 0)
         {
-            traitementInfoSort();
+             traitementInfoPartie();
         }
         else if(strcmp(action, TOUR_DE) == 0)
         {
@@ -482,7 +483,6 @@ void ReceptionClient::envoyerCommandeMessage(string const& message)
 
 void ReceptionClient::envoyerCommandeAction(string const& sort, Position* origine, list<Position *> cible)
 {
-    //TODO traiter le cas de plusieurs cible
     string final = ACTION;
     final += SEPARATEUR_ELEMENT;
     final += sort;
