@@ -24,6 +24,7 @@ void Partie::demarrerPartie()
     for(int i = 0; i < this->joueur.size(); i++)
     {
         this->joueur[i]->notifierDebutPartie();
+        this->joueur[i]->notifierPartie(*this);
     }
     this->changerJoueur();
 }
