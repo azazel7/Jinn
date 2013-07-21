@@ -48,6 +48,8 @@ public:
     void setNombreSortParJoueur(int value);
     int getNombreSortParJoueur();
 
+    void setEquipeGagnante(string nom);
+    string getEquipeGagnante();
 private:
     map<string, Joueur*> listeJoueur;
     map<int, Case*> listeCase;
@@ -56,9 +58,11 @@ private:
     vector<Sort*> listeSortDispo;
     vector<string> listeEquipe;
     list<pair<string, string> > listeMessage;
+    string equipeGagnante;
 
     int nombrePlace;
     int nombreJoueur;
     int nombreSortParJouer;
+
 };
 #endif

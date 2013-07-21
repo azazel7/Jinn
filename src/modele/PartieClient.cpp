@@ -156,3 +156,12 @@ int PartieClient::getNombreSortParJoueur()
 {
     return this->nombreSortParJouer;
 }
+void PartieClient::setEquipeGagnante(string nom)
+{
+    this->equipeGagnante = nom;
+}
+
+string PartieClient::getEquipeGagnante()
+{
+    return this->equipeGagnante;
+}
