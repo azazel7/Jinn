@@ -26,6 +26,7 @@ class DessinateurPartie
         void dessinerMessage(int hauteur, int largeur);
         void dessinerPlateau(int hauteur, int largeur);
         void dessinerCaseCourante(int hauteur, int largeur);
+        void dessinerListeSortJoueur(int hauteur, int largeur);
         void effectuerAction(int n);
         void tournerIndexPanneaux();
         void traitementTouchePlateau(int touche);

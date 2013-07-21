@@ -20,6 +20,7 @@ void DessinateurPartie::dessinerPartie()
     this->dessinerMessage(hauteur, largeur);
     this->dessinerPlateau(hauteur, largeur);
     this->dessinerCaseCourante(hauteur, largeur);
+    this->dessinerListeSortJoueur(hauteur, largeur);
     this->mut.unlock();
 }
 void DessinateurPartie::dessinerJoueurs(int hauteur, int largeur)
@@ -155,7 +156,7 @@ void DessinateurPartie::dessinerPlateau(int hauteur, int largeur)
 
 void DessinateurPartie::dessinerCaseCourante(int hauteur, int largeur)
 {
-    int h_win = (4*hauteur)/5;
+    int h_win = (2*hauteur)/5;
     int l_win = largeur/5;
     WINDOW * win = subwin(stdscr, h_win, l_win, 0, (4*largeur)/5);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
@@ -187,10 +188,35 @@ void DessinateurPartie::dessinerCaseCourante(int hauteur, int largeur)
     wrefresh(win);
 }
 
+void DessinateurPartie::dessinerListeSortJoueur(int hauteur, int largeur)
+{
+    int h_win = (2*hauteur)/5;
+    int l_win = largeur/5;
+    int i = 1;
+    WINDOW * win = subwin(stdscr, h_win, l_win, (2*hauteur)/5, (4*largeur)/5);
+    wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
+    Joueur* joueur = this->partie->getJoueur(this->partie->getJoueurClient());
+    if(joueur == NULL)
+    {
+        return;
+    }
+    vector<Sort*> listeSort = joueur->getListeSort();
+    for(vector<Sort*>::iterator it = listeSort.begin(); it != listeSort.end(); it++)
+    {
+        wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+        wprintw(win, "F%d : %s", i + 1, (*it)->getNom().c_str());
+        if(i >= 16 || i >= h_win - 2)
+        {
+            break;
+        }
+        i++;
+    }
+}
+
 void DessinateurPartie::saisie()
 {
     int touche = 0;
-    while(true)
+    while(this->partie->getEquipeGagnante() == "")
     {
         touche = getch();
         switch(touche)
