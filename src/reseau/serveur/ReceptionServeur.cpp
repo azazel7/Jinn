@@ -339,7 +339,7 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
 
     nom = strtok(NULL, SEPARATEUR_ELEMENT);
     equipe = strtok(NULL, SEPARATEUR_ELEMENT);
-    if(nom == NULL || equipe == NULL)
+    if(nom == NULL || equipe == NULL || strcmp(nom, CHAMPS_VIDE) == 0 || strcmp(equipe, CHAMPS_VIDE) == 0)
     {
         final = ERREUR;
         final += SEPARATEUR_ELEMENT;

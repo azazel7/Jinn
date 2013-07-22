@@ -1,7 +1,5 @@
 #include "Joueur.h"
 
-
-
 Joueur::Joueur()
 {
     this->abilite = 1;
@@ -325,7 +323,6 @@ void Joueur::notifierPartie(Partie & partie) const
 {
     //Un joueur n'est informer que de ce qu'il peut voir ou sentir ~~
     //Pour une case: Deffense initial, proprio
-    //Pour une case en sa possession, informer des sorts dessus en excluant les siens ? (Au début, pas de case, donc tout va bien)
     //La position de tout ses sorts et leurs durée restante (Au début, pas de sort, donc pas de soucis)
     //De la liste des joueurs avec leurs équipe
     //Pour chaque joueur de son equipe: le mana actuel et le mana maximum
@@ -494,11 +491,16 @@ string Joueur::creerChaineNotificationSort(Sort const& sort, int duree, Position
 
 string Joueur::creerChaineNotificationJoueur(Joueur const& joueur, bool compteEquipe) const
 {
+    string equipe = joueur.getNomEquipe();
     string retour = INFORMATION_JOUEUR;
     retour += SEPARATEUR_ELEMENT;
     retour += joueur.getNom();
     retour += SEPARATEUR_ELEMENT;
-    retour += joueur.getNomEquipe();
+    if(equipe == "")
+    {
+        equipe = CHAMPS_VIDE;
+    }
+    retour += equipe;
     retour += SEPARATEUR_ELEMENT;
     if(joueur.getNomEquipe() == this->getNomEquipe() || compteEquipe == false)
     {
@@ -524,13 +526,18 @@ string Joueur::creerChaineNotificationJoueur(Joueur const& joueur, bool compteEq
 
 string Joueur::creerChaineNotificationCase(Case const& caseANotif, bool compteProprietaire) const
 {
+    string proprio = caseANotif.getNomProprietaire();
+    if(proprio == "")
+    {
+        proprio = CHAMPS_VIDE;
+    }
     string retour = INFORMATION_CASE;
     retour += SEPARATEUR_ELEMENT;
     retour += to_string(caseANotif.getPosition()->getX());
     retour += SEPARATEUR_ELEMENT;
     retour += to_string(caseANotif.getPosition()->getY());
     retour += SEPARATEUR_ELEMENT;
-    retour += caseANotif.getNomProprietaire();
+    retour += proprio;
     retour += SEPARATEUR_ELEMENT;
     if(caseANotif.getNomProprietaire() == this->nom || compteProprietaire == false)
     {

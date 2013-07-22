@@ -111,6 +111,8 @@ void ReceptionClient::testerSelection(fd_set readfd)
         {
             data = (char*)malloc((listeCommande[i].size() + 1) * sizeof(char));
             strncpy(data, listeCommande[i].c_str(), listeCommande[i].size());
+            data[listeCommande[i].size()] = 0;
+            GestionnaireLogger::ecrirMessage(INFO, data);
             this->traitementCommande(data);
             free(data);
         }
@@ -124,7 +126,6 @@ void ReceptionClient::traitementCommande(char* commande)
     action = strtok (commande, SEPARATEUR_ELEMENT);
     if(action != NULL)
     {
-        GestionnaireLogger::ecrirMessage(TypeMessage::INFO, action);
         if(strcmp(action, MESSAGE) == 0)
         {
             traitementMessage();
@@ -199,7 +200,7 @@ void ReceptionClient::traitementInfoCase()
 
     for(int i = 0; i < 10; i++)
     {
-        if(argument[i] == NULL)
+        if(argument[i] == NULL) // i != 2 car le second est le proprio qui peut être vide
         {
             //Info fausse
             return;
@@ -226,11 +227,11 @@ void ReceptionClient::traitementInfoCase()
         caseCible->setDefenseReel(defReel);
         caseCible->setDefenseActuelle(defActuelle);
         caseCible->setBonusOffensifActuel(bonusOffActuel);
+        caseCible->setProprietaire(this->partie->getJoueur(argument[2]));
         this->partie->ajouterCase(caseCible);
     }
     else
     {
-        //TODO mauvaise maj des cases
         if(defReel != -1)
         {
             caseCible->setDefenseReel(defReel);
@@ -238,6 +239,10 @@ void ReceptionClient::traitementInfoCase()
         if(defActuelle != -1)
         {
             caseCible->setDefenseActuelle(defActuelle);
+        }
+        if(defInit != -1)
+        {
+            caseCible->setDefenseInitiale(defInit);
         }
         if(regenDef != -1)
         {
@@ -250,6 +255,10 @@ void ReceptionClient::traitementInfoCase()
         if(bonusOffActuel != -1)
         {
             caseCible->setBonusOffensifActuel(bonusOffActuel);
+        }
+        if(bonusOffInit != -1)
+        {
+            caseCible->setBonusOffensifInitial(bonusOffInit);
         }
         caseCible->setProprietaire(this->partie->getJoueur(argument[2]));
     }

@@ -39,6 +39,8 @@ int main(int argc, char** argv)
    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
    cout <<"Equipe : " << partie->getListeEquipe().size() << endl;
    cout <<"Sort : " << partie->getListeSortDispo().size() << endl;
+   cout << "Place : " << partie->getNombreJoueur() << "/" << partie->getNombrePlace() << endl;
+   cout << "Sort par joueur : " << partie->getNombreSortParJoueur() << endl;
    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
    VueCreerJoueur creaJoueur(partie, ClientJinn::recepteur);
    DessinateurPartie dessinateur(partie, ClientJinn::recepteur);
@@ -65,9 +67,25 @@ int main(int argc, char** argv)
    init_pair(3, COLOR_BLACK, COLOR_GREEN);
     creaJoueur.dessinerFenetre();
     creaJoueur.saisieInformation();
-   std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+   std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+//   for(int x = 0; x < 3; x++)
+//   {
+//       for(int y = 0; y < 3; y++)
+//       {
+//            Case* cas = partie->getCase(Position::fabriquePosition(x, y));
+//            if(cas != NULL)
+//            {
+//                cout << *cas << endl;
+//            }
+//            else
+//            {
+//                cout << "[" << x << ";" << y << "] NULL" << endl;
+//            }
+//       }
+//   }
     dessinateur.dessinerPartie();
     dessinateur.saisie();
-
    endwin();
+
+   cout << "L'équipe " << partie->getEquipeGagnante() << " a gagnée la partie." << endl;
 }

@@ -11,6 +11,7 @@
 #define SORT "sort"
 #define ERREUR "erreur"
 #define QUITTER "quitter"
+#define CHAMPS_VIDE "@@@@@@@"
 //TODO les action d'un joueur ne se passe plus sur la partie, mais sur sa partie
 //Relatif au jeu
 #define CHANGEMENT_CASE_PROPRIAITAIRE "chgcasepropri"
