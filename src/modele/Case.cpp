@@ -29,7 +29,7 @@ Case::Case(int defIni, int bonOff, int dissip, int attenu, int mana, int regenDe
 void Case::retirerSortEcoule()
 {
     list<pair<int, Sort*> >::iterator iterator;
-    for(iterator = sort.begin(); iterator != sort.end(); ++iterator)
+    for(iterator = sort.begin(); iterator != sort.end();)
     {
         iterator->first--;
         if(iterator->first <= 0)
@@ -37,6 +37,10 @@ void Case::retirerSortEcoule()
             iterator->second->retirerDeCase(*this);
             delete iterator->second;
             iterator = sort.erase(iterator);
+        }
+        else
+        {
+            iterator++;
         }
     }
 }
