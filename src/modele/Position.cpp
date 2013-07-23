@@ -74,4 +74,7 @@ ostream& operator<<( ostream &flux, Position const& pos)
     return flux;
 }
 
-
+Position* Position::getPosition(int code)
+{
+    return listePosition[code];
+}

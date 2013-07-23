@@ -16,6 +16,7 @@ public:
 
 	static Position* fabriquePosition(int x, int y);
 	static int codePosition(int x, int y);
+    static Position* getPosition(int code);
 	int getX() const;
 	int getY() const;
     bool operator ==(Position const& a) const;
