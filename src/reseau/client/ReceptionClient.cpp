@@ -155,7 +155,7 @@ void ReceptionClient::traitementCommande(char* commande)
         }
         else if(strcmp(action, MORT) == 0)
         {
-            //Message, supprimer les sorts et le joueur
+
         }
         else if(strcmp(action, QUITTER_PARTIE) == 0)
         {
@@ -163,10 +163,11 @@ void ReceptionClient::traitementCommande(char* commande)
         }
         else if(strcmp(action, DEMARAGE_PARTIE) == 0)
         {
+
         }
         else if(strcmp(action, FIN_PARTIE) == 0)
         {
-            //Message
+            traitementFinPartie();
         }
         else if(strcmp(action, REUSSITE_SORT) == 0)
         {
@@ -611,4 +612,14 @@ void ReceptionClient::traitementQuitterPartie()
         return;
     }
     this->partie->retirerJoueur(nom);
+}
+
+void ReceptionClient::traitementFinPartie()
+{
+    char* nom = strtok(NULL, SEPARATEUR_ELEMENT);
+    if(nom == NULL)
+    {
+        return;
+    }
+    this->partie->setEquipeGagnante(nom);
 }
