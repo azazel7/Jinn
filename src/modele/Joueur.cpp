@@ -378,7 +378,10 @@ void Joueur::notifierDebutTour(string nomJoueur) const
 }
 void Joueur::notifierFinTourPartie() const
 {
-
+    string final = FIN_TOUR_PARTIE;
+    final += SEPARATEUR_ELEMENT;
+    final += SEPARATEUR_COMMANDE;
+    send(this->socket, final.c_str(), final.size(), 0);
 }
 
 void Joueur::notifierMort(string nomJoueur) const

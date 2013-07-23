@@ -17,6 +17,7 @@
 #define CHANGEMENT_CASE_PROPRIAITAIRE "chgcasepropri"
 #define INFORMATION_PARTIE "informationpartie"
 #define TOUR_DE "tourde"
+#define FIN_TOUR_PARTIE "fintourpartie"
 #define MORT "mort"
 #define DEMARAGE_PARTIE "demaragepartie"
 #define FIN_PARTIE "finpartie"

@@ -50,6 +50,8 @@ public:
 
     void setEquipeGagnante(string nom);
     string getEquipeGagnante();
+
+    map<int, Case*> getListeCase();
 private:
     map<string, Joueur*> listeJoueur;
     map<int, Case*> listeCase;

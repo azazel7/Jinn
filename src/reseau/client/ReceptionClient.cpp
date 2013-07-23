@@ -150,6 +150,10 @@ void ReceptionClient::traitementCommande(char* commande)
         {
             traitementTourDe();
         }
+        else if(strcmp(action, FIN_TOUR_PARTIE) == 0)
+        {
+            traitementFinTourPartie();
+        }
         else if(strcmp(action, MORT) == 0)
         {
             //Message, supprimer les sorts et le joueur
@@ -365,6 +369,7 @@ void ReceptionClient::traitementInfoSort()
 
 void ReceptionClient::traitementTourDe()
 {
+    GestionnaireLogger::ecrirMessage(INFO, "Tour de");
     char* nom = NULL;
     Joueur* joueur = NULL;
     nom = strtok (NULL, SEPARATEUR_ELEMENT);
@@ -373,8 +378,6 @@ void ReceptionClient::traitementTourDe()
         joueur = this->partie->getJoueur(nom);
     }
     this->partie->setJoueurCourant(joueur);
-    //TODO faire diminuer et éliminer les sorts qui sont finis
-
 }
 
 void ReceptionClient::traitementSort()
@@ -563,4 +566,26 @@ DessinateurPartie* ReceptionClient::getDessinateur()
 void ReceptionClient::setDessinateur(DessinateurPartie* nouveauDessinateur)
 {
     this->dessinateur = nouveauDessinateur;
+}
+
+void ReceptionClient::traitementFinTourPartie()
+{
+    map<int, Case*> listeCase = this->partie->getListeCase();
+    for(map<int, Case*>::iterator it = listeCase.begin(); it != listeCase.end(); it++)
+    {
+        pair<int, Case*> cour = *it;
+        Case* courante = cour.second;
+        if(courante != NULL)
+        {
+            list<pair<int, Sort*> > listeSort = courante->getListSort();
+            for(list<pair<int, Sort*> >::iterator ot = listeSort.begin(); ot != listeSort.end(); ot++)
+            {
+                ot->first--;
+                if(ot->first <= 0)
+                {
+                    this->partie->retirerSortCase(courante->getPosition(), ot->second->getId());
+                }
+            }
+        }
+    }
 }

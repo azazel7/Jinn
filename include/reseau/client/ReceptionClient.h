@@ -45,6 +45,7 @@ private:
     void traitementNouveauJoueur();
     void traitementInfoPartie();
     void traitementMessage();
+    void traitementFinTourPartie();
     int port;
     string ip;
     int socketClient;

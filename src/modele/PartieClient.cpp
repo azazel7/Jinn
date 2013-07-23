@@ -165,3 +165,8 @@ string PartieClient::getEquipeGagnante()
 {
     return this->equipeGagnante;
 }
+
+map<int, Case*> PartieClient::getListeCase()
+{
+    return this->listeCase;
+}

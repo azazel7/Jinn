@@ -471,6 +471,10 @@ void Partie::finTourPartie()
     this->plateau->regenererManaPourJoueur();
     this->plateau->retirerSortDeDureeEcoulee();
     this->regenererManaJoueur();
+    for(vector<Joueur*>::iterator it = this->joueur.begin(); it != this->joueur.end(); it++)
+    {
+        (*it)->notifierFinTourPartie();
+    }
 }
 
 Partie::~Partie()
