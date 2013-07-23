@@ -52,6 +52,9 @@ public:
     string getEquipeGagnante();
 
     map<int, Case*> getListeCase();
+
+    void ajouterNotification(string notification);
+    list<string> getListeNotification();
 private:
     map<string, Joueur*> listeJoueur;
     map<int, Case*> listeCase;
@@ -60,6 +63,7 @@ private:
     vector<Sort*> listeSortDispo;
     vector<string> listeEquipe;
     list<pair<string, string> > listeMessage;
+    list<string> listeNotification;
     string equipeGagnante;
 
     int nombrePlace;

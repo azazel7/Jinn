@@ -170,3 +170,12 @@ map<int, Case*> PartieClient::getListeCase()
 {
     return this->listeCase;
 }
+
+void PartieClient::ajouterNotification(string notification)
+{
+    this->listeNotification.push_front(notification);
+}
+list<string> PartieClient::getListeNotification()
+{
+    return this->listeNotification;
+}

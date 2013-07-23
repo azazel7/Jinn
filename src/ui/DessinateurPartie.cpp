@@ -21,11 +21,12 @@ void DessinateurPartie::dessinerPartie()
     this->dessinerPlateau(hauteur, largeur);
     this->dessinerCaseCourante(hauteur, largeur);
     this->dessinerListeSortJoueur(hauteur, largeur);
+    this->dessinerNotification(hauteur, largeur);
     this->mut.unlock();
 }
 void DessinateurPartie::dessinerJoueurs(int hauteur, int largeur)
 {
-    int h_win = hauteur;
+    int h_win = (4*hauteur)/5;
     int l_win = largeur/5;
     int i = 1;
     Joueur* joueur = NULL;
@@ -210,6 +211,26 @@ void DessinateurPartie::dessinerListeSortJoueur(int hauteur, int largeur)
             break;
         }
         i++;
+    }
+}
+
+void DessinateurPartie::dessinerNotification(int hauteur, int largeur)
+{
+    int h_win = hauteur/5;
+    int l_win = largeur/5;
+    int i = 1;
+    WINDOW * win = subwin(stdscr, h_win, l_win, (4*hauteur)/5, 0);
+    wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
+    list<string> listeNotification = this->partie->getListeNotification();
+    for(list<string>::iterator it = listeNotification.begin(); it != listeNotification.end(); it++)
+    {
+        wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+        wprintw(win, "%s", it->c_str());
+        i++;
+        if(i > h_win -2)
+        {
+            break;
+        }
     }
 }
 
