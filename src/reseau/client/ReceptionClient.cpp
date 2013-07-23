@@ -117,7 +117,6 @@ void ReceptionClient::testerSelection(fd_set readfd)
             free(data);
         }
     }
-
 }
 
 void ReceptionClient::traitementCommande(char* commande)
@@ -157,6 +156,10 @@ void ReceptionClient::traitementCommande(char* commande)
         else if(strcmp(action, MORT) == 0)
         {
             //Message, supprimer les sorts et le joueur
+        }
+        else if(strcmp(action, QUITTER_PARTIE) == 0)
+        {
+            traitementQuitterPartie();
         }
         else if(strcmp(action, DEMARAGE_PARTIE) == 0)
         {
@@ -588,4 +591,24 @@ void ReceptionClient::traitementFinTourPartie()
             }
         }
     }
+}
+
+void ReceptionClient::traitementMortJoueur()
+{
+    char* nom = strtok(NULL, SEPARATEUR_ELEMENT);
+    if(nom == NULL)
+    {
+        return;
+    }
+    this->partie->retirerJoueur(nom);
+}
+
+void ReceptionClient::traitementQuitterPartie()
+{
+    char* nom = strtok(NULL, SEPARATEUR_ELEMENT);
+    if(nom == NULL)
+    {
+        return;
+    }
+    this->partie->retirerJoueur(nom);
 }
