@@ -9,7 +9,7 @@ Partie::Partie(string nom, int nombrePlace, int nombreSortParJoueur)
     this->nombreSortParJoueur = nombreSortParJoueur;
     this->joueurCourant = NULL;
     this->indexEquipeCourante = 0;
-    this->nombreDeJoueurAyantJoue = 0;
+    this->nombreDeJoueurAyantJoue = -1;
 }
 
 
@@ -19,7 +19,6 @@ Partie::Partie(string nom, int nombrePlace, int nombreSortParJoueur)
 void Partie::demarrerPartie()
 {
     this->enCours = true;
-    this->nombreDeJoueurAyantJoue = 0;
     //notifier joueur du démarrage de la partie
     for(int i = 0; i < this->joueur.size(); i++)
     {
