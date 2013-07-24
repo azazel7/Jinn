@@ -49,6 +49,7 @@ private:
     void traitementMortJoueur();
     void traitementQuitterPartie();
     void traitementFinPartie();
+    void traitementReussiteSort();
     int port;
     string ip;
     int socketClient;

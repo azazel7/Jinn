@@ -155,6 +155,7 @@ void ReceptionClient::traitementCommande(char* commande)
         }
         else if(strcmp(action, MORT) == 0)
         {
+            traitementMortJoueur();
 
         }
         else if(strcmp(action, QUITTER_PARTIE) == 0)
@@ -171,7 +172,7 @@ void ReceptionClient::traitementCommande(char* commande)
         }
         else if(strcmp(action, REUSSITE_SORT) == 0)
         {
-            //Message
+            traitementReussiteSort();
         }
         else if(strcmp(action, SORT) == 0)
         {
@@ -601,7 +602,9 @@ void ReceptionClient::traitementMortJoueur()
     {
         return;
     }
-    this->partie->retirerJoueur(nom);
+    string final = "Mort de ";
+    final += nom;
+    this->partie->ajouterNotification(final);
 }
 
 void ReceptionClient::traitementQuitterPartie()
@@ -622,4 +625,25 @@ void ReceptionClient::traitementFinPartie()
         return;
     }
     this->partie->setEquipeGagnante(nom);
+}
+
+void ReceptionClient::traitementReussiteSort()
+{
+    char* argument[4] = {NULL};
+    for(int i = 0; i < 4; i++)
+    {
+        argument[i] = strtok(NULL, SEPARATEUR_ELEMENT);
+        if(argument[i] == NULL)
+        {
+            return;
+        }
+    }
+    string notif = argument[0];
+    notif += " [";
+    notif += argument[1];
+    notif += ";";
+    notif += argument[2];
+    notif += "] ";
+    notif += argument[3];
+    this->partie->ajouterNotification(notif);
 }
