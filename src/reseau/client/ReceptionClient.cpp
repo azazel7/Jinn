@@ -583,14 +583,19 @@ void ReceptionClient::traitementFinTourPartie()
         if(courante != NULL)
         {
             list<pair<int, Sort*> > listeSort = courante->getListSort();
-            for(list<pair<int, Sort*> >::iterator ot = listeSort.begin(); ot != listeSort.end(); ot++)
+            for(list<pair<int, Sort*> >::iterator ot = listeSort.begin(); ot != listeSort.end();)
             {
                 ot->first--;
                 if(ot->first <= 0)
                 {
-                    this->partie->retirerSortCase(courante->getPosition(), ot->second->getId());
+                    ot = listeSort.erase(ot++);
+                }
+                else
+                {
+                    ot++;
                 }
             }
+            courante->setListeSort(listeSort);
         }
     }
 }

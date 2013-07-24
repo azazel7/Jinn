@@ -316,6 +316,11 @@ list<pair<int, Sort*> > Case::getListSort()
 {
     return this->sort;
 }
+void Case::setListeSort(list<pair<int, Sort*> > liste)
+{
+    this->sort = liste;
+}
+
 Sort* Case::getSort(int index)
 {
     int i = 0;

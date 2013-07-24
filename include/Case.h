@@ -31,6 +31,7 @@ public:
     void retirerSort(int index, bool compteEffet);
     void retirerSortId(int id, bool compteEffet);
     list<pair<int, Sort*> > getListSort();
+    void setListeSort(list<pair<int, Sort*> > liste);
     Sort* getSort(int index);
     Sort* getSortId(int id);
     int getApportMana() const;
