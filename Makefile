@@ -9,7 +9,7 @@ EXEC=Jinn
 SRC = $(shell find $(SRCDIR) -name "*.cpp"  ! -path '$(MAINDIR)*')
 OBJ = $(patsubst $(SRCDIR)%.cpp, $(OBJDIR)%.o, $(SRC))
 OBJSUBDIR = $(dir $(OBJ))
-FLAG= -std=c++11 -lcurses -lpthread -lboost_system
+FLAG= -std=c++11 -lcurses -lpthread -lboost_system -lboost_regex -L/usr/lib/libboost_regex.so
 OPTION=-g
 
 compile: directory $(OBJ)
