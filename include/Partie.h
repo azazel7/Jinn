@@ -37,7 +37,7 @@ public:
     /**
      *  Initialise la partie, les different joueurs, les differentes equipes et le terrain
      */
-    virtual void initialiser();
+    virtual void initialiser(int largeur = 3, int hauteur = 3);
 
     /**
      * Liste tous les sorts disponible pour la partie

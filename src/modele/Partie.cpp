@@ -65,9 +65,9 @@ bool Partie::verifierVictoire(Equipe & equipe)
     return false;
 }
 
-void Partie::initialiser()
+void Partie::initialiser(int largeur, int hauteur)
 {
-    plateau = new Plateau(3,3);
+    plateau = new Plateau(largeur, hauteur);
 }
 
 std::vector<Sort*> Partie::listeSort()
