@@ -12,6 +12,8 @@ using namespace std;
 class Joueur;
 class Case;
 
+enum TypeSort { FEU, EAU, TERRE, AIR, TENEBRE, LUMIERE };
+
 //que faire une fois la boucle des ID bouclée ? Il faut 1 an à raison de 100 sorts lancé par seconde pour la boucler. Et aucun sort ne dure 2^32 tours
 static unsigned int nextId = 1;
 
@@ -99,6 +101,7 @@ protected:
     int zoneEffet;
     int effetDissipation;
     int nombreMaxSortDissipable;
+    TypeSort typeSort;
     unsigned int id;
 
     vector<SortAppliquerSurCase*> listeApplicationSurCase;
