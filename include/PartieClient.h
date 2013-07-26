@@ -24,6 +24,8 @@ public:
     Case* getCase(Position * position);
     Sort* getSort(Position* position, int id_sort);
 
+    Equipe* getEquipe(string nomEquipe);
+
     void setJoueurCourant(Joueur* joueur);
     Joueur* getJoueurCourant();
 
@@ -58,6 +60,7 @@ public:
 private:
     map<string, Joueur*> listeJoueur;
     map<int, Case*> listeCase;
+    map<string, Equipe*> mapEquipe;
     Joueur* joueurCourant;
     string joueurClient;
     vector<Sort*> listeSortDispo;

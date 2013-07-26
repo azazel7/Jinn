@@ -179,3 +179,11 @@ list<string> PartieClient::getListeNotification()
 {
     return this->listeNotification;
 }
+Equipe* PartieClient::getEquipe(string nomEquipe)
+{
+    if(this->mapEquipe[nomEquipe] == NULL)
+    {
+        this->mapEquipe[nomEquipe] = new Equipe(nomEquipe);
+    }
+    return this->mapEquipe[nomEquipe];
+}
