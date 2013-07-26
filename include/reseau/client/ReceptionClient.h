@@ -34,7 +34,7 @@ public:
     void setDessinateur(DessinateurPartie* nouveauDessinateur);
 
 private:
-    void testerSelection(fd_set readfd);
+    bool testerSelection(fd_set readfd);
     void traitementCommande(char* commande);
     void traitementInfoCase();
     string traitementInfoJoueur();

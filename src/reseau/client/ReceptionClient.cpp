@@ -49,7 +49,6 @@ bool ReceptionClient::miseEnEcoute()
          la socket serveur */
     while(this->eteindre == false)
     {
-        /* Si une erreur est survenue au niveau du select */
         FD_ZERO(&readfs);
         FD_SET(this->socketClient, &readfs);
         GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Attente du select");
@@ -59,11 +58,14 @@ bool ReceptionClient::miseEnEcoute()
             exit(-1);
         }
         GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Données reçus par le select");
-        this->testerSelection(readfs);
+        if(this->testerSelection(readfs) == false)
+        {
+            return false;
+        }
     }
 }
 
-void ReceptionClient::testerSelection(fd_set readfd)
+bool ReceptionClient::testerSelection(fd_set readfd)
 {
     char* data = NULL;
     int octetRecus = -1, octetLus = -1;
@@ -74,8 +76,7 @@ void ReceptionClient::testerSelection(fd_set readfd)
         if(octetRecus == 0)
         {
             GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Le serveur vous à deconnecté");
-            //TODO fermer correctement le programme
-            exit(-1);
+            return false;
         }
         //Erreur
         else if(octetRecus < 0)
@@ -95,13 +96,13 @@ void ReceptionClient::testerSelection(fd_set readfd)
         {
             GestionnaireLogger::ecrirMessage(TypeMessage::ERROR, "Erreur recv. Nombre d'octets négatif");
             free(data);
-            return;
+            return true;
         }
         else if(octetLus != octetRecus) //Curieuse affaire
         {
             GestionnaireLogger::ecrirMessage(TypeMessage::ERROR, "Nombre d'octet lu different du nombre d'octet reçu");
             free(data);
-            return;
+            return true;
         }
         GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Traitement des données en cour ...");
         string ligne = data;
@@ -118,6 +119,7 @@ void ReceptionClient::testerSelection(fd_set readfd)
             free(data);
         }
     }
+    return true;
 }
 
 void ReceptionClient::traitementCommande(char* commande)
