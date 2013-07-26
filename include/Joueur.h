@@ -56,6 +56,10 @@ public:
 
     int getGainInitialMana() const;
 
+    int getAbilite() const;
+
+    int setAbilite(int value);
+
     int getSocket() const;
 
     void setSocket(int socket);

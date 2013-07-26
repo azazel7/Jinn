@@ -111,7 +111,7 @@ bool Joueur::estMort() const
 
 void Joueur::genererStatistique()
 {
-    this->abilite = rand()%10;
+    this->abilite = rand()%101;
     this->gainInitialMana = rand()%10;
     this->manaMaximum = 100 + rand()%10;
     this->manaActuel = this->manaMaximum;
@@ -183,6 +183,19 @@ int Joueur::getManaMaximum() const
 int Joueur::getGainInitialMana() const
 {
     return this->gainInitialMana;
+}
+
+int Joueur::getAbilite() const
+{
+    return this->abilite;
+}
+
+int Joueur::setAbilite(int value)
+{
+    if(value >= 0 && value <= 100)
+    {
+        this->abilite = value;
+    }
 }
 
 bool Joueur::possedeSort(Sort* sort)
@@ -513,15 +526,16 @@ string Joueur::creerChaineNotificationJoueur(Joueur const& joueur, bool compteEq
         retour += SEPARATEUR_ELEMENT;
         retour += to_string(joueur.getGainInitialMana());
         retour += SEPARATEUR_ELEMENT;
+        retour += to_string(joueur.getAbilite());
+        retour += SEPARATEUR_ELEMENT;
     }
     else
     {
-        retour += to_string(-1);
-        retour += SEPARATEUR_ELEMENT;
-        retour += to_string(-1);
-        retour += SEPARATEUR_ELEMENT;
-        retour += to_string(-1);
-        retour += SEPARATEUR_ELEMENT;
+        for(int i = 0; i < 4; i++)
+        {
+            retour += to_string(-1);
+            retour += SEPARATEUR_ELEMENT;
+        }
     }
     retour += SEPARATEUR_COMMANDE;
     return retour;
