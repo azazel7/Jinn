@@ -74,6 +74,7 @@ void ReceptionClient::testerSelection(fd_set readfd)
         if(octetRecus == 0)
         {
             GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Le serveur vous à deconnecté");
+            //TODO fermer correctement le programme
             exit(-1);
         }
         //Erreur
@@ -156,7 +157,6 @@ void ReceptionClient::traitementCommande(char* commande)
         else if(strcmp(action, MORT) == 0)
         {
             traitementMortJoueur();
-
         }
         else if(strcmp(action, QUITTER_PARTIE) == 0)
         {
@@ -275,15 +275,15 @@ void ReceptionClient::traitementInfoCase()
 
 string ReceptionClient::traitementInfoJoueur()
 {
-    char* argument[5] = {NULL};
-    int manaActuel = -1, manaMax = -1, gainMana = -1;
+    char* argument[6] = {NULL};
+    int manaActuel = -1, manaMax = -1, gainMana = -1, abilite = -1;
     Joueur* joueur;
-    for(int i = 0; i < 5; i++)
+    for(int i = 0; i < 6; i++)
     {
         argument[i] = strtok (NULL, SEPARATEUR_ELEMENT);
     }
 
-    for(int i = 0; i < 5; i++)
+    for(int i = 0; i < 6; i++)
     {
         if(argument[i] == NULL)
         {
@@ -294,12 +294,16 @@ string ReceptionClient::traitementInfoJoueur()
     manaActuel = atoi(argument[2]);
     manaMax = atoi(argument[3]);
     gainMana = atoi(argument[4]);
+    abilite = atoi(argument[5]);
     joueur = this->partie->getJoueur(argument[0]);
     if(joueur == NULL)
     {
-        joueur = new Joueur(gainMana, manaMax, -1, argument[0]);
+        joueur = new Joueur(gainMana, manaMax, abilite, argument[0]);
         joueur->setManaActuel(manaActuel);
-        //TODO Setter l'equipe
+        if(strcmp(argument[1], CHAMPS_VIDE) != 0)
+        {
+            joueur->setEquipe(this->partie->getEquipe(argument[1]));
+        }
         this->partie->ajouterJoueur(joueur);
     }
     else
@@ -315,6 +319,10 @@ string ReceptionClient::traitementInfoJoueur()
         if(gainMana != -1)
         {
             joueur->setGainMana(gainMana);
+        }
+        if(abilite != -1)
+        {
+            joueur->setAbilite(abilite);
         }
     }
     return joueur->getNom();
