@@ -15,9 +15,9 @@ using namespace std;
 ReceptionServeur *serveur = NULL;
 void traitement_sigint(int sig)
 {
-    cout << "Reception du signal " << sig << endl;
     if(sig == SIGINT)
     {
+        GestionnaireLogger::ecrirMessage(INFO, "Reception du signal SIGINT");
         if(serveur != NULL)
         {
             serveur->finirServeur();
