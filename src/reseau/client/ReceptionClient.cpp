@@ -278,29 +278,28 @@ void ReceptionClient::traitementInfoCase()
 string ReceptionClient::traitementInfoJoueur()
 {
     char* argument[6] = {NULL};
-    int manaActuel = -1, manaMax = -1, gainMana = -1, abilite = -1;
+    int manaActuel = -1, manaMax = -1, gainMana = -1, abilite = -1, niveauAbilite = -1;
     Joueur* joueur;
-    for(int i = 0; i < 6; i++)
+    for(int i = 0; i < 7; i++)
     {
         argument[i] = strtok (NULL, SEPARATEUR_ELEMENT);
-    }
-
-    for(int i = 0; i < 6; i++)
-    {
         if(argument[i] == NULL)
         {
             //Info fausse
             return "";
         }
     }
+
     manaActuel = atoi(argument[2]);
     manaMax = atoi(argument[3]);
     gainMana = atoi(argument[4]);
     abilite = atoi(argument[5]);
+    niveauAbilite = atoi(argument[6]);
+
     joueur = this->partie->getJoueur(argument[0]);
     if(joueur == NULL)
     {
-        joueur = new Joueur(gainMana, manaMax, abilite, argument[0]);
+        joueur = new Joueur(gainMana, manaMax, niveauAbilite, argument[0], (TypeSort) abilite);
         joueur->setManaActuel(manaActuel);
         if(strcmp(argument[1], CHAMPS_VIDE) != 0)
         {
@@ -324,7 +323,11 @@ string ReceptionClient::traitementInfoJoueur()
         }
         if(abilite != -1)
         {
-            joueur->setAbilite(abilite);
+            joueur->setAbilite((TypeSort) abilite);
+        }
+        if(niveauAbilite != -1)
+        {
+            joueur->setNiveauAbilite(niveauAbilite);
         }
     }
     return joueur->getNom();

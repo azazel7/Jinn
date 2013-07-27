@@ -18,6 +18,7 @@
 #include "logger/GestionnaireLogger.h"
 #include "logger/LoggerFileDescriptor.h"
 #include "reseau/constanteReseau.h"
+#include "sort/Sort.h"
 #include <boost/algorithm/string.hpp>
 
 class Partie;

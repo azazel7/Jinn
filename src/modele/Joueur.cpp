@@ -2,7 +2,7 @@
 
 Joueur::Joueur()
 {
-    this->abilite = 1;
+    this->abilite = TypeSort::LUMIERE;
     this->gainInitialMana = 1;
     this->manaMaximum = 1;
     this->manaActuel = 1;
@@ -11,9 +11,10 @@ Joueur::Joueur()
     this->equipe = NULL;
 }
 
-Joueur::Joueur(int gainInit, int manaMax, int abiliteInit, string  nom)
+Joueur::Joueur(int gainInit, int manaMax, int niveauAbilite, string  nom, TypeSort abilite)
 {
-    this->abilite = abiliteInit;
+    this->niveauAbilite = niveauAbilite;
+    this->abilite = abilite;
     this->gainInitialMana = gainInit;
     this->manaMaximum = manaMax;
     this->manaActuel = manaMax;
@@ -111,7 +112,7 @@ bool Joueur::estMort() const
 
 void Joueur::genererStatistique()
 {
-    this->abilite = rand()%101;
+    this->abilite = (TypeSort)(rand()%7);
     this->gainInitialMana = rand()%10;
     this->manaMaximum = 100 + rand()%10;
     this->manaActuel = this->manaMaximum;
@@ -185,17 +186,24 @@ int Joueur::getGainInitialMana() const
     return this->gainInitialMana;
 }
 
-int Joueur::getAbilite() const
+TypeSort Joueur::getAbilite() const
 {
     return this->abilite;
 }
 
-int Joueur::setAbilite(int value)
+void Joueur::setAbilite(TypeSort value)
 {
-    if(value >= 0 && value <= 100)
-    {
         this->abilite = value;
-    }
+}
+
+int Joueur::getNiveauAbilite() const
+{
+    return this->niveauAbilite;
+}
+
+void Joueur::setNiveauAbilite(int value)
+{
+    this->niveauAbilite = value;
 }
 
 bool Joueur::possedeSort(Sort* sort)
@@ -316,6 +324,10 @@ void Joueur::notifierCreation() const
     final += to_string(this->manaMaximum);
     final += SEPARATEUR_ELEMENT;
     final += to_string(this->gainInitialMana);
+    final += SEPARATEUR_ELEMENT;
+    final += to_string((int) this->abilite);
+    final += SEPARATEUR_ELEMENT;
+    final += to_string(this->niveauAbilite);
 
     for(int i = 0; i < this->listeSort.size(); i++)
     {
@@ -528,10 +540,12 @@ string Joueur::creerChaineNotificationJoueur(Joueur const& joueur, bool compteEq
         retour += SEPARATEUR_ELEMENT;
         retour += to_string(joueur.getAbilite());
         retour += SEPARATEUR_ELEMENT;
+        retour += to_string(joueur.getNiveauAbilite());
+        retour += SEPARATEUR_ELEMENT;
     }
     else
     {
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 5; i++)
         {
             retour += to_string(-1);
             retour += SEPARATEUR_ELEMENT;

@@ -8,6 +8,7 @@
 #include "Plateau.h"
 #include "Joueur.h"
 #include "UsineSort.h"
+#include "logger/GestionnaireLogger.h"
 
 using namespace std;
 

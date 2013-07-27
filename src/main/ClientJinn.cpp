@@ -2,6 +2,7 @@
 #include "PartieClient.h"
 #include "ui/VueCreerJoueur.h"
 #include "ui/DessinateurPartie.h"
+#include "logger/LoggerFileDescriptor.h"
 #include <curses.h>
 #include <chrono>
 #include <thread>

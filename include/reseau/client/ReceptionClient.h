@@ -1,12 +1,14 @@
 #ifndef ReceptionClient_h
 #define ReceptionClient_h
 
+#include <unistd.h>
 #include <sys/select.h>
 #include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <sys/ioctl.h>
+#include <boost/algorithm/string.hpp>
 #include "PartieClient.h"
 #include "reseau/constanteReseau.h"
 #include "ui/DessinateurPartie.h"

@@ -3,6 +3,8 @@
 
 #include "PartieClient.h"
 #include "reseau/client/ReceptionClient.h"
+#include "logger/GestionnaireLogger.h"
+#include <algorithm>
 #include <curses.h>
 #include <mutex>
 

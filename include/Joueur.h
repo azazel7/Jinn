@@ -11,9 +11,9 @@
 #include "sort/Sort.h"
 #include "Partie.h"
 #include "UsineSort.h"
-#include "reseau/serveur/ReceptionServeur.h"
 #include "Tools.h"
 #include "Position.h"
+#include "reseau/constanteReseau.h"
 
 using namespace std;
 
@@ -28,7 +28,7 @@ public:
 
     Joueur();
 
-    Joueur(int gainInit, int manaMax, int abiliteInit, string nom);
+    Joueur(int gainInit, int manaMax, int niveauAbilite, string nom, TypeSort abilite);
 
     virtual Action effectuerAction(Partie & partie);
 
@@ -56,9 +56,13 @@ public:
 
     int getGainInitialMana() const;
 
-    int getAbilite() const;
+    TypeSort getAbilite() const;
 
-    int setAbilite(int value);
+    void setAbilite(TypeSort value);
+
+    int getNiveauAbilite() const;
+
+    void setNiveauAbilite(int value);
 
     int getSocket() const;
 
@@ -129,7 +133,8 @@ private:
     int gainInitialMana;
     int manaMaximum;
     int manaActuel;
-    int abilite;
+    TypeSort abilite;
+    int niveauAbilite;
     int socket;
     std::vector<Sort*> listeSort;
     Equipe *equipe;
