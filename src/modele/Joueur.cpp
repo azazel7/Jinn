@@ -23,56 +23,6 @@ Joueur::Joueur(int gainInit, int manaMax, int niveauAbilite, string  nom, TypeSo
     this->equipe = NULL;
 }
 
-Action Joueur::effectuerAction(Partie & partie)
-{
-    int numSort, x, y;
-    Action retour;
-    Sort* sort;
-    Plateau* plateau = partie.getPlateau();
-
-
-    //Afficher les cases
-    for(x = 0; x < plateau->getLargeur(); x++)
-    {
-        for(y = 0; y < plateau->getHauteur(); y++)
-        {
-            Case* courante = plateau->getCase(x, y);
-            if(courante != NULL)
-            {
-                cout << *courante << endl;
-            }
-        }
-    }
-    //Afficher les sorts
-    for(int i = 0; i < listeSort.size(); i++)
-    {
-        cout << listeSort[i]->getNom() << " (" << i << ")" << endl;
-    }
-
-    //Choisir sort
-    cout << "Entrez le numero du sort : ";
-    cin >> numSort;
-    sort = UsineSort::fabriqueSort(listeSort[numSort]->getNom());
-    sort->setProprietaire(this);
-    retour.setSort(sort);
-    //Choisir case origine
-    cout << "X origine : ";
-    cin >> x;
-
-    cout << "Y origine : ";
-    cin >> y;
-    retour.setOrigine(plateau->getCase(x, y));
-
-    //Choisir case cible
-    cout << "X cible : ";
-    cin >> x;
-
-    cout << "Y cible : ";
-    cin >> y;
-    retour.ajouterCible(plateau->getCase(x, y));
-
-    return retour;
-}
 
 void Joueur::diminuerMana(int quantite)
 {
@@ -117,40 +67,6 @@ void Joueur::genererStatistique()
     this->manaMaximum = 100 + rand()%10;
     this->manaActuel = this->manaMaximum;
 }
-
-string Joueur::saisieNom()
-{
-    string retour;
-    cout << "Choix nom : ";
-    cin >> retour;
-    return retour;
-}
-
-string Joueur::saisieEquipe(std::vector< Equipe* > & equipe)
-{
-    string retour;
-    for(int i = 0; i < equipe.size(); i++)
-    {
-        cout << "Equipe : " << equipe[i]->getNom() << endl;
-    }
-    cout << "Choix equipe : ";
-    cin >> retour;
-    return retour;
-}
-
-string Joueur::saisieSort(vector<Sort* > const& sort)
-{
-    int choix;
-    for(int i = 0; i < sort.size(); i++)
-    {
-        cout << sort[i]->getNom() <<  "(" << i << ") :" << endl;
-        cout << sort[i]->getDescription() << endl << endl;
-    }
-    cout << "choix numero sort : ";
-    cin >> choix;
-    return sort[choix]->getNom();
-}
-
 
 string Joueur::getNom() const
 {

@@ -11,14 +11,24 @@
 
 class LoggerFileDescriptor : public Logger
 {
-        public:
-                LoggerFileDescriptor(int fd);
-                LoggerFileDescriptor(int fd, bool aFermer);
-                void ecrirMessage(TypeMessage typeMsg, string message);
-                ~LoggerFileDescriptor();
-        private:
-                int fd;
-                bool aFermer;
+public:
+    /**
+     * @brief LoggerFileDescriptor Constructeur
+     * @param fd Le descripteur de fichier dans lequel écrire
+     */
+    LoggerFileDescriptor(int fd);
+
+    /**
+     * @brief LoggerFileDescriptor Constructeur
+     * @param fd Le descripteur de fichier dans lequel écrire
+     * @param aFermer indique s'il faut fermer le descripteur de fichier à la destruction
+     */
+    LoggerFileDescriptor(int fd, bool aFermer);
+    void ecrirMessage(TypeMessage typeMsg, string message);
+    ~LoggerFileDescriptor();
+private:
+    int fd;
+    bool aFermer;
 };
 
 

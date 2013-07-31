@@ -16,40 +16,106 @@ class Case;
 class Plateau {
 
  public:
-
+    /**
+     * @brief Plateau
+     *  Constructeur par defaut
+     */
     Plateau();
 
+    /**
+     * @brief Plateau
+     *  Constructeur avec dimension
+     * @param largeur largeur du plateau
+     * @param hauteur hauteur du plateau
+     */
     Plateau(int largeur, int hauteur);
 
-    virtual Case* getCase(int x, int y);
+    /**
+     * @brief getCase Permet d'obtenir une case
+     * @param x l'abscice
+     * @param y l'ordonnée
+     * @return Un pointeur sur la case
+     */
+    Case* getCase(int x, int y);
 
-    virtual Case* getCase(Position const& position);
+    /**
+     * @brief getCase Permet d'obtenir une case en fonction de ses coordonée
+     * @param position La position de la case
+     * @return Un pointeur sur la case
+     */
+    Case* getCase(Position const& position);
 
-    virtual void appliquerAction(Action action);
+    /**
+     * @brief appliquerAction applique une action sur le plateau
+     * @param action L'action à appliquer
+     */
+    void appliquerAction(Action action);
 
-    virtual int nombreCase();
+    /**
+     * @brief nombreCase Calcule le nombre de case du plateau
+     * @return le nombre de case du plateau
+     */
+    int nombreCase();
 
-    virtual int nombreCaseControlable();
+    /**
+     * @brief nombreCaseControlable Calcule le nombre de case controllable du plateau
+     * @return le nombre de case contrallable sur le plateau
+     */
+    int nombreCaseControlable();
 
-    virtual void initialiserPlateau();
+    /**
+     * @brief initialiserPlateau Initialise le plateau avec ses cases
+     */
+    void initialiserPlateau();
 
-    virtual int getHauteur();
+    /**
+     * @brief getHauteur Getter de la hauteur
+     * @return la hauteur du plateau
+     */
+    int getHauteur();
 
-    virtual int getLargeur();
+    /**
+     * @brief getLargeur
+     * @return la largeur du plateau
+     */
+    int getLargeur();
 
-    virtual vector<Case*> getListeCase();
+    /**
+     * @brief getListeCase Permet d'obtenir la liste des cases
+     * @return la liste des cases
+     */
+    vector<Case*> getListeCase();
 
-    virtual void retirerSortDeDureeEcoulee();
+    /**
+     * @brief retirerSortDeDureeEcoulee Execute la vérification des sorts et de leurs durée pour chaque case
+     */
+    void retirerSortDeDureeEcoulee();
 
-    virtual void regenererDefenseCase();
+    /**
+     * @brief regenererDefenseCase Régénère la defense des cases
+     */
+    void regenererDefenseCase();
 
-    virtual void regenererManaPourJoueur();
+    /**
+     * @brief regenererManaPourJoueur Régénère les propriétaire des cases
+     */
+    void regenererManaPourJoueur();
 
-    virtual void effectuerActionChronique();
+    /**
+     * @brief effectuerActionChronique Effectue les actions chroniques des sorts sur leurs case
+     */
+    void effectuerActionChronique();
 
-    virtual void retirerJoueur(Joueur* joueur);
+    /**
+     * @brief retirerJoueur retire un joueur du plateau (Retire ses sort et le supprime de ses cases)
+     * @param joueur
+     */
+    void retirerJoueur(Joueur* joueur);
 
-    virtual ~Plateau();
+    /**
+      * @brief Destructeur
+      */
+    ~Plateau();
 
  private:
     int largeur;

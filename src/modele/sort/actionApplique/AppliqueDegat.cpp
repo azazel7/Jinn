@@ -3,8 +3,7 @@
 
 void AppliqueDegat::appliquerSortSurCase(Case &cible, Sort* sortExecutant)
 {
-    cout << "Application de degat" << endl;
-    cible.modifierDefense(-5);
+    cible.modifierDefense(sortExecutant->getAttaque());
 }
 void AppliqueDegat::retirerSortDeCase(Case &cible, Sort* sortExecutant)
 {

@@ -117,6 +117,12 @@ void Sort::ajouterApplication(SortAppliquerSurCase* newEffect)
 {
     this->listeApplicationSurCase.push_back(newEffect);
 }
+
+void Sort::ajouterActionChronique(SortActionChronique* newEffect)
+{
+    this->listeEffetChronique.push_back(newEffect);
+}
+
 Sort::~Sort()
 {
     for(int i = 0; i < this->listeApplicationSurCase.size(); i++)
@@ -154,4 +160,9 @@ Case* Sort::getOrigine()
 void Sort::setOrigine(Case* origine)
 {
     this->origine = origine;
+}
+
+int Sort::getAttaque()
+{
+    return this->attaque;
 }

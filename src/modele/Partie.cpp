@@ -129,19 +129,6 @@ Plateau* Partie::getPlateau()
     return plateau;
 }
 
-bool Partie::actionValide(Action & action)
-{
-    if(action.getOrigine()->getProprietaire() != action.getSort()->getProprietaire())
-    {
-        return false;
-    }
-    if(action.getSort()->getProprietaire()->estMort())
-    {
-        return false;
-    }
-    return true;
-}
-
 int Partie::nombreDeJoueur()
 {
     return this->joueur.size();
@@ -307,9 +294,14 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
             throw invalid_argument("Le joueur ne posséde pas ce sort");
             return;
         }
+        if(action->getCible().size() > action->getSort()->getnombreCibleMax())
+        {
+            throw invalid_argument("Trop de cible");
+            return;
+        }
         //Verification des distances
         cible = action->getCible();
-        for(int i = 0; i < action->getCible().size(); i++)
+        for(int i = 0; i < cible.size(); i++)
         {
             if(action->getOrigine() != NULL)
             {
@@ -322,7 +314,7 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
             else
             {
                 //Tout du moins, cela vérifie si la cible est bien sur le bord, donc, si l'une de ses coordonné est sur le bord
-                if(cible[i]->getPosition()->getX() != 0 && cible[i]->getPosition()->getX() != this->plateau->getLargeur() - 1 && cible[i]->getPosition()->getY() != 0 && cible[i]->getPosition()->getX() != this->plateau->getHauteur() - 1)
+                if(cible[i]->getPosition()->getX() != 0 && cible[i]->getPosition()->getX() != this->plateau->getLargeur() - 1 && cible[i]->getPosition()->getY() != 0 && cible[i]->getPosition()->getY() != this->plateau->getHauteur() - 1)
                 {
                     throw invalid_argument("La cible est au centre, impossible de l'atteindre.");
                     return;

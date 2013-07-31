@@ -9,7 +9,7 @@
 #include "sort/Sort.h"
 #include <signal.h>
 #include <boost/regex.hpp>
-
+#include "ui/Demarrage.h"
 using namespace std;
 
 ReceptionServeur *serveur = NULL;
@@ -109,6 +109,7 @@ int main(int argc, char** argv)
     {
         return -1;
     }
+    cout << data_demarrage << endl;
     if(port <= 0)
     {
         port = 14790;

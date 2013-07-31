@@ -43,21 +43,53 @@ public:
 
     /**
      * @brief description Produit une description du sort
-     * @return
+     * @return La description du sort
      */
     string getDescription() const;
 
+    /**
+      * @brief Destructeur
+      */
     ~Sort();
 
+    /**
+     * @brief calculeNouveauTauxReussite Calcule un taux de réussite en fonction de la dissipation d'une case
+     * @param dissip La dissipation de la case
+     * @param ancienTaux Le taux de réussite du sort
+     * @return Le nouveau taux de réussite
+     */
     static int calculeNouveauTauxReussite(int dissip, int ancienTaux);
 
+    /**
+     * @brief testerReussite Test la réussite d'un sort en fonction de son taux
+     * @param taux Le taux de réussite du sort
+     * @return true si le sort à réussi
+     */
     static bool testerReussite(int taux);
 
+    /**
+     * @brief Sort Constructeur
+     * @param nom
+     * @param coupMana
+     * @param elite
+     * @param porteeMax
+     * @param reussite
+     * @param nbCible
+     * @param attaque
+     * @param duree
+     * @param znEffet
+     * @param dissip
+     * @param nbMaxSortDissip
+     */
     Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite,
          int nbCible, int attaque, int duree, int znEffet, int dissip,
          int nbMaxSortDissip);
 
+    /**
+     * @brief Sort Constructeur
+     */
     Sort();
+
 
     int getPourcentageReussite();
 
@@ -81,13 +113,25 @@ public:
 
     int getDuree() const;
 
+    /**
+     * @brief ajouterApplication Ajout un nouvel effet qui s'appliquera instantanément lors de l'execution du sort
+     * @param newEffect L'effet
+     */
     void ajouterApplication(SortAppliquerSurCase* newEffect);
+
+    /**
+     * @brief ajouterActionChronique Ajoute un effet chronique au sort
+     * @param newEffect Le nouvel effet
+     */
+    void ajouterActionChronique(SortActionChronique* newEffect);
 
     void setDescription(string const& newDescription);
 
     Case* getOrigine();
 
     void setOrigine(Case* origine);
+
+    int getAttaque();
 
 protected:
     string nom;

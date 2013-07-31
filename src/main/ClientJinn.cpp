@@ -3,9 +3,11 @@
 #include "ui/VueCreerJoueur.h"
 #include "ui/DessinateurPartie.h"
 #include "logger/LoggerFileDescriptor.h"
+#include "ui/Demarrage.h"
 #include <curses.h>
 #include <chrono>
 #include <thread>
+#include <signal.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -18,6 +20,11 @@ void miseEnEcoute()
 {
     cout << "Demarrage thread" << endl;
     ClientJinn::recepteur->miseEnEcoute();
+}
+void traitementSigint(int sig)
+{
+    endwin();
+    exit(0);
 }
 }
 
@@ -61,11 +68,12 @@ int main(int argc, char** argv)
     {
         return -1;
     }
+    cout << data_demarrage << endl;
     if(port <= 0)
     {
         port = 14790;
     }
-
+    signal(SIGINT, &ClientJinn::traitementSigint);
     Logger *logger = new LoggerFileDescriptor(open("log", O_WRONLY), false);
     GestionnaireLogger::ajouterRegistre(logger);
     PartieClient* partie = new PartieClient();
@@ -87,11 +95,9 @@ int main(int argc, char** argv)
     cout << "Place : " << partie->getNombreJoueur() << "/" << partie->getNombrePlace() << endl;
     cout << "Sort par joueur : " << partie->getNombreSortParJoueur() << endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    partie->ajouterMessage("Pinkie Pie", "Chocolate rain !");
     VueCreerJoueur creaJoueur(partie, ClientJinn::recepteur);
     DessinateurPartie dessinateur(partie, ClientJinn::recepteur);
-    partie->ajouterMessage("Tarte", "Bonjour à tous");
-    partie->ajouterMessage("L", "Salut");
-    partie->ajouterMessage("Pinki Pie", "Yop");
     ClientJinn::recepteur->setDessinateur(&dessinateur);
     initscr();
     keypad(stdscr, TRUE);

@@ -26,25 +26,43 @@ class Joueur
 
 public:
 
+    /**
+     * @brief Joueur Constructeur
+     */
     Joueur();
 
+    /**
+     * @brief Joueur Constructeur
+     * @param gainInit
+     * @param manaMax
+     * @param niveauAbilite
+     * @param nom
+     * @param abilite
+     */
     Joueur(int gainInit, int manaMax, int niveauAbilite, string nom, TypeSort abilite);
 
-    virtual Action effectuerAction(Partie & partie);
-
+    /**
+     * @brief diminuerMana Diminue le mana
+     * @param quantite
+     */
     virtual void diminuerMana(int quantite = 1);
 
+    /**
+     * @brief augmenterMana Augmente le mana
+     * @param quantite
+     */
     virtual void augmenterMana(int quantite = 1);
 
+    /**
+     * @brief estMort Verifie l'état du joueur
+     * @return true si le joueur est mort
+     */
     virtual bool estMort() const;
 
+    /**
+     * @brief genererStatistique Génére les statistique du joueur
+     */
     virtual void genererStatistique();
-
-    virtual string saisieNom();
-
-    virtual string saisieEquipe(std::vector< Equipe* > & equipe);
-
-    virtual string saisieSort(vector<Sort* > const& sort);
 
     string getNom() const;
 
@@ -80,12 +98,29 @@ public:
 
     string getNomEquipe() const;
 
+    /**
+     * @brief ajouterSort Ajoute un sort à la liste des sort disponible du joueur
+     * @param sort Un pointeur vers le sort
+     */
     void ajouterSort(Sort *sort);
 
+    /**
+     * @brief ajouterSort Ajoute un sort à la liste des sort disponible du joueur
+     * @param nom Le nom du sort
+     */
     void ajouterSort(string const& nom);
 
+    /**
+     * @brief retirerSort Retire un sort à la liste des sort du joueur
+     * @param nom Le nom du sort à retirer
+     */
     void retirerSort(string const& nom);
 
+    /**
+     * @brief possedeSort Verifie s'il posséde le sort
+     * @param sort Un pointeur vers le sort
+     * @return true si le joueur posséde le sort
+     */
     bool possedeSort(Sort* sort);
 
     bool possedeSort(string nomsort);

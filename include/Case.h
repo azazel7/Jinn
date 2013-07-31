@@ -26,9 +26,27 @@ public:
     void effectuerActionChroniqueDesSorts();
     int dureeRestanteSort(Sort* sortCherche);
     void modifierDefense(int nombre);
+    /**
+     * @brief modifierDefenseReel
+     * @param nombre
+     */
     void modifierDefenseReel(int nombre);
+    /**
+     * @brief retirerJoueur Retire un joueur de la case (les sorts et la propriété)
+     * @param joueur Le joueur à retirer
+     */
     void retirerJoueur(Joueur* joueur);
+    /**
+     * @brief retirerSort retire un sort en fonction de son indice dans la liste
+     * @param index L'index du sort dans la liste
+     * @param compteEffet Si true alors on applique les effets inverses du sort sur la case pour en ôter les effets
+     */
     void retirerSort(int index, bool compteEffet);
+    /**
+     * @brief retirerSortId Retire un sort en fonction de son identifiant
+     * @param id L'identifiant du sort
+     * @param compteEffet Si true alors on applique les effets inverses du sort sur la case pour en ôter les effets
+     */
     void retirerSortId(int id, bool compteEffet);
     list<pair<int, Sort*> > getListSort();
     void setListeSort(list<pair<int, Sort*> > liste);
