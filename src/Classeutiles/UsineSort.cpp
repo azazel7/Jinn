@@ -16,7 +16,7 @@ Sort* UsineSort::fabriqueSort(string const& nom)
     }
     else if(nom == "Boule de Feu")
     {
-        retour = new Sort("Boule de Feu", 5, false, 50, 100, 1, 5, 0, 0, 0, 0);
+        retour = new Sort("Boule de Feu", 5, false, 5, 100, 1, 50, 0, 0, 0, 0);
         retour->ajouterApplication(new AppliqueDegat());
         retour->setDescription("Lance une boule de feu infligeant 50 dégats");
     }
