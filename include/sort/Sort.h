@@ -133,6 +133,14 @@ public:
 
     int getAttaque();
 
+    TypeSort getTypeSort();
+
+    void setTypeSort(TypeSort type);
+
+    static bool comparaisonType(TypeSort typeSort, TypeSort typeLanceur);
+
+    static int nouvelleEffet(int niveauAbilite, int effet);
+
 protected:
     string nom;
     string description;

@@ -166,3 +166,27 @@ int Sort::getAttaque()
 {
     return this->attaque;
 }
+TypeSort Sort::getTypeSort()
+{
+    return this->typeSort;
+}
+
+void Sort::setTypeSort(TypeSort type)
+{
+    this->typeSort = type;
+}
+
+bool Sort::comparaisonType(TypeSort typeSort, TypeSort typeLanceur)
+{
+    if(typeLanceur == typeSort)
+    {
+        return true;
+    }
+    return false;
+}
+
+int Sort::nouvelleEffet(int niveauAbilite, int effet)
+{
+    double modificationEffet = (effet * niveauAbilite) / 100;
+    return effet + ceil(modificationEffet);
+}

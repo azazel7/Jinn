@@ -60,7 +60,6 @@ void DessinateurPartie::dessinerJoueurs(int hauteur, int largeur)
         }
     }
     //TODO faire la limite d'affichage s'il y a trop de joueur
-    //TODO faire une case d'information du joueur pour lister ses sorts
     wrefresh(win);
 }
 
