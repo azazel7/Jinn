@@ -63,6 +63,7 @@ bool Joueur::estMort() const
 void Joueur::genererStatistique()
 {
     this->abilite = (TypeSort)(rand()%7);
+    this->niveauAbilite = (rand()%10)+1;
     this->gainInitialMana = rand()%10;
     this->manaMaximum = 100 + rand()%10;
     this->manaActuel = this->manaMaximum;
