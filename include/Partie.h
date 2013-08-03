@@ -187,6 +187,13 @@ public:
     bool isFinis();
 
     /**
+     * @brief estUniqueEquipeVivante Verifie si le nom d'équipe passé en argument est la dernière équipe à avoir des joueurs vivants
+     * @param nom Nom de l'équipe que l'on vérifie
+     * @return true si c'est la seul équipe avec des joueurs vivants
+     */
+    bool estUniqueEquipeVivante(string nom);
+
+    /**
      * @brief ~Partie Destructeur de la partie
      */
     ~Partie();

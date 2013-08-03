@@ -70,6 +70,7 @@ void Plateau::appliquerAction(Action action)
             if (Sort::testerReussite(nouveauTaux))
             {
                 sort->getProprietaire()->notifierResultatSort(sort->getNom(), *(cible[i]->getPosition()), true);
+                //TODO faire la liaison avec les types de sort
                 sort->appliquerSortSurCase(*(cible[i]));
             }
             else
@@ -95,9 +96,9 @@ Plateau::~Plateau()
 {
     for(int i = 0; i < listeCase.size(); i++)
     {
-        delete listeCase[i]; //On supprime toutes les allocation de case
+        delete listeCase[i]; //On supprime toutes les allocations de case
     }
-    listeCase.clear();//On vide la liste des case
+    listeCase.clear();//On vide la liste des cases
 }
 
 void Plateau::initialiserPlateau()

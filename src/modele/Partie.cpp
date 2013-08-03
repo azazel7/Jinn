@@ -12,10 +12,6 @@ Partie::Partie(string nom, int nombrePlace, int nombreSortParJoueur)
     this->nombreDeJoueurAyantJoue = -1;
 }
 
-
-/** 
-     *  Demarre la partie.
-     */
 void Partie::demarrerPartie()
 {
     this->enCours = true;
@@ -28,16 +24,15 @@ void Partie::demarrerPartie()
     this->changerJoueur();
 }
 
-
-/** 
-     *  Verifie la victoire d'une équipe
-     */
 bool Partie::verifierVictoire(Equipe & equipe)
 {
     int nombreCaseControllee = 0;
     Case* courante;
     Joueur* proprietaire;
-    string nom;
+    if(this->estUniqueEquipeVivante(equipe.getNom()) == true)
+    {
+        return true;
+    }
     //On parcoure toutes les cases
     for(int x = 0; x < plateau->getLargeur(); x++)
     {
@@ -147,6 +142,7 @@ bool Partie::joueurExiste(string nom)
 
 bool Partie::prete()
 {
+    //Toutes les places doivent être prisent et il doit y avoir plus d'une équipe
     if(this->nombreDePlace != this->nombreDeJoueur() || this->equipe.size() < 2)
     {
         return false;
@@ -509,4 +505,16 @@ Joueur* Partie::choisirJoueur()
         }
     }
     return NULL;
+}
+
+bool Partie::estUniqueEquipeVivante(string nom)
+{
+    for(auto i = this->joueur.begin(); i != this->joueur.end(); i++)
+    {
+        if((*i)->estMort() == false && (*i)->getNomEquipe() != nom)
+        {
+            return false;
+        }
+    }
+    return true;
 }
