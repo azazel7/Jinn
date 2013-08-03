@@ -62,7 +62,7 @@ void Plateau::appliquerAction(Action action)
         proprietaire->diminuerMana( distance * sort->getCoupManaParCase() );
         if(proprietaire->estMort())
         {
-            return;
+            throw invalid_argument("Le joueur est mort");
         }
         else
         {
@@ -78,7 +78,6 @@ void Plateau::appliquerAction(Action action)
                 sort->getProprietaire()->notifierResultatSort(sort->getNom(), *(cible[i]->getPosition()), false);
             }
         }
-
     }
 }
 

@@ -272,28 +272,23 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
         if(joueur != this->joueurCourant)
         {
             throw invalid_argument("Pas le joueur courant");
-            return;
         }
         if(action->getSort()->getProprietaire() != joueur)
         {
             throw invalid_argument("Le proprietaire du sort n'est pas le joueur");
-            return;
         }
         if(action->getOrigine() != NULL && action->getOrigine()->getProprietaire() != joueur)
         {
             throw invalid_argument("La case d'origine n'appartient pas au joueur");
-            return;
         }
         //Verifier que le joueur posséde le sort
         if(joueur->possedeSort(action->getSort()) == false)
         {
             throw invalid_argument("Le joueur ne posséde pas ce sort");
-            return;
         }
         if(action->getCible().size() > action->getSort()->getnombreCibleMax())
         {
             throw invalid_argument("Trop de cible");
-            return;
         }
         //Verification des distances
         cible = action->getCible();
@@ -304,7 +299,6 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
                 if(Position::distance( *(action->getOrigine()->getPosition()), *(cible[i]->getPosition())) > action->getSort()->getPorteeMax())
                 {
                     throw invalid_argument("Impossible de lancer le sort sur une telle distance");
-                    return;
                 }
             }
             else
@@ -313,7 +307,6 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
                 if(cible[i]->getPosition()->getX() != 0 && cible[i]->getPosition()->getX() != this->plateau->getLargeur() - 1 && cible[i]->getPosition()->getY() != 0 && cible[i]->getPosition()->getY() != this->plateau->getHauteur() - 1)
                 {
                     throw invalid_argument("La cible est au centre, impossible de l'atteindre.");
-                    return;
                 }
             }
         }
