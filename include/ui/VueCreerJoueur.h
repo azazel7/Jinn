@@ -6,6 +6,9 @@
 #include <curses.h>
 #include <algorithm>
 
+#define HAUTEUR_INFO_PARTIE 3
+#define HAUTEUR_INFO_JOUEUR 4
+#define HAUTEUR_INFO_SORT 6
 namespace IndexCreerJoueur
 {
     static const int curseur_liste_equipe = 0;
@@ -19,6 +22,18 @@ class VueCreerJoueur
     public:
         VueCreerJoueur(PartieClient* partie, ReceptionClient* reception);
         void dessinerFenetre();
+        void saisieInformation();
+
+    private:
+        void dessinerInfoPartie(int hauteur, int largeur);
+        void dessinerSort(int hauteur, int largeur);
+        void dessinerInfoSort(int hauteur, int largeur);
+        void dessinerInfoJoueur(int hauteur, int largeur);
+        void dessinerAide(int hauteur, int largeur);
+        void dessinerEquipe(int hauteur, int largeur);
+        void activerCouleurCurseur(WINDOW *win, int index, bool activer, int position = -1);
+        void enterSort();
+        void enterEquipe();
         //Modifie la position dans les listes
         void modifierPosition(int valeur);
         //Avance ou recule le curseur
@@ -28,10 +43,6 @@ class VueCreerJoueur
         //Retire la dernière lettre
         void retirerLettre();
 
-        void saisieInformation();
-        void enterSort();
-        void enterEquipe();
-    private:
         PartieClient* partie;
         ReceptionClient* receptionClient;
         int curseur;

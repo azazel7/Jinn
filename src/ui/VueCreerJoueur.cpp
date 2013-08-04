@@ -12,101 +12,15 @@ VueCreerJoueur::VueCreerJoueur(PartieClient* partie, ReceptionClient *reception)
 }
 void VueCreerJoueur::dessinerFenetre()
 {
-    int hauteur, largeur, l_colonne;
+    int hauteur, largeur;
     getmaxyx(stdscr, hauteur, largeur);
-    l_colonne = largeur/4;
     erase();
-    WINDOW * win = stdscr;
-//    wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
-    for(int i = 0; i < this->partie->getListeEquipe().size(); i++)
-    {
-        const char* nom = this->partie->getListeEquipe()[i].c_str();
-        if(this->positionEquipe == i && this->curseur == IndexCreerJoueur::curseur_liste_equipe)
-        {
-            wattron(win, COLOR_PAIR(1));
-        }
-        wmove(win, i, 0);
-        wprintw(win, nom);
-        if(this->positionEquipe == i && this->curseur == IndexCreerJoueur::curseur_liste_equipe)
-        {
-            wprintw(win, " *");
-            wattroff(win, COLOR_PAIR(1));
-        }
-        else
-        {
-            wprintw(win, "  ");
-        }
-    }
-    for(int i = 0; i < this->partie->getListeSortDispo().size(); i++)
-    {
-        const char* nom = this->partie->getListeSortDispo()[i]->getNom().c_str();
-        if(this->positionSort == i && this->curseur == IndexCreerJoueur::curseur_liste_sort)
-        {
-            wattron(win, COLOR_PAIR(1));
-        }
-        wmove(win, i, l_colonne);
-        wprintw(win, nom);
-        if(this->positionSort == i && this->curseur == IndexCreerJoueur::curseur_liste_sort)
-        {
-            wprintw(win, " *");
-            wattroff(win, COLOR_PAIR(1));
-        }
-        else
-        {
-            list<string>::iterator it = find(this->sortChoisie.begin(), this->sortChoisie.end(), this->partie->getListeSortDispo()[i]->getNom());
-            if(it == this->sortChoisie.end())
-            {
-                wprintw(win, "  ");
-            }
-            else
-            {
-                wprintw(win, " +");
-            }
-        }
-    }
-    //Print description du sort
-    wmove(win, 0, 2*l_colonne);
-    //Description
-    if(this->partie->getListeSortDispo().empty() == false)
-    {
-        wprintw(win, "%s", this->partie->getListeSortDispo()[this->positionSort]->getDescription().c_str());
-    }
-    //Print nom Joueur
-    if(this->curseur == IndexCreerJoueur::curseur_nom_joueur)
-    {
-        wattron(win, COLOR_PAIR(1));
-    }
-    wmove(win, (hauteur/2), 2*l_colonne);
-    wprintw(win, "Nom du joueur : %s", this->nomJoueur.c_str());
-    if(this->curseur == IndexCreerJoueur::curseur_nom_joueur)
-    {
-        wattroff(win, COLOR_PAIR(1));
-    }
-    //Print nom equipe
-    if(this->curseur == IndexCreerJoueur::curseur_nom_equipe)
-    {
-        wattron(win, COLOR_PAIR(1));
-    }
-    wmove(win, (hauteur/2) + 1, 2*l_colonne);
-    wprintw(win, "Nom d'équipe : %s", this->nomEquipe.c_str());
-    if(this->curseur == IndexCreerJoueur::curseur_nom_equipe)
-    {
-        wattroff(win, COLOR_PAIR(1));
-    }
-
-    wmove(win, (hauteur/2) + 3, 2*l_colonne);
-    wprintw(win, " ↓↑ : Deplace le curseur sur les listes");
-    wmove(win, (hauteur/2) + 4, 2*l_colonne);
-    wprintw(win, " <- -> : Deplace le curseur entre les colonnes");
-    wmove(win, (hauteur/2) + 5, 2*l_colonne);
-    wprintw(win, " F2 : Quitte sans valider");
-    wmove(win, (hauteur/2) + 6, 2*l_colonne);
-    wprintw(win, " F3 : Valide les informations");
-    wmove(win, (hauteur/2) + 7, 2*l_colonne);
-    wprintw(win, " + : Ajouter un sort à la liste ou choisir une équipe");
-
-    wrefresh(win);
-
+    this->dessinerInfoPartie(hauteur, largeur);
+    this->dessinerInfoSort(hauteur, largeur);
+    this->dessinerSort(hauteur, largeur);
+    this->dessinerInfoJoueur(hauteur, largeur);
+    this->dessinerAide(hauteur, largeur);
+    this->dessinerEquipe(hauteur, largeur);
 }
 void VueCreerJoueur::modifierPosition(int valeur)
 {
@@ -234,5 +148,164 @@ void VueCreerJoueur::saisieInformation()
             break;
         }
         this->dessinerFenetre();
+    }
+}
+
+void VueCreerJoueur::dessinerInfoPartie(int hauteur, int largeur)
+{
+    int h_win = HAUTEUR_INFO_PARTIE;
+    int l_win = largeur;
+    if(hauteur < HAUTEUR_INFO_PARTIE)
+    {
+        return;
+    }
+    WINDOW * win = subwin(stdscr, h_win, l_win, 0, 0);
+    wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
+    wmove(win, 1, 1); //1 pour éviter d'empiéter sur la bordure
+    wprintw(win, "Nombre de sorts : %d   Nombre de place : %d/%d", this->partie->getNombreSortParJoueur(), this->partie->getNombreJoueur(), this->partie->getNombrePlace());
+    wrefresh(win);
+}
+
+void VueCreerJoueur::dessinerSort(int hauteur, int largeur)
+{
+    int h_win = hauteur - HAUTEUR_INFO_PARTIE;
+    int l_win = largeur/3;
+    int i = 1;
+    string choisi = "";
+    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE, largeur/3);
+    wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
+    vector<Sort*> listeSort = this->partie->getListeSortDispo();
+    for(auto it = listeSort.begin(); it != listeSort.end(); it++)
+    {
+        choisi.clear();
+        if(find(this->sortChoisie.begin(), this->sortChoisie.end(), (*it)->getNom()) != this->sortChoisie.end())
+        {
+            choisi = "+";
+        }
+        this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_liste_sort, true, i-1);
+        wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+        wprintw(win, "%s %s", (*it)->getNom().c_str(), choisi.c_str());
+        this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_liste_sort, false, i-1);
+        i++;
+        if(i + 2 > h_win)
+        {
+            break;
+        }
+    }
+    wrefresh(win);
+}
+
+void VueCreerJoueur::dessinerInfoSort(int hauteur, int largeur)
+{
+    int h_win = HAUTEUR_INFO_SORT;
+    int l_win = largeur/3;
+    int i = 1;
+    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE + HAUTEUR_INFO_JOUEUR, (2*largeur)/3);
+    wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
+    Sort* courant = this->partie->getListeSortDispo()[this->positionSort];
+    if(courant->getElite() == true)
+    {
+        wattron(win, COLOR_PAIR(2));
+    }
+    wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+    wprintw(win, "%s", courant->getDescription().c_str());
+    i++;
+    wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+    wprintw(win, "Mana : %d", courant->getCoupManaParCase());
+    i++;
+    wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+    wprintw(win, "Portée : %d", courant->getPorteeMax());
+    i++;
+    wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+    wprintw(win, "Nb cible : %d", courant->getnombreCibleMax());
+    i++;
+    if(courant->getElite() == true)
+    {
+        wattroff(win, COLOR_PAIR(2));
+    }
+}
+
+void VueCreerJoueur::dessinerInfoJoueur(int hauteur, int largeur)
+{
+    int h_win = HAUTEUR_INFO_JOUEUR;
+    int l_win = largeur/3;
+    if(hauteur < HAUTEUR_INFO_JOUEUR)
+    {
+        return;
+    }
+    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE, (2*largeur)/3);
+    wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
+    this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_nom_joueur, true);
+    wmove(win, 1, 1); //1 pour éviter d'empiéter sur la bordure
+    wprintw(win, "Nom : %s", this->nomJoueur.c_str());
+    this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_nom_joueur, false);
+    this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_nom_equipe, true);
+    wmove(win, 2, 1); //1 pour éviter d'empiéter sur la bordure
+    wprintw(win, "Nom Equipe : %s", this->nomEquipe.c_str());
+    this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_nom_equipe, false);
+    wrefresh(win);
+}
+
+void VueCreerJoueur::dessinerEquipe(int hauteur, int largeur)
+{
+    int h_win = hauteur - HAUTEUR_INFO_PARTIE;
+    int l_win = largeur/3;
+    int i = 1;
+    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE, 0);
+    wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
+    vector<string> listeEquipe = this->partie->getListeEquipe();
+    for(auto it = listeEquipe.begin(); it != listeEquipe.end(); it++)
+    {
+        this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_liste_equipe, true, i-1);
+        wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+        wprintw(win, "%s", it->c_str());
+        this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_liste_equipe, false, i-1);
+        i++;
+        if(i + 2 > h_win)
+        {
+            break;
+        }
+    }
+    wrefresh(win);
+}
+
+void VueCreerJoueur::dessinerAide(int hauteur, int largeur)
+{
+    int h_win = hauteur - HAUTEUR_INFO_PARTIE - HAUTEUR_INFO_JOUEUR - HAUTEUR_INFO_SORT;
+    int l_win = largeur/3;
+    int i = 1;
+    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE + HAUTEUR_INFO_JOUEUR + HAUTEUR_INFO_SORT, (2*largeur)/3);
+    wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
+    wmove(win,i++, 1);
+    wprintw(win, " Flêche haut et bas : Deplace le curseur sur les listes");
+    wmove(win, i++, 1);
+    wprintw(win, " <- -> : Deplace le curseur entre les colonnes");
+    wmove(win, i++, 1);
+    wprintw(win, " F2 : Quitte sans valider");
+    wmove(win, i++, 1);
+    wprintw(win, " F3 : Valide les informations");
+    wmove(win, i++, 1);
+    wprintw(win, " + : Ajouter un sort à la liste ou choisir une équipe");
+    wrefresh(win);
+}
+
+void VueCreerJoueur::activerCouleurCurseur(WINDOW* win, int index, bool activer, int position)
+{
+    if(index == this->curseur)
+    {
+        if(activer == true)
+        {
+            if((index == IndexCreerJoueur::curseur_liste_equipe && position == this->positionEquipe) || (index == IndexCreerJoueur::curseur_liste_sort && position == this->positionSort) || index == IndexCreerJoueur::curseur_nom_equipe || index == IndexCreerJoueur::curseur_nom_joueur)
+            {
+                wattron(win, COLOR_PAIR(1));
+            }
+        }
+        else
+        {
+            if((index == IndexCreerJoueur::curseur_liste_equipe && position == this->positionEquipe) || (index == IndexCreerJoueur::curseur_liste_sort && position == this->positionSort) || index == IndexCreerJoueur::curseur_nom_equipe || index == IndexCreerJoueur::curseur_nom_joueur)
+            {
+                wattroff(win, COLOR_PAIR(1));
+            }
+        }
     }
 }
