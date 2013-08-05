@@ -86,14 +86,17 @@ void VueCreerJoueur::retirerLettre()
 
 void VueCreerJoueur::enterSort()
 {
-    list<string>::iterator it = find(this->sortChoisie.begin(), this->sortChoisie.end(), this->partie->getListeSortDispo()[this->positionSort]->getNom());
+    auto it = find(this->sortChoisie.begin(), this->sortChoisie.end(), this->partie->getListeSortDispo()[this->positionSort]->getNom());
     if(it != this->sortChoisie.end())
     {
         this->sortChoisie.erase(it);
     }
     else
     {
-        this->sortChoisie.push_front(this->partie->getListeSortDispo()[this->positionSort]->getNom());
+        if(this->sortChoisie.size() < this->partie->getNombreSortParJoueur())
+        {
+            this->sortChoisie.push_front(this->partie->getListeSortDispo()[this->positionSort]->getNom());
+        }
     }
 }
 void VueCreerJoueur::enterEquipe()
@@ -102,9 +105,11 @@ void VueCreerJoueur::enterEquipe()
 }
 void VueCreerJoueur::saisieInformation()
 {
+    int previous_time = time(NULL);
     int touche = 0;
     while(true)
     {
+        timeout(5000);
         touche = getch();
         switch(touche)
         {
@@ -148,6 +153,12 @@ void VueCreerJoueur::saisieInformation()
             break;
         }
         this->dessinerFenetre();
+        if(time(NULL) - previous_time > 5)
+        {
+            this->receptionClient->envoyerCommandeEquipe();
+            this->receptionClient->envoyerCommandeInformationPartie();
+            previous_time = time(NULL);
+        }
     }
 }
 
@@ -162,17 +173,17 @@ void VueCreerJoueur::dessinerInfoPartie(int hauteur, int largeur)
     WINDOW * win = subwin(stdscr, h_win, l_win, 0, 0);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     wmove(win, 1, 1); //1 pour éviter d'empiéter sur la bordure
-    wprintw(win, "Nombre de sorts : %d   Nombre de place : %d/%d", this->partie->getNombreSortParJoueur(), this->partie->getNombreJoueur(), this->partie->getNombrePlace());
+    wprintw(win, "Nombre de sorts : %d/%d   Nombre de place : %d/%d", this->sortChoisie.size(), this->partie->getNombreSortParJoueur(), this->partie->getNombreJoueur(), this->partie->getNombrePlace());
     wrefresh(win);
 }
 
 void VueCreerJoueur::dessinerSort(int hauteur, int largeur)
 {
     int h_win = hauteur - HAUTEUR_INFO_PARTIE;
-    int l_win = largeur/3;
+    int l_win = largeur/4;
     int i = 1;
     string choisi = "";
-    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE, largeur/3);
+    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE, largeur/4);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     vector<Sort*> listeSort = this->partie->getListeSortDispo();
     for(auto it = listeSort.begin(); it != listeSort.end(); it++)
@@ -198,9 +209,9 @@ void VueCreerJoueur::dessinerSort(int hauteur, int largeur)
 void VueCreerJoueur::dessinerInfoSort(int hauteur, int largeur)
 {
     int h_win = HAUTEUR_INFO_SORT;
-    int l_win = largeur/3;
+    int l_win = largeur/2;
     int i = 1;
-    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE + HAUTEUR_INFO_JOUEUR, (2*largeur)/3);
+    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE + HAUTEUR_INFO_JOUEUR, largeur/2);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     Sort* courant = this->partie->getListeSortDispo()[this->positionSort];
     if(courant->getElite() == true)
@@ -228,12 +239,12 @@ void VueCreerJoueur::dessinerInfoSort(int hauteur, int largeur)
 void VueCreerJoueur::dessinerInfoJoueur(int hauteur, int largeur)
 {
     int h_win = HAUTEUR_INFO_JOUEUR;
-    int l_win = largeur/3;
+    int l_win = largeur/2;
     if(hauteur < HAUTEUR_INFO_JOUEUR)
     {
         return;
     }
-    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE, (2*largeur)/3);
+    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE, largeur/2);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_nom_joueur, true);
     wmove(win, 1, 1); //1 pour éviter d'empiéter sur la bordure
@@ -249,7 +260,7 @@ void VueCreerJoueur::dessinerInfoJoueur(int hauteur, int largeur)
 void VueCreerJoueur::dessinerEquipe(int hauteur, int largeur)
 {
     int h_win = hauteur - HAUTEUR_INFO_PARTIE;
-    int l_win = largeur/3;
+    int l_win = largeur/4;
     int i = 1;
     WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE, 0);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
@@ -272,9 +283,9 @@ void VueCreerJoueur::dessinerEquipe(int hauteur, int largeur)
 void VueCreerJoueur::dessinerAide(int hauteur, int largeur)
 {
     int h_win = hauteur - HAUTEUR_INFO_PARTIE - HAUTEUR_INFO_JOUEUR - HAUTEUR_INFO_SORT;
-    int l_win = largeur/3;
+    int l_win = largeur/2;
     int i = 1;
-    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE + HAUTEUR_INFO_JOUEUR + HAUTEUR_INFO_SORT, (2*largeur)/3);
+    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE + HAUTEUR_INFO_JOUEUR + HAUTEUR_INFO_SORT, largeur/2);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     wmove(win,i++, 1);
     wprintw(win, " Flêche haut et bas : Deplace le curseur sur les listes");
