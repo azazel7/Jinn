@@ -328,12 +328,13 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
     vector<string> listeSortDemande(this->partie->getNombreSortParJoueur());
     string final;
 
-    if(this->partie->getNombreDePlace() > this->partie->getNombreSortParJoueur())
+    if(this->partie->nombreDeJoueur() >= this->partie->getNombreDePlace())
     {
         final = ERREUR;
         final += SEPARATEUR_ELEMENT;
         final += "la partie est pleine";
         send(socketClient, final.c_str(), final.size(), 0);
+        GestionnaireLogger::ecrirMessage(WARN, "La partie est pleinne");
         return;
     }
 
@@ -345,6 +346,7 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
         final += SEPARATEUR_ELEMENT;
         final += "nom de joueur ou d'equipe invalide";
         send(socketClient, final.c_str(), final.size(), 0);
+        GestionnaireLogger::ecrirMessage(WARN, "Nom de joueur ou d'équipe invalide");
         return;
     }
     for(int i = 0; i < this->partie->getNombreSortParJoueur(); i++)
@@ -357,6 +359,7 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
             final += "nombre de sort non valide";
             final += SEPARATEUR_COMMANDE;
             send(socketClient, final.c_str(), final.size(), 0);
+            GestionnaireLogger::ecrirMessage(WARN, "Nombre de sort invalide");
             return;
         }
         listeSortDemande[i] = sort;
@@ -370,17 +373,19 @@ void ReceptionServeur::traitementNouveauJoueur(int socketClient)
         final = ERREUR;
         final += SEPARATEUR_ELEMENT;
         final += e.what();
-    final += SEPARATEUR_ELEMENT;
-    final += SEPARATEUR_COMMANDE;
+        final += SEPARATEUR_ELEMENT;
+        final += SEPARATEUR_COMMANDE;
         send(socketClient, final.c_str(), final.size(), 0);
+        GestionnaireLogger::ecrirMessage(WARN, e.what());
         return;
     }
     if(joueur == NULL)
     {
         final = ERREUR;
         final += SEPARATEUR_ELEMENT;
-    final += SEPARATEUR_COMMANDE;
+        final += SEPARATEUR_COMMANDE;
         send(socketClient, final.c_str(), final.size(), 0);
+        GestionnaireLogger::ecrirMessage(WARN, "Erreur inexplicable de création du joueur par la partie");
         return;
     }
     listeClient[socketClient] = new Client();
