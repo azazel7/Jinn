@@ -238,23 +238,28 @@ void DessinateurPartie::saisie()
     int touche = 0;
     while(this->partie->getEquipeGagnante() == "")
     {
+        timeout(1000);
         touche = getch();
-        switch(touche)
+        if(touche != ERR)
         {
-        case '\t':
-            this->tournerIndexPanneaux();
-            break;
-        case 27: //touche echap
-            this->recepteur->envoyerCommandeQuitter();
-            return;
-            break;
-        case KEY_F(1):
-            GestionnaireLogger::ecrirMessage(INFO, "F1 enfoncée -> demande d'aide");
-            //TODO faire un menu d'aide
-            break;
-        default:
-            this->traitementToucheParPanneaux(touche);
-            break;
+            switch(touche)
+            {
+            //Tabulation
+            case '\t':
+                this->tournerIndexPanneaux();
+                break;
+            case 27: //touche echap
+                this->recepteur->envoyerCommandeQuitter();
+                return;
+                break;
+            case KEY_F(1):
+                GestionnaireLogger::ecrirMessage(INFO, "F1 enfoncée -> demande d'aide");
+                //TODO faire un menu d'aide
+                break;
+            default:
+                this->traitementToucheParPanneaux(touche);
+                break;
+            }
         }
         this->dessinerPartie();
     }
