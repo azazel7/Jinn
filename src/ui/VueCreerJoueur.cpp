@@ -186,7 +186,7 @@ void VueCreerJoueur::dessinerSort(int hauteur, int largeur)
     WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE, largeur/4);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     vector<Sort*> listeSort = this->partie->getListeSortDispo();
-    for(auto it = listeSort.begin(); it != listeSort.end(); it++)
+    for(auto it = listeSort.begin() + this->positionSort; it != listeSort.end(); it++)
     {
         choisi.clear();
         if(find(this->sortChoisie.begin(), this->sortChoisie.end(), (*it)->getNom()) != this->sortChoisie.end())
@@ -265,7 +265,7 @@ void VueCreerJoueur::dessinerEquipe(int hauteur, int largeur)
     WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE, 0);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     vector<string> listeEquipe = this->partie->getListeEquipe();
-    for(auto it = listeEquipe.begin(); it != listeEquipe.end(); it++)
+    for(auto it = listeEquipe.begin() + this->positionEquipe; it != listeEquipe.end(); it++)
     {
         this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_liste_equipe, true, i-1);
         wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
@@ -306,14 +306,14 @@ void VueCreerJoueur::activerCouleurCurseur(WINDOW* win, int index, bool activer,
     {
         if(activer == true)
         {
-            if((index == IndexCreerJoueur::curseur_liste_equipe && position == this->positionEquipe) || (index == IndexCreerJoueur::curseur_liste_sort && position == this->positionSort) || index == IndexCreerJoueur::curseur_nom_equipe || index == IndexCreerJoueur::curseur_nom_joueur)
+            if((index == IndexCreerJoueur::curseur_liste_equipe && position == 0) || (index == IndexCreerJoueur::curseur_liste_sort && position == 0) || index == IndexCreerJoueur::curseur_nom_equipe || index == IndexCreerJoueur::curseur_nom_joueur)
             {
                 wattron(win, COLOR_PAIR(1));
             }
         }
         else
         {
-            if((index == IndexCreerJoueur::curseur_liste_equipe && position == this->positionEquipe) || (index == IndexCreerJoueur::curseur_liste_sort && position == this->positionSort) || index == IndexCreerJoueur::curseur_nom_equipe || index == IndexCreerJoueur::curseur_nom_joueur)
+            if((index == IndexCreerJoueur::curseur_liste_equipe && position == 0) || (index == IndexCreerJoueur::curseur_liste_sort && position == 0) || index == IndexCreerJoueur::curseur_nom_equipe || index == IndexCreerJoueur::curseur_nom_joueur)
             {
                 wattroff(win, COLOR_PAIR(1));
             }
