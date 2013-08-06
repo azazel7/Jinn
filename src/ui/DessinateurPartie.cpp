@@ -101,7 +101,7 @@ void DessinateurPartie::effectuerAction(int n)
 {
     try
     {
-        Sort* sort = this->partie->getJoueur(this->partie->getJoueurClient())->getListeSort()[n];
+        Sort* sort = this->partie->getJoueur(this->partie->getJoueurClient())->getListeSort().at(n);
         if(sort != NULL)
         {
             string nomSort = sort->getNom();
