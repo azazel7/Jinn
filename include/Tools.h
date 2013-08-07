@@ -3,10 +3,14 @@
 
 #include <iostream>
 #include <sstream>
+#include <vector>
+#include <math.h>
 
+using namespace std;
 class Tools
 {
-public:
+    public:
+    static vector<string> splitByNSize(const string &chaine, int tailleBloc);
 };
 
 template<typename T>

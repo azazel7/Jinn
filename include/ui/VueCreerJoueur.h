@@ -3,12 +3,13 @@
 
 #include "reseau/client/ReceptionClient.h"
 #include "PartieClient.h"
+#include "Tools.h"
 #include <curses.h>
 #include <algorithm>
 
 #define HAUTEUR_INFO_PARTIE 3
 #define HAUTEUR_INFO_JOUEUR 4
-#define HAUTEUR_INFO_SORT 6
+#define HAUTEUR_FIXE_INFO_SORT 5
 namespace IndexCreerJoueur
 {
     static const int curseur_liste_equipe = 0;
@@ -50,5 +51,7 @@ class VueCreerJoueur
         string nomEquipe;
         int positionEquipe, positionSort;
         list<string> sortChoisie;
+
+        int hauteur_info_sort;
 };
 #endif

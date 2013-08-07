@@ -15,8 +15,8 @@ void VueCreerJoueur::dessinerFenetre()
     int hauteur, largeur;
     getmaxyx(stdscr, hauteur, largeur);
     erase();
-    this->dessinerInfoPartie(hauteur, largeur);
     this->dessinerInfoSort(hauteur, largeur);
+    this->dessinerInfoPartie(hauteur, largeur);
     this->dessinerSort(hauteur, largeur);
     this->dessinerInfoJoueur(hauteur, largeur);
     this->dessinerAide(hauteur, largeur);
@@ -149,7 +149,10 @@ void VueCreerJoueur::saisieInformation()
             }
             break;
             default:
-                this->ajouterLettre(touche);
+                if(touche >= 32 && touche <= 126)
+                {
+                    this->ajouterLettre(touche);
+                }
             break;
         }
         this->dessinerFenetre();
@@ -186,21 +189,24 @@ void VueCreerJoueur::dessinerSort(int hauteur, int largeur)
     WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE, largeur/4);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     vector<Sort*> listeSort = this->partie->getListeSortDispo();
-    for(auto it = listeSort.begin() + this->positionSort; it != listeSort.end(); it++)
+    if(listeSort.size() > 0)
     {
-        choisi.clear();
-        if(find(this->sortChoisie.begin(), this->sortChoisie.end(), (*it)->getNom()) != this->sortChoisie.end())
+        for(auto it = listeSort.begin() + this->positionSort; it != listeSort.end(); it++)
         {
-            choisi = "+";
-        }
-        this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_liste_sort, true, i-1);
-        wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
-        wprintw(win, "%s %s", (*it)->getNom().c_str(), choisi.c_str());
-        this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_liste_sort, false, i-1);
-        i++;
-        if(i + 2 > h_win)
-        {
-            break;
+            choisi.clear();
+            if(find(this->sortChoisie.begin(), this->sortChoisie.end(), (*it)->getNom()) != this->sortChoisie.end())
+            {
+                choisi = "+";
+            }
+            this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_liste_sort, true, i-1);
+            wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+            wprintw(win, "%s %s", (*it)->getNom().c_str(), choisi.c_str());
+            this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_liste_sort, false, i-1);
+            i++;
+            if(i + 2 > h_win)
+            {
+                break;
+            }
         }
     }
     wrefresh(win);
@@ -208,19 +214,38 @@ void VueCreerJoueur::dessinerSort(int hauteur, int largeur)
 
 void VueCreerJoueur::dessinerInfoSort(int hauteur, int largeur)
 {
-    int h_win = HAUTEUR_INFO_SORT;
     int l_win = largeur/2;
+    //Get le sort
+    Sort* courant = NULL;
+    try
+    {
+        courant = this->partie->getListeSortDispo().at(this->positionSort);
+    }
+    catch(exception e)
+    {
+        this->hauteur_info_sort = HAUTEUR_FIXE_INFO_SORT;
+        return;
+    }
+    //eclate la description
+    auto ligneDescription = Tools::splitByNSize(courant->getDescription(), l_win-2);
+    //On calcule la hauteur
+    int h_win = HAUTEUR_FIXE_INFO_SORT + ligneDescription.size();
+    //On la sauvegarde
+    this->hauteur_info_sort = h_win;
     int i = 1;
     WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE + HAUTEUR_INFO_JOUEUR, largeur/2);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
-    Sort* courant = this->partie->getListeSortDispo()[this->positionSort];
     if(courant->getElite() == true)
     {
         wattron(win, COLOR_PAIR(2));
     }
-    wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
-    wprintw(win, "%s", courant->getDescription().c_str());
-    i++;
+    //On écrit les differents morceaux de la description
+    for(auto it = ligneDescription.begin(); it != ligneDescription.end(); it++)
+    {
+        wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+        wprintw(win, "%s", it->c_str());
+        i++;
+    }
     wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
     wprintw(win, "Mana : %d", courant->getCoupManaParCase());
     i++;
@@ -234,6 +259,7 @@ void VueCreerJoueur::dessinerInfoSort(int hauteur, int largeur)
     {
         wattroff(win, COLOR_PAIR(2));
     }
+    wrefresh(win);
 }
 
 void VueCreerJoueur::dessinerInfoJoueur(int hauteur, int largeur)
@@ -265,16 +291,19 @@ void VueCreerJoueur::dessinerEquipe(int hauteur, int largeur)
     WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE, 0);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     vector<string> listeEquipe = this->partie->getListeEquipe();
-    for(auto it = listeEquipe.begin() + this->positionEquipe; it != listeEquipe.end(); it++)
+    if(listeEquipe.size() > 0)
     {
-        this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_liste_equipe, true, i-1);
-        wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
-        wprintw(win, "%s", it->c_str());
-        this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_liste_equipe, false, i-1);
-        i++;
-        if(i + 2 > h_win)
+        for(auto it = listeEquipe.begin() + this->positionEquipe; it != listeEquipe.end(); it++)
         {
-            break;
+            this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_liste_equipe, true, i-1);
+            wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+            wprintw(win, "%s", it->c_str());
+            this->activerCouleurCurseur(win, IndexCreerJoueur::curseur_liste_equipe, false, i-1);
+            i++;
+            if(i + 2 > h_win)
+            {
+                break;
+            }
         }
     }
     wrefresh(win);
@@ -282,10 +311,10 @@ void VueCreerJoueur::dessinerEquipe(int hauteur, int largeur)
 
 void VueCreerJoueur::dessinerAide(int hauteur, int largeur)
 {
-    int h_win = hauteur - HAUTEUR_INFO_PARTIE - HAUTEUR_INFO_JOUEUR - HAUTEUR_INFO_SORT;
+    int h_win = hauteur - HAUTEUR_INFO_PARTIE - HAUTEUR_INFO_JOUEUR - this->hauteur_info_sort;
     int l_win = largeur/2;
     int i = 1;
-    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE + HAUTEUR_INFO_JOUEUR + HAUTEUR_INFO_SORT, largeur/2);
+    WINDOW * win = subwin(stdscr, h_win, l_win, HAUTEUR_INFO_PARTIE + HAUTEUR_INFO_JOUEUR + this->hauteur_info_sort, largeur/2);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     wmove(win,i++, 1);
     wprintw(win, " Flêche haut et bas : Deplace le curseur sur les listes");
