@@ -188,15 +188,7 @@ void ReceptionClient::traitementCommande(char* commande)
         {
             traitementNouveauJoueur();
         }
-
-        if(this->dessinateur != NULL)
-        {
-            //ecrit sur l'entrée standard pour forcé ncurse à sortir de son trou
-            //ncurses gére mal les entrée-sortie en même temps
-            write(0, "\x01", 1);
-        }
     }
-
 }
 
 void ReceptionClient::traitementInfoCase()
