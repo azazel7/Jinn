@@ -163,4 +163,5 @@ protected:
     Joueur *proprietaire;
 };
 
+ostream& operator<<( ostream &flux, TypeSort const& pos);
 #endif // Sort_h

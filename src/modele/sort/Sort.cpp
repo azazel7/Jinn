@@ -190,3 +190,34 @@ int Sort::nouvelleEffet(int niveauAbilite, int effet)
     double modificationEffet = (effet * niveauAbilite) / 100;
     return effet + ceil(modificationEffet);
 }
+
+ostream& operator<<( ostream &flux, TypeSort const& pos)
+{
+    string chaine;
+    switch(pos)
+    {
+    case FEU:
+        chaine = "Feu";
+        break;
+    case EAU:
+        chaine = "Eau";
+        break;
+    case TERRE:
+        chaine = "Terre";
+        break;
+    case AIR:
+        chaine = "Air";
+        break;
+    case LUMIERE:
+        chaine = "Lumière";
+        break;
+    case TENEBRE:
+        chaine = "Ténébre";
+        break;
+    default:
+        chaine = "Type Inconnu";
+        break;
+    }
+    flux << chaine;
+    return flux;
+}
