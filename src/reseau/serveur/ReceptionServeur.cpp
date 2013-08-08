@@ -156,6 +156,7 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
                     GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Traitement joueur");
                     this->traitementJoueur(data, it->first, clientSupp);
                 }
+                free(data);
                 if(clientSupp == true)
                 {
                     break;
