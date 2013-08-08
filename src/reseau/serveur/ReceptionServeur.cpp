@@ -82,7 +82,7 @@ void ReceptionServeur::remplirSelection(fd_set& readfd)
 void ReceptionServeur::testerSelectionClient(fd_set& readfd)
 {
     bool clientSupp = false;
-    for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end(); ++it)
+    for(map<int, Client*>::iterator it = listeClient.begin(); it != listeClient.end();)
     {
         if(FD_ISSET(it->first, &readfd))
         {
@@ -107,7 +107,7 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
                 }
                 close(it->first);
                 //On supprime l'entrée
-                it = listeClient.erase(it);
+                listeClient.erase(it++);
                 GestionnaireLogger::ecrirMessage(TypeMessage::SUCCESS, "Destruction réussi");
                 continue;
             }
@@ -126,12 +126,14 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
             {
                 GestionnaireLogger::ecrirMessage(TypeMessage::ERROR, "Erreur recv. Nombre d'octets négatif");
                 free(data);
+                ++it;
                 continue;
             }
             else if(octetLus != octetRecus) //Curieuse affaire
             {
                 GestionnaireLogger::ecrirMessage(TypeMessage::ERROR, "Nombre d'octet lu different du nombre d'octet reçu");
                 free(data);
+                ++it;
                 continue;
             }
             string ligne = data;
@@ -156,12 +158,19 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
                 }
                 if(clientSupp == true)
                 {
-                    clientSupp = false;
-                    //On repart au début
-                    return;
+                    break;
                 }
             }
+            if(clientSupp == true)
+            {
+                    clientSupp = false;
+                    //On repart au début
+                    this->listeClient.erase(it++);
+                    GestionnaireLogger::ecrirMessage(INFO, "Destruction sur demande effectuée");
+                    continue;
+            }
         }
+        ++it;
     }
 }
 
@@ -236,7 +245,6 @@ void ReceptionServeur::traitementJoueur(char *commande, int socketClient, bool &
         this->partie->retirerJoueur(this->listeClient[socketClient]->getJoueur());
         delete this->listeClient[socketClient];
         this->listeClient[socketClient] = NULL;
-        this->listeClient.erase(socketClient);
         clientSuppr = true;
         traitementQuitter(socketClient);
     }
@@ -271,7 +279,6 @@ void ReceptionServeur::traitementClient(char *commande, int socketClient, bool &
     }
     else if(strcmp(action, QUITTER) == 0)
     {
-        this->listeClient.erase(socketClient);
         clientSuppr = true;
         traitementQuitter(socketClient);
     }
