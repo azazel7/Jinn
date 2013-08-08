@@ -169,6 +169,7 @@ void ReceptionServeur::testerSelectionClient(fd_set& readfd)
                     GestionnaireLogger::ecrirMessage(INFO, "Destruction sur demande effectuée");
                     continue;
             }
+            ++it;
         }
         ++it;
     }
