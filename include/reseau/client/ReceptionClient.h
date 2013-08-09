@@ -7,8 +7,10 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <netdb.h>
 #include <sys/ioctl.h>
 #include <boost/algorithm/string.hpp>
+#include <boost/regex.hpp>
 #include "PartieClient.h"
 #include "reseau/constanteReseau.h"
 #include "ui/DessinateurPartie.h"

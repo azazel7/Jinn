@@ -18,7 +18,6 @@ namespace ClientJinn
 ReceptionClient* recepteur = NULL;
 void miseEnEcoute()
 {
-    cout << "Demarrage thread" << endl;
     ClientJinn::recepteur->miseEnEcoute();
 }
 void traitementSigint(int sig)
@@ -55,12 +54,6 @@ int main(int argc, char** argv)
             break;
         case 'a':
             ip = optarg;
-            boost::regex expression ("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
-            if(regex_match(ip, expression) == false)
-            {
-                cout << "addresse ip invalide." << endl;
-                argumentBon = false;
-            }
             break;
         }
     }

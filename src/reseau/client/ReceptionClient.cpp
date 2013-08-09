@@ -12,19 +12,32 @@ bool ReceptionClient::initialiserClient()
 {
     int nombreEssai = 0;
     this->socketClient = socket(AF_INET, SOCK_STREAM, 0);
-    //    struct hostent *hostinfo = NULL;
+    if(this->socketClient < 0)
+    {
+        GestionnaireLogger::ecrirMessage(FATAL, "Impossible de créer la socket");
+        return false;
+    }
     struct sockaddr_in sin = { 0 }; /* initialise la structure avec des 0 */
-    //    const char *hostname = "www.developpez.com";
+    boost::regex expression ("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+    if(regex_match(this->ip, expression) == false)
+    {
+        //        resolution de nom
+        struct hostent *hostinfo = NULL;
+        hostinfo = gethostbyname(this->ip.c_str()); /* on récupère les informations de l'hôte auquel on veut se connecter */
+        if (hostinfo == NULL) /* l'hôte n'existe pas */
+        {
+            GestionnaireLogger::ecrirMessage(ERREUR, "Nom de domaine introuvable");
+            close(this->socketClient);
+            return false;
+        }
 
-    //    hostinfo = gethostbyname(hostname); /* on récupère les informations de l'hôte auquel on veut se connecter */
-    //    if (hostinfo == NULL) /* l'hôte n'existe pas */
-    //    {
-    //        fprintf (stderr, "Unknown host %s.\n", hostname);
-    //        exit(EXIT_FAILURE);
-    //    }
+        sin.sin_addr = *((struct in_addr *)hostinfo->h_addr); /* l'adresse se trouve dans le champ h_addr de la structure hostinfo */
+    }
+    else
+    {
+        sin.sin_addr.s_addr = inet_addr(this->ip.c_str());
+    }
 
-    //    sin.sin_addr = *(IN_ADDR *) hostinfo->h_addr; /* l'adresse se trouve dans le champ h_addr de la structure hostinfo */
-    sin.sin_addr.s_addr = inet_addr(this->ip.c_str());
     sin.sin_port = htons(this->port); /* on utilise htons pour le port */
     sin.sin_family = AF_INET;
 
