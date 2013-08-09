@@ -43,23 +43,25 @@ void DessinateurPartie::dessinerJoueurs(int hauteur, int largeur)
             {
                 wattron(win, COLOR_PAIR(2));
             }
-            wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
-            wprintw(win, "Nom : %s   Equipe : %s", it->first.c_str(), joueur->getNomEquipe().c_str());
-            wmove(win, i + 1, 1); //1 pour éviter d'empiéter sur la bordure
+            wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
+            wprintw(win, "Nom : %s", it->first.c_str());
+            wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
+            wprintw(win, "Equipe : %s", joueur->getNomEquipe().c_str());
+            wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
             wprintw(win, "Mana : %d/%d  Gain : %d", joueur->getManaActuel(), joueur->getManaMaximum(), joueur->getGainInitialMana());
             if(joueur == this->partie->getJoueurCourant())
             {
-                wmove(win, i + 2, 1); //1 pour éviter d'empiéter sur la bordure
+                wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
                 wprintw(win, "** Tour **");
-            }
-            if(joueur == this->partie->getJoueurCourant())
-            {
                 wattroff(win, COLOR_PAIR(2));
             }
-            i += 4; //lignes d'écriture et une pour l'espace
+            i++;
+        }
+        if(i > h_win -2 - 5)
+        {
+            break;
         }
     }
-    //TODO faire la limite d'affichage s'il y a trop de joueur
     wrefresh(win);
 }
 
@@ -68,6 +70,7 @@ void DessinateurPartie::dessinerMessage(int hauteur, int largeur)
     int h_win = hauteur/5;
     int l_win = ((4*largeur)/5);
     int i = 1;
+    string message;
     WINDOW * win = subwin(stdscr, h_win, l_win, (4*hauteur)/5, largeur/5);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     wrefresh(win);
@@ -85,13 +88,22 @@ void DessinateurPartie::dessinerMessage(int hauteur, int largeur)
     i++;
     for(list<pair<string, string> >::iterator it = listeMessage.begin(); it != listeMessage.end(); it++)
     {
-        wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
-        wprintw(win, "%s | %s", it->first.c_str(), it->second.c_str());
+        message = it->first + " | " + it->second;
+        auto messageTab = Tools::splitByNSize(message, l_win - 2);
+        for(auto itMsg = messageTab.begin(); itMsg != messageTab.end(); itMsg++)
+        {
+            wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+            wprintw(win, "%s", itMsg->c_str());
+            if(i >= h_win - 2) //-2 pour la bordure
+            {
+                break;
+            }
+            i++;
+        }
         if(i >= h_win - 2) //-2 pour la bordure
         {
             break;
         }
-        i++;
     }
     wrefresh(win);
     //TODO en fonction du nombre de ligne et de la taille des messages
