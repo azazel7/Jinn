@@ -60,7 +60,7 @@ void Case::ajouterSort(Sort* nouveauSort, int duree)
 {
     //On créer un nouvelle paire
     pair<int, Sort*> nouvellePaire = make_pair(duree, nouveauSort);
-    for(list<pair<int, Sort*> >::iterator it = this->sort.begin(); it != this->sort.end(); it++)
+    for(auto it = this->sort.begin(); it != this->sort.end(); it++)
     {
         //On n'applique pas deux fois le meme sort sur une case.
         if(it->second->getId() == nouveauSort->getId())
@@ -74,9 +74,8 @@ void Case::ajouterSort(Sort* nouveauSort, int duree)
 
 int Case::dureeRestanteSort(Sort* sortCherche)
 {
-    list<pair<int, Sort*> >::iterator iterator;
     //On parcour tous les sorts de la case
-    for(iterator = sort.begin(); iterator != sort.end(); iterator++)
+    for(auto iterator = sort.begin(); iterator != sort.end(); iterator++)
     {
         if(iterator->second == sortCherche)
         {

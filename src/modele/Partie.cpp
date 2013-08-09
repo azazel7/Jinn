@@ -16,11 +16,8 @@ void Partie::demarrerPartie()
 {
     this->enCours = true;
     //notifier joueur du démarrage de la partie
-    for(int i = 0; i < this->joueur.size(); i++)
-    {
-        this->joueur[i]->notifierDebutPartie();
-        this->joueur[i]->notifierPartie(*this);
-    }
+    for_each(this->joueur.begin(), this->joueur.end(), FoncteurDemarrerPartie());
+    for_each(this->joueur.begin(), this->joueur.end(), FoncteurNotifierPartie(this));
     this->changerJoueur();
 }
 
@@ -103,10 +100,7 @@ void Partie::finirPartie(string nomEquipeGagnante)
     GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Fin de la partie");
     this->estFini = true;
     this->enCours = false;
-    for(int i = 0; i < this->joueur.size(); i++)
-    {
-        this->joueur[i]->notifierFinPartie(nomEquipeGagnante);
-    }
+    for_each(this->joueur.begin(), this->joueur.end(), FoncteurNotifierFinPartie(nomEquipeGagnante));
 }
 
 bool Partie::isEnCours()
@@ -153,13 +147,7 @@ bool Partie::prete()
 
 void Partie::regenererManaJoueur()
 {
-    for(int i = 0; i < this->joueur.size(); i++)
-    {
-        if(this->joueur[i]->estMort() == false)
-        {
-            this->joueur[i]->augmenterMana(joueur[i]->getGainInitialMana());
-        }
-    }
+    for_each(this->joueur.begin(), this->joueur.end(), FoncteurRegenererMana());
 }
 
 bool Partie::estJoueurCourrant(Joueur* joueur)
@@ -373,10 +361,8 @@ void Partie::retirerJoueur(Joueur* joueur)
         }
     }
     //On notifie de la suppression du joueur
-    for(vector<Joueur*>::iterator it = this->joueur.begin(); it != this->joueur.end(); it++)
-    {
-        (*it)->notifierSuppressionJoueur(joueur->getNom());
-    }
+    for_each(this->joueur.begin(), this->joueur.end(), FoncteurNotifierSuppressionJoueur(joueur->getNom()));
+
     //On le retire de l'équipe
     equipeJoueur->setNombreJoueur(equipeJoueur->getNombreJoueur() - 1);
     if(joueur == this->joueurCourant)
@@ -404,7 +390,6 @@ void Partie::retirerJoueur(Joueur* joueur)
             if(this->finPartie(nomEquipeGagnante) == true)
             {
                 this->finirPartie(nomEquipeGagnante);
-
             }
         }
     }
@@ -428,19 +413,12 @@ void Partie::changerJoueur()
         this->finTourPartie();
         this->nombreDeJoueurAyantJoue = 0;
     }
-    for(int i = 0; i < this->joueur.size(); i++)
-    {
-        this->joueur[i]->notifierPartie((*this));
-    }
-
+    for_each(this->joueur.begin(), this->joueur.end(), FoncteurNotifierPartie(this));
 
     this->joueurCourant = choisirJoueur();
     if(this->joueurCourant != NULL)
     {
-        for(int i = 0; i < this->joueur.size(); i++)
-        {
-            this->joueur[i]->notifierDebutTour(this->joueurCourant->getNom());
-        }
+        for_each(this->joueur.begin(), this->joueur.end(), FoncteurDebutTour(this->joueurCourant->getNom()));
     }
 }
 
@@ -451,10 +429,7 @@ void Partie::finTourPartie()
     this->plateau->regenererManaPourJoueur();
     this->plateau->retirerSortDeDureeEcoulee();
     this->regenererManaJoueur();
-    for(vector<Joueur*>::iterator it = this->joueur.begin(); it != this->joueur.end(); it++)
-    {
-        (*it)->notifierFinTourPartie();
-    }
+    for_each(this->joueur.begin(), this->joueur.end(), FoncteurNotifierFinTourPartie());
 }
 
 Partie::~Partie()
@@ -510,4 +485,61 @@ bool Partie::estUniqueEquipeVivante(string nom)
         }
     }
     return true;
+}
+
+void FoncteurDemarrerPartie::operator()(Joueur* joueur) const
+{
+    joueur->notifierDebutPartie();
+}
+
+FoncteurNotifierPartie::FoncteurNotifierPartie(Partie* partie)
+{
+    this->partie = partie;
+}
+
+void FoncteurNotifierPartie::operator()(Joueur* joueur) const
+{
+    joueur->notifierPartie(*partie);
+}
+
+FoncteurNotifierFinPartie::FoncteurNotifierFinPartie(string const& nomEquipe)
+{
+    this->nomEquipe = nomEquipe;
+}
+void FoncteurNotifierFinPartie::operator()(Joueur* joueur) const
+{
+    joueur->notifierFinPartie(this->nomEquipe);
+}
+
+void FoncteurRegenererMana::operator()(Joueur* joueur) const
+{
+    if(joueur->estMort() == false)
+    {
+        joueur->augmenterMana(joueur->getGainInitialMana());
+    }
+}
+
+FoncteurNotifierSuppressionJoueur::FoncteurNotifierSuppressionJoueur(string const& nom)
+{
+    this->nom = nom;
+}
+
+void FoncteurNotifierSuppressionJoueur::operator()(Joueur* joueur) const
+{
+    joueur->notifierSuppressionJoueur(this->nom);
+}
+
+void FoncteurNotifierFinTourPartie::operator()(Joueur* joueur) const
+{
+    joueur->notifierFinTourPartie();
+}
+
+FoncteurDebutTour::FoncteurDebutTour(string const& nomJoueur)
+{
+    this->nomJoueur = nomJoueur;
+}
+
+void FoncteurDebutTour::operator()(Joueur* joueur) const
+{
+    joueur->notifierDebutTour(this->nomJoueur);
 }

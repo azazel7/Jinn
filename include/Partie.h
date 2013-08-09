@@ -2,6 +2,8 @@
 #define Partie_h
 
 #include <vector>
+#include <iostream>
+#include <algorithm>
 
 #include "Action.h"
 #include "Equipe.h"
@@ -216,5 +218,61 @@ protected:
     int indexEquipeCourante;
 
 };
+namespace
+{
+    class FoncteurDemarrerPartie
+    {
+    public:
+        void operator()(Joueur* joueur) const;
+    };
+
+    class FoncteurNotifierPartie
+    {
+    public:
+        FoncteurNotifierPartie(Partie *partie);
+        void operator()(Joueur* joueur) const;
+     private:
+        Partie* partie;
+    };
+
+    class FoncteurRegenererMana
+    {
+    public:
+        void operator()(Joueur* joueur) const;
+    };
+
+    class FoncteurNotifierSuppressionJoueur
+    {
+    public:
+        FoncteurNotifierSuppressionJoueur(string const& nom);
+        void operator()(Joueur* joueur) const;
+    private:
+        string nom;
+    };
+
+    class FoncteurNotifierFinPartie
+    {
+    public:
+        FoncteurNotifierFinPartie(string const& nomEquipe);
+        void operator()(Joueur* joueur) const;
+    private:
+        string nomEquipe;
+    };
+
+    class FoncteurNotifierFinTourPartie
+    {
+    public:
+        void operator()(Joueur* joueur) const;
+    };
+
+    class FoncteurDebutTour
+    {
+    public:
+        FoncteurDebutTour(string const& nomJoueur);
+        void operator()(Joueur* joueur) const;
+    private:
+        string nomJoueur;
+    };
+}
 
 #endif // Partie_h

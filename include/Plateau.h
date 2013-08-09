@@ -126,4 +126,39 @@ class Plateau {
     std::vector< Case* > listeCase;
 };
 
+namespace
+{
+    class FoncteurRegenererCase
+    {
+    public:
+        void operator()(Case* square) const;
+    };
+
+    class FoncteurSortEcoule
+    {
+    public:
+        void operator()(Case* square) const;
+    };
+
+    class FoncteurRegenererManaJoueurCase
+    {
+    public:
+        void operator()(Case* square) const;
+    };
+
+    class FoncteurRetirerJoueur
+    {
+    public:
+        FoncteurRetirerJoueur(Joueur* joueur);
+        void operator()(Case* square) const;
+    private:
+        Joueur* joueur;
+    };
+
+    class FoncteurActionChronique
+    {
+    public:
+        void operator()(Case* square) const;
+    };
+}
 #endif // Plateau_h

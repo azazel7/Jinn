@@ -125,52 +125,65 @@ int Plateau::getLargeur()
 
 void Plateau::retirerSortDeDureeEcoulee()
 {
-    for(int i = 0; i < listeCase.size(); i++)
-    {
-        listeCase[i]->retirerSortEcoule();
-    }
+    for_each(this->listeCase.begin(), this->listeCase.end(), FoncteurSortEcoule());
 }
 
 void Plateau::regenererDefenseCase()
 {
-    for(int i = 0; i < listeCase.size(); i++)
-    {
-        listeCase[i]->modifierDefense(listeCase[i]->getRegenerationDefense());
-    }
+    for_each(this->listeCase.begin(), this->listeCase.end(), FoncteurRegenererCase());
 }
 
 void Plateau::regenererManaPourJoueur()
 {
-    int apport;
-    Joueur* proprietaire;
-    for(int i = 0; i < listeCase.size(); i++)
-    {
-        apport = listeCase[i]->getApportMana();
-        proprietaire = listeCase[i]->getProprietaire();
-        if(proprietaire != NULL)
-        {
-            proprietaire->augmenterMana(apport);
-        }
-    }
+    for_each(this->listeCase.begin(), this->listeCase.end(), FoncteurRegenererManaJoueurCase());
 }
 
 void Plateau::effectuerActionChronique()
 {
-    for(int i = 0; i < listeCase.size(); i++)
-    {
-        listeCase[i]->effectuerActionChroniqueDesSorts();
-    }
+    for_each(this->listeCase.begin(), this->listeCase.end(), FoncteurActionChronique());
 }
 
 void Plateau::retirerJoueur(Joueur* joueur)
 {
-    for(int i = 0; i < this->listeCase.size(); i++)
-    {
-        listeCase[i]->retirerJoueur(joueur);
-    }
+    for_each(this->listeCase.begin(), this->listeCase.end(), FoncteurRetirerJoueur(joueur));
 }
 
 vector<Case*> Plateau::getListeCase()
 {
     return this->listeCase;
+}
+void FoncteurRegenererCase::operator()(Case* square) const
+{
+    square->modifierDefense(square->getRegenerationDefense());
+}
+
+void FoncteurSortEcoule::operator()(Case* square) const
+{
+    square->retirerSortEcoule();
+}
+
+void FoncteurRegenererManaJoueurCase::operator()(Case* square) const
+{
+    int apport;
+    Joueur* proprietaire;
+    apport = square->getApportMana();
+    proprietaire = square->getProprietaire();
+    if(proprietaire != NULL)
+    {
+        proprietaire->augmenterMana(apport);
+    }
+}
+FoncteurRetirerJoueur::FoncteurRetirerJoueur(Joueur* joueur)
+{
+    this->joueur = joueur;
+}
+
+void FoncteurRetirerJoueur::operator()(Case* square) const
+{
+    square->retirerJoueur(this->joueur);
+}
+
+void FoncteurActionChronique::operator()(Case* square) const
+{
+    square->effectuerActionChroniqueDesSorts();
 }
