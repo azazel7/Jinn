@@ -224,6 +224,7 @@ void DessinateurPartie::dessinerListeSortJoueur(int hauteur, int largeur)
         }
         i++;
     }
+    wrefresh(win);
 }
 
 void DessinateurPartie::dessinerNotification(int hauteur, int largeur)
@@ -236,14 +237,21 @@ void DessinateurPartie::dessinerNotification(int hauteur, int largeur)
     list<string> listeNotification = this->partie->getListeNotification();
     for(list<string>::iterator it = listeNotification.begin(); it != listeNotification.end(); it++)
     {
-        wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
-        wprintw(win, "%s", it->c_str());
-        i++;
-        if(i > h_win -2)
+        auto tabNotification = Tools::splitByNSize(it->c_str(), l_win -2);
+        for(auto itTab = tabNotification.begin(); itTab != tabNotification.end(); itTab++)
         {
-            break;
+            wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+            wprintw(win, "%s", itTab->c_str());
+            i++;
+
+            if(i > h_win -2)
+            {
+                wrefresh(win);
+                return;
+            }
         }
     }
+    wrefresh(win);
 }
 
 void DessinateurPartie::saisie()
