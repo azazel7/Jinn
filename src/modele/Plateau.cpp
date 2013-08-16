@@ -74,6 +74,10 @@ void Plateau::appliquerAction(Action action)
             if (Sort::testerReussite(nouveauTaux))
             {
                 sort->getProprietaire()->notifierResultatSort(sort->getNom(), *(cible[i]->getPosition()), true);
+<<<<<<< HEAD
+=======
+                //TODO faire la liaison avec les types de sort
+>>>>>>> 57e33e27a76faf8679788d9d5c4eeb8df3c4153f
                 sort->appliquerSortSurCase(*(cible[i]));
             }
             else
