@@ -49,6 +49,8 @@ void DessinateurPartie::dessinerJoueurs(int hauteur, int largeur)
             wprintw(win, "Equipe : %s", joueur->getNomEquipe().c_str());
             wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
             wprintw(win, "Mana : %d/%d  Gain : %d", joueur->getManaActuel(), joueur->getManaMaximum(), joueur->getGainInitialMana());
+            wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
+            wprintw(win, "Abilite : %s", to_string(joueur->getAbilite()).c_str());
             if(joueur == this->partie->getJoueurCourant())
             {
                 wmove(win, i++, 1); //1 pour éviter d'empiéter sur la bordure
@@ -106,7 +108,6 @@ void DessinateurPartie::dessinerMessage(int hauteur, int largeur)
         }
     }
     wrefresh(win);
-    //TODO en fonction du nombre de ligne et de la taille des messages
 }
 
 void DessinateurPartie::effectuerAction(int n)

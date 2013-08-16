@@ -9,7 +9,7 @@
 
 #define HAUTEUR_INFO_PARTIE 3
 #define HAUTEUR_INFO_JOUEUR 4
-#define HAUTEUR_FIXE_INFO_SORT 5
+#define HAUTEUR_FIXE_INFO_SORT 6
 namespace IndexCreerJoueur
 {
     static const int curseur_liste_equipe = 0;

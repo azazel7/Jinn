@@ -191,7 +191,7 @@ int Sort::nouvelleEffet(int niveauAbilite, int effet)
     return effet + ceil(modificationEffet);
 }
 
-ostream& operator<<( ostream &flux, TypeSort const& pos)
+string to_string(TypeSort const& pos)
 {
     string chaine;
     switch(pos)
@@ -215,9 +215,15 @@ ostream& operator<<( ostream &flux, TypeSort const& pos)
         chaine = "Ténébre";
         break;
     default:
-        chaine = "Type Inconnu";
+        chaine = "Inconnu";
         break;
     }
+    return chaine;
+}
+
+ostream& operator<<( ostream &flux, TypeSort const& pos)
+{
+    string chaine = to_string(pos);
     flux << chaine;
     return flux;
 }

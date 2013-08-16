@@ -26,7 +26,7 @@ bool ReceptionClient::initialiserClient()
         hostinfo = gethostbyname(this->ip.c_str()); /* on récupère les informations de l'hôte auquel on veut se connecter */
         if (hostinfo == NULL) /* l'hôte n'existe pas */
         {
-            GestionnaireLogger::ecrirMessage(ERREUR, "Nom de domaine introuvable");
+            GestionnaireLogger::ecrirMessage(ERROR, "Nom de domaine introuvable");
             close(this->socketClient);
             return false;
         }

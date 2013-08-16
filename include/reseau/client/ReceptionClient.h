@@ -14,6 +14,7 @@
 #include "PartieClient.h"
 #include "reseau/constanteReseau.h"
 #include "ui/DessinateurPartie.h"
+#include "logger/GestionnaireLogger.h"
 
 using namespace std;
 

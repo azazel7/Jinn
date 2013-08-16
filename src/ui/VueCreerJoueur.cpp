@@ -255,6 +255,9 @@ void VueCreerJoueur::dessinerInfoSort(int hauteur, int largeur)
     wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
     wprintw(win, "Nb cible : %d", courant->getnombreCibleMax());
     i++;
+    wmove(win, i, 1); //1 pour éviter d'empiéter sur la bordure
+    wprintw(win, "Type : %s", to_string(courant->getTypeSort()).c_str());
+    i++;
     if(courant->getElite() == true)
     {
         wattroff(win, COLOR_PAIR(2));
