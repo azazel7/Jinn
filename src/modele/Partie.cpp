@@ -310,6 +310,7 @@ void Partie::effectuerAction(Action* action, Joueur* joueur)
             }
             GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Un joueur est mort");
         }
+        joueur->notifierJoueur(*joueur);
     }
     //Cas des autre action comme la fin de tour
     else

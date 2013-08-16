@@ -151,7 +151,7 @@ public:
 
     void notifierResultatSort(string const& nom, Position const& cible, bool reussite);
 
-    void notifierCase(Case const& caseANotif, bool compteProprietaire) const;
+    void notifierCase(Case const& caseANotif, bool compteProprietaire = true) const;
 
     void notifierJoueur(Joueur const& joueur, bool compteEquipe = true) const;
 

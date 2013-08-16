@@ -399,7 +399,7 @@ void Joueur::notifierSort(Sort const& sort, int duree, Position* position) const
     send(this->socket, final.c_str(), final.size(), 0);
 }
 
-void Joueur::notifierCase(Case const& caseANotif, bool compteProprietaire = true) const
+void Joueur::notifierCase(Case const& caseANotif, bool compteProprietaire) const
 {
     string final = this->creerChaineNotificationCase(caseANotif, compteProprietaire);
     send(this->socket, final.c_str(), final.size(), 0);

@@ -60,7 +60,10 @@ void Plateau::appliquerAction(Action action)
             distance = 1;
         }
         proprietaire->diminuerMana( distance * sort->getCoupManaParCase() );
-        Sort::comparaisonType(proprietaire->getAbilite(), sort->getTypeSort());
+        if(Sort::comparaisonType(proprietaire->getAbilite(), sort->getTypeSort()) == true)
+        {
+            nouveauTaux = nouveauTaux + proprietaire->getNiveauAbilite();
+        }
         if(proprietaire->estMort())
         {
             throw invalid_argument("Le joueur est mort");
@@ -72,7 +75,6 @@ void Plateau::appliquerAction(Action action)
             {
                 sort->getProprietaire()->notifierResultatSort(sort->getNom(), *(cible[i]->getPosition()), true);
                 //TODO faire la liaison avec les types de sort
-                //TODO notifier de la case pour les joueurs ...
                 sort->appliquerSortSurCase(*(cible[i]));
             }
             else
@@ -80,7 +82,7 @@ void Plateau::appliquerAction(Action action)
                 sort->getProprietaire()->notifierResultatSort(sort->getNom(), *(cible[i]->getPosition()), false);
             }
         }
-        //TODO notifier le joueur de lui-même
+        proprietaire->notifierCase(*(cible[i]));
     }
 }
 
