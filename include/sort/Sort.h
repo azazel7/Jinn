@@ -1,7 +1,7 @@
 #ifndef Sort_h
 #define Sort_h
 
-enum TypeSort { FEU, EAU, TERRE, AIR, TENEBRE, LUMIERE };
+enum TypeSort { FEU = 1, EAU = 2, TERRE = 3, AIR = 4, TENEBRE = 5, LUMIERE = 6, NEUTRE = 7};
 
 #include <vector>
 #include <iostream>
@@ -83,7 +83,7 @@ public:
      */
     Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite,
          int nbCible, int attaque, int duree, int znEffet, int dissip,
-         int nbMaxSortDissip);
+         int nbMaxSortDissip, TypeSort type);
 
     /**
      * @brief Sort Constructeur

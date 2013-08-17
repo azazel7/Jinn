@@ -1,6 +1,6 @@
 #include "sort/Sort.h"
 
-Sort::Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite, int nbCible, int attaque, int duree, int znEffet, int dissip, int nbMaxSortDissip)
+Sort::Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite, int nbCible, int attaque, int duree, int znEffet, int dissip, int nbMaxSortDissip, TypeSort type)
 {
     this->nom = nom;
     this->coupManaParCase = coupMana;
@@ -13,6 +13,7 @@ Sort::Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite, in
     this->zoneEffet = znEffet;
     this->effetDissipation = dissip;
     this->nombreMaxSortDissipable = nbMaxSortDissip;
+    this->typeSort = type;
     this->id = nextId;
     nextId +=1;
 
@@ -209,10 +210,13 @@ string to_string(TypeSort const& pos)
         chaine = "Air";
         break;
     case LUMIERE:
-        chaine = "Lumière";
+        chaine = "Lumiere";
         break;
     case TENEBRE:
-        chaine = "Ténébre";
+        chaine = "Tenebre";
+        break;
+    case NEUTRE:
+        chaine = "Neutre";
         break;
     default:
         chaine = "Inconnu";
