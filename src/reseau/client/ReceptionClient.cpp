@@ -300,7 +300,6 @@ string ReceptionClient::traitementInfoJoueur()
     gainMana = atoi(argument[4]);
     abilite = atoi(argument[5]);
     niveauAbilite = atoi(argument[6]);
-
     joueur = this->partie->getJoueur(argument[0]);
     if(joueur == NULL)
     {
@@ -411,7 +410,7 @@ void ReceptionClient::traitementSort()
     int compteur = 0;
     while( (nomSort = strtok (NULL, SEPARATEUR_ELEMENT)) != NULL)
     {
-        if((compteur%8) == 0)
+        if((compteur%9) == 0)
         {
             courant = UsineSort::fabriqueSort(nomSort);
             if(courant != NULL)

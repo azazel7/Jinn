@@ -310,6 +310,8 @@ void ReceptionServeur::traitementSort(int socketClient)
         final += SEPARATEUR_ELEMENT;
         final += to_string(sort->getPourcentageReussite());
         final += SEPARATEUR_ELEMENT;
+        final += to_string((int)sort->getTypeSort());
+        final += SEPARATEUR_ELEMENT;
         delete sort;
     }
     final += SEPARATEUR_COMMANDE;

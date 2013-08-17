@@ -60,7 +60,7 @@ void Plateau::appliquerAction(Action action)
             distance = 1;
         }
         proprietaire->diminuerMana( distance * sort->getCoupManaParCase() );
-        if(Sort::comparaisonType(proprietaire->getAbilite(), sort->getTypeSort()) == true)
+        if(proprietaire->getAbilite() == sort->getTypeSort())
         {
             nouveauTaux = nouveauTaux + proprietaire->getNiveauAbilite();
         }

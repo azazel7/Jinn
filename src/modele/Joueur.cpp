@@ -455,7 +455,7 @@ string Joueur::creerChaineNotificationJoueur(Joueur const& joueur, bool compteEq
         retour += SEPARATEUR_ELEMENT;
         retour += to_string(joueur.getGainInitialMana());
         retour += SEPARATEUR_ELEMENT;
-        retour += to_string(joueur.getAbilite());
+        retour += to_string((int) joueur.getAbilite());
         retour += SEPARATEUR_ELEMENT;
         retour += to_string(joueur.getNiveauAbilite());
         retour += SEPARATEUR_ELEMENT;
