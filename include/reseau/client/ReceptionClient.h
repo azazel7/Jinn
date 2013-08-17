@@ -15,6 +15,7 @@
 #include "reseau/constanteReseau.h"
 #include "ui/DessinateurPartie.h"
 #include "logger/GestionnaireLogger.h"
+#include "sort/Sort.h"
 
 using namespace std;
 
