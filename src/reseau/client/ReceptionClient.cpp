@@ -344,7 +344,7 @@ void ReceptionClient::traitementInfoSort()
     Case* caseCible = NULL;
     Joueur* proprietaire = NULL;
     int x = -1, y = -1, duree = -1;
-    unsigned int id = 0;
+    unsigned long int id = 0;
     for(int i = 0; i < 6; i++)
     {
         argument[i] = strtok (NULL, SEPARATEUR_ELEMENT);

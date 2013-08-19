@@ -79,12 +79,12 @@ int Sort::getnombreCibleMax() const
     return this->nombreCibleMax;
 }
 
-unsigned int Sort::getId() const
+unsigned long int Sort::getId() const
 {
     return this->id;
 }
 
-void Sort::setId(unsigned int id)
+void Sort::setId(unsigned long int id)
 {
     this->id = id;
 }
