@@ -40,6 +40,7 @@ class DessinateurPartie
         PartieClient* partie;
         ReceptionClient* recepteur;
         Position* positionCourante;
+        Position* originePlateau;
         Position* origineSort;
         list<Position*> listeCible;
         string message;

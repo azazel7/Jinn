@@ -39,6 +39,7 @@ int main(int argc, char** argv)
     int largeur = -1, hauteur = -1;
     string ip = "0.0.0.0";
     bool argumentBon = true;
+    signal(SIGINT, &traitement_sigint);
     while( (opth = getopt(argc, argv, "hp:a:j:s:L:H:")) != -1)
     {
         switch(opth)
@@ -130,11 +131,16 @@ int main(int argc, char** argv)
     {
         hauteur = 3;
     }
-    signal(SIGINT, &traitement_sigint);
+
     Logger *logger = new LoggerFileDescriptor(1, false);
     GestionnaireLogger::ajouterRegistre(logger);
+    GestionnaireLogger::ecrirMessage(INFO, "Nombre de joueur : " + to_string(nombreJoueur));
+    GestionnaireLogger::ecrirMessage(INFO, "Adresse : " + string(ip));
+    GestionnaireLogger::ecrirMessage(INFO, "Port : " + to_string(port));
+    GestionnaireLogger::ecrirMessage(INFO, "Largeur : " + to_string(largeur));
+    GestionnaireLogger::ecrirMessage(INFO, "Hauteur : " + to_string(hauteur));
     Partie *p = new Partie("p1", nombreJoueur, nombreSort);
-    p->initialiser();
+    p->initialiser(largeur, hauteur);
     serveur = new ReceptionServeur(p, ip, port);
     serveur->initialiserServeur();
     serveur->miseEnEcoute();

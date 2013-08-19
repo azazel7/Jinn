@@ -5,6 +5,7 @@ DessinateurPartie::DessinateurPartie(PartieClient* partie, ReceptionClient* rece
     this->partie = partie;
     this->recepteur = recepteur;
     this->positionCourante = Position::fabriquePosition(0,0);
+    this->originePlateau = Position::fabriquePosition(0,0);
     this->indexPanneau = IndexDessinateurPartie::index_plateau;
     this->origineSort = NULL;
 }
@@ -144,9 +145,21 @@ void DessinateurPartie::dessinerPlateau(int hauteur, int largeur)
     int l_case = 2;
     int l_vision_case = l_win/l_case;
     int h_vision_case = h_win/h_case;
-    //TODO recadrer pour contenir la case
-    int x_origine = 0;
-    int y_origine = 0;
+    int x_origine = this->originePlateau->getX();
+    int y_origine = this->originePlateau->getY();
+    GestionnaireLogger::ecrirMessage(INFO, "x : " + to_string(this->originePlateau->getX() + l_vision_case) + " largeur : " + to_string(l_vision_case) + "   - " + to_string(this->positionCourante->getX() < this->originePlateau->getX() || this->positionCourante->getX() >= this->originePlateau->getX() + l_vision_case) + " x_c : " + to_string(positionCourante->getX()));
+    if(this->positionCourante->getX() < this->originePlateau->getX() || this->positionCourante->getX() >= this->originePlateau->getX() + l_vision_case)
+    {
+        GestionnaireLogger::ecrirMessage(INFO, "loop");
+        x_origine = x_origine + (this->positionCourante->getX() - x_origine - l_vision_case);
+    }
+    if(this->positionCourante->getY() < this->originePlateau->getY() || this->positionCourante->getY() >= this->originePlateau->getY() + h_vision_case)
+    {
+        y_origine = y_origine + (this->positionCourante->getY() - y_origine - h_vision_case);
+    }
+    this->originePlateau = Position::fabriquePosition(x_origine, y_origine);
+    GestionnaireLogger::ecrirMessage(INFO, "x2 : " + to_string(this->originePlateau->getX() + l_vision_case) + " largeur : " + to_string(l_vision_case) + "   - " + to_string(this->positionCourante->getX() < this->originePlateau->getX() || this->positionCourante->getX() >= this->originePlateau->getX() + l_vision_case) + " x_c : " + to_string(positionCourante->getX()));
+
     int i = 1;
     Position* position = NULL;
     WINDOW * win = subwin(stdscr, h_win, l_win, 0, largeur/5);
@@ -157,7 +170,7 @@ void DessinateurPartie::dessinerPlateau(int hauteur, int largeur)
             position = Position::fabriquePosition(x, y);
             if(this->partie->getCase(position) != NULL)
             {
-                wmove(win, y*h_case, x*l_case); //1 pour éviter d'empiéter sur la bordure
+                wmove(win, (y - y_origine)*h_case, (x - x_origine)*l_case); //1 pour éviter d'empiéter sur la bordure
                 this->modifierCouleurPlateau(position, true, win);
                 wprintw(win, "[]");
                 this->modifierCouleurPlateau(position, false, win);
