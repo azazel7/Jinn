@@ -15,8 +15,8 @@ class Joueur;
 class Case;
 
 
-//que faire une fois la boucle des ID bouclée ? Il faut 1 an à raison de 100 sorts lancé par seconde pour la boucler. Et aucun sort ne dure 2^32 tours
-static unsigned int nextId = 1;
+//que faire une fois la boucle des ID bouclée ? Il faut 2 an à raison de 100 sorts lancé par seconde pour la boucler. Et aucun sort ne dure 2^64 tours
+static unsigned long int nextId = 1;
 
 class Sort
 {
@@ -107,9 +107,9 @@ public:
 
     int getnombreCibleMax() const;
 
-    unsigned int getId() const;
+    unsigned long int getId() const;
 
-    void setId(unsigned int id);
+    void setId(unsigned long int id);
 
     int getDuree() const;
 
@@ -155,7 +155,7 @@ protected:
     int effetDissipation;
     int nombreMaxSortDissipable;
     TypeSort typeSort;
-    unsigned int id;
+    unsigned long int id;
 
     vector<SortAppliquerSurCase*> listeApplicationSurCase;
     vector<SortActionChronique*> listeEffetChronique;
