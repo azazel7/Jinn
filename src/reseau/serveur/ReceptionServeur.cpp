@@ -191,8 +191,7 @@ void ReceptionServeur::testerSelectionServeur(fd_set& readfd)
         listeClient[csock] = NULL;
         //On l'ajoute à la selection
         FD_SET(csock, &readfd);
-        GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Nouvelle connexion sur le serveur");
-        //TODO améliorer ce log  inet_ntoa(csin.sin_addr), htons(csin.sin_port)
+        GestionnaireLogger::ecrirMessage(TypeMessage::INFO, string("Nouvelle connexion sur le serveur ") + string(inet_ntoa(csin.sin_addr)) + string (":") + to_string(htons(csin.sin_port)));
     }
 }
 
