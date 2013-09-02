@@ -53,6 +53,14 @@ Sort* UsineSort::fabriqueSort(string const& nom)
         retour->ajouterApplication(new AppliqueSoin(120, false, true));
         retour->setDescription("A la fin de la duree du sort, Esprit Patient redonne 120 point de defense a la case");
     }
+    else if(nom == "Chaleur de Savane")
+    {
+        retour = new Sort("Chaleur de Savane", 20, true, 5, 90, 1, 0, 5, 0, 0, 0, FEU);
+        retour->ajouterApplication(new AppliquerSortDuree());
+        retour->ajouterActionChronique(new ChroniqueDegatCumulatif(8, 8));
+        retour->setDescription("Sort durant 5 tours et infligeant a la case 8 point de degat par tour d'activation");
+    }
+
     return retour;
 }
 
@@ -65,6 +73,7 @@ std::vector<string> UsineSort::liste()
     retour.push_back("Sceau de Vision");
     retour.push_back("Spirale de Feu");
     retour.push_back("Esprit Patient");
+    retour.push_back("Chaleur de Savane");
     return retour;
 }
 
