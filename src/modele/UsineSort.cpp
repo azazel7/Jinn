@@ -4,6 +4,8 @@
 #include "sort/actionApplique/AppliqueBaseProtection.h"
 #include "sort/actionApplique/AppliqueRevelationCase.h"
 #include "sort/actionApplique/AppliqueSortDuree.h"
+#include "sort/actionApplique/AppliqueSoin.h"
+
 #include "sort/actionChronique/chroniqueDegat.h"
 #include "sort/actionChronique/chroniqueDegatCumulatif.h"
 #include "sort/actionChronique/chroniqueSoin.h"
@@ -44,7 +46,13 @@ Sort* UsineSort::fabriqueSort(string const& nom)
         retour->ajouterApplication(new AppliquerSortDuree());
         retour->setDescription("Piege la case dans une spirale de feu infligeant 8 points de degats par tour");
     }
-
+    else if(nom == "Esprit Patient")
+    {
+        retour = new Sort("Esprit Patient", 10, false, 5, 90, 1, 0, 2, 0, 0, 0, LUMIERE);
+        retour->ajouterApplication(new AppliquerSortDuree());
+        retour->ajouterApplication(new AppliqueSoin(120, false, true));
+        retour->setDescription("A la fin de la duree du sort, Esprit Patient redonne 120 point de defense a la case");
+    }
     return retour;
 }
 
@@ -56,6 +64,7 @@ std::vector<string> UsineSort::liste()
     retour.push_back("Rune de Protection");
     retour.push_back("Sceau de Vision");
     retour.push_back("Spirale de Feu");
+    retour.push_back("Esprit Patient");
     return retour;
 }
 
