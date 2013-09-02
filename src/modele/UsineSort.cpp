@@ -4,6 +4,10 @@
 #include "sort/actionApplique/AppliqueBaseProtection.h"
 #include "sort/actionApplique/AppliqueRevelationCase.h"
 #include "sort/actionApplique/AppliqueSortDuree.h"
+#include "sort/actionChronique/chroniqueDegat.h"
+#include "sort/actionChronique/chroniqueDegatCumulatif.h"
+#include "sort/actionChronique/chroniqueSoin.h"
+#include "sort/actionChronique/chroniqueSoinCondVie.h"
 
 Sort* UsineSort::fabriqueSort(string const& nom)
 {
@@ -33,6 +37,14 @@ Sort* UsineSort::fabriqueSort(string const& nom)
         retour->ajouterApplication(new AppliqueRevelationCase());
         retour->setDescription("Sort permettant de visualiser une case");
     }
+    else if(nom == "Spirale de Feu")
+    {
+        retour = new Sort("Spirale de Feu", 7, false, 5, 90, 1, 0, 5, 0, 0, 0, FEU);
+        retour->ajouterActionChronique(new ChroniqueDegat(8));
+        retour->ajouterApplication(new AppliquerSortDuree());
+        retour->setDescription("Piege la case dans une spirale de feu infligeant 8 points de degats par tour");
+    }
+
     return retour;
 }
 
@@ -43,6 +55,7 @@ std::vector<string> UsineSort::liste()
     retour.push_back("Boule de Feu");
     retour.push_back("Rune de Protection");
     retour.push_back("Sceau de Vision");
+    retour.push_back("Spirale de Feu");
     return retour;
 }
 
