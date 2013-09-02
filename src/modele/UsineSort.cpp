@@ -5,6 +5,7 @@
 #include "sort/actionApplique/AppliqueRevelationCase.h"
 #include "sort/actionApplique/AppliqueSortDuree.h"
 #include "sort/actionApplique/AppliqueSoin.h"
+#include "sort/actionApplique/AppliqueDegatCondVie.h"
 
 #include "sort/actionChronique/chroniqueDegat.h"
 #include "sort/actionChronique/chroniqueDegatCumulatif.h"
@@ -60,6 +61,20 @@ Sort* UsineSort::fabriqueSort(string const& nom)
         retour->ajouterActionChronique(new ChroniqueDegatCumulatif(8, 8));
         retour->setDescription("Sort durant 5 tours et infligeant a la case 8 point de degat par tour d'activation");
     }
+    else if(nom == "Esprit Gardien")
+    {
+        retour = new Sort("Esprit Gardien", 7, false, 5, 90, 1, 0, 10, 0, 0, 0, TERRE);
+        retour->ajouterApplication(new AppliquerSortDuree());
+        retour->ajouterActionChronique(new ChroniqueSoinCondVie(30, 50, true));
+        retour->setDescription("Pendant 10 tours, si la case cible a moins de 50% de sa defense, le sort lui redonne 30 point de vie");
+    }
+    else if(nom == "Frappe Sournoise")
+    {
+        retour = new Sort("Frappe Sournoise", 6, false, 5, 90, 1, 30, 0, 0, 0, 0, TENEBRE);
+        retour->ajouterApplication(new AppliqueDegat());
+        retour->ajouterApplication(new AppliqueDegatCondVie(70, 90, true, true, false));
+        retour->setDescription("Inflige 30 points de degat. Si la cible a plus de 90% de sa vie, inflige 70 points de degat supplementaire");
+    }
 
     return retour;
 }
@@ -74,6 +89,8 @@ std::vector<string> UsineSort::liste()
     retour.push_back("Spirale de Feu");
     retour.push_back("Esprit Patient");
     retour.push_back("Chaleur de Savane");
+    retour.push_back("Esprit Gardien");
+    retour.push_back("Frappe Sournoise");
     return retour;
 }
 
