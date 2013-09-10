@@ -225,6 +225,11 @@ string to_string(TypeSort const& pos)
     return chaine;
 }
 
+void Sort::setCoutManaParCase(int value)
+{
+    this->coupManaParCase = value;
+}
+
 ostream& operator<<( ostream &flux, TypeSort const& pos)
 {
     string chaine = to_string(pos);

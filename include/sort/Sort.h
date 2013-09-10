@@ -95,6 +95,8 @@ public:
 
     int getCoupManaParCase();
 
+    void setCoutManaParCase(int value);
+
     Joueur* getProprietaire() const;
 
     void setProprietaire(Joueur* proprietaire);
