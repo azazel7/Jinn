@@ -5,8 +5,10 @@
 #include "sort/actionApplique/AppliqueRevelationCase.h"
 #include "sort/actionApplique/AppliqueSortDuree.h"
 #include "sort/actionApplique/AppliqueSoin.h"
-#include "sort/actionApplique/AppliqueDegatCondVie.h"
 #include "sort/actionApplique/AppliqueConditionDefense.h"
+#include "sort/actionApplique/AppliqueConditionComparaisonMana.h"
+#include "sort/actionApplique/AppliqueConsommerMana.h"
+#include "sort/actionApplique/AppliqueSoinAstral.h"
 
 #include "sort/actionChronique/chroniqueDegat.h"
 #include "sort/actionChronique/chroniqueDegatCumulatif.h"
@@ -80,7 +82,19 @@ Sort* UsineSort::fabriqueSort(string const& nom)
     }
     else if(nom == "Choc Spirituel")
     {
-
+        retour = new Sort("Choc Spirituel", 10, true, 5, 90, 1, 0, 0, 0, 0, 0, AIR);
+        AppliqueConditionComparaisonMana* cond = new AppliqueConditionComparaisonMana(0, false, true, false);
+        cond->ajouterApplication(new AppliqueDegat(120));
+        retour->ajouterApplication(new AppliqueDegat(120));
+        retour->ajouterApplication(cond);
+        retour->setDescription("Inflige 120 points de degat. Si vous avez plus de mana que le proprietaire, Choc Sprirituel inflige 120 points de degat supplementaire");
+    }
+    else if(nom == "Soin Astral")
+    {
+        retour = new Sort("Soin Astral", 0, true, 5, 90, 1, 0, 0, 0, 0, 0, LUMIERE);
+        retour->ajouterApplication(new AppliqueConsommerMana(25, true, true, false));
+        retour->ajouterApplication(new AppliqueSoinAstral(7, true, false));
+        retour->setDescription("Vous perder 25% de votre mana et la case cible gagne en defense sept fois ce que vous avez perdu en mana");
     }
 
     return retour;
@@ -98,6 +112,8 @@ std::vector<string> UsineSort::liste()
     retour.push_back("Chaleur de Savane");
     retour.push_back("Esprit Gardien");
     retour.push_back("Frappe Sournoise");
+    retour.push_back("Choc Spirituel");
+    retour.push_back("Soin Astral");
     return retour;
 }
 
