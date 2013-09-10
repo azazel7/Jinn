@@ -4,7 +4,9 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <list>
 #include <math.h>
+#include <sort/Sort.h>
 
 using namespace std;
 class Tools

@@ -13,6 +13,8 @@
 #include "UsineSort.h"
 #include "Tools.h"
 #include "Position.h"
+#include "Case.h"
+#include "sort/Sort.h"
 #include "reseau/constanteReseau.h"
 
 using namespace std;
