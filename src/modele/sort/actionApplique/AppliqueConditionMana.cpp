@@ -35,9 +35,14 @@ void AppliqueConditionMana::retirerSortDeCase(Case &cible, Sort* sortExecutant)
 
 bool AppliqueConditionMana::verifierCondition(Case &cible, Sort* sortExecutant)
 {
+    Joueur* proprio = cible.getProprietaire();
+    if(proprio == NULL)
+    {
+        return false;
+    }
     if(type == true)
     {
-        int pourcentage = floor((cible.getDefenseActuelle()*100)/cible.getDefenseReel());
+        int pourcentage = floor((proprio->getManaActuel()*100)/proprio->getManaMaximum());
         if(pourcentage > this->palier)
         {
             return true;
@@ -45,7 +50,7 @@ bool AppliqueConditionMana::verifierCondition(Case &cible, Sort* sortExecutant)
     }
     else
     {
-        if(cible.getDefenseActuelle() < this->palier)
+        if(proprio->getManaActuel() < this->palier)
         {
             return true;
         }

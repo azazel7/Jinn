@@ -6,7 +6,6 @@
 
 class AppliqueConditionMana: public SortAppliquerSurCase, public ManipulationAppliquerSurCase
 {
-    int degat;
     int palier;
     bool type, ajout, retrait;
 public:
