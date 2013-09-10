@@ -6,6 +6,7 @@
 #include "sort/actionApplique/AppliqueSortDuree.h"
 #include "sort/actionApplique/AppliqueSoin.h"
 #include "sort/actionApplique/AppliqueDegatCondVie.h"
+#include "sort/actionApplique/AppliqueConditionDefense.h"
 
 #include "sort/actionChronique/chroniqueDegat.h"
 #include "sort/actionChronique/chroniqueDegatCumulatif.h"
@@ -23,8 +24,8 @@ Sort* UsineSort::fabriqueSort(string const& nom)
     }
     else if(nom == "Boule de Feu")
     {
-        retour = new Sort("Boule de Feu", 5, false, 5, 100, 1, 50, 0, 0, 0, 0, FEU);
-        retour->ajouterApplication(new AppliqueDegat());
+        retour = new Sort("Boule de Feu", 5, false, 5, 100, 1, 0, 0, 0, 0, 0, FEU);
+        retour->ajouterApplication(new AppliqueDegat(50));
         retour->setDescription("Lance une boule de feu infligeant 50 degats");
     }
     else if(nom == "Rune de Protection")
@@ -70,10 +71,16 @@ Sort* UsineSort::fabriqueSort(string const& nom)
     }
     else if(nom == "Frappe Sournoise")
     {
-        retour = new Sort("Frappe Sournoise", 6, false, 5, 90, 1, 30, 0, 0, 0, 0, TENEBRE);
-        retour->ajouterApplication(new AppliqueDegat());
-        retour->ajouterApplication(new AppliqueDegatCondVie(70, 90, true, true, false));
+        retour = new Sort("Frappe Sournoise", 6, false, 5, 90, 1, 0, 0, 0, 0, 0, TENEBRE);
+        AppliqueConditionDefense* cond = new AppliqueConditionDefense(90, true, true, false);
+        cond->ajouterApplication(new AppliqueDegat(70));
+        retour->ajouterApplication(new AppliqueDegat(30));
+        retour->ajouterApplication(cond);
         retour->setDescription("Inflige 30 points de degat. Si la cible a plus de 90% de sa vie, inflige 70 points de degat supplementaire");
+    }
+    else if(nom == "Choc Spirituel")
+    {
+
     }
 
     return retour;
