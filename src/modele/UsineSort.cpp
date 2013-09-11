@@ -9,6 +9,10 @@
 #include "sort/actionApplique/AppliqueConditionComparaisonMana.h"
 #include "sort/actionApplique/AppliqueConsommerMana.h"
 #include "sort/actionApplique/AppliqueSoinAstral.h"
+#include "sort/actionApplique/AppliqueBrulureMana.h"
+#include "sort/actionApplique/AppliqueVolDeMana.h"
+#include "sort/actionApplique/AppliqueVolDefense.h"
+#include "sort/actionApplique/AppliqueConditionPresenceSort.h"
 
 #include "sort/actionChronique/chroniqueDegat.h"
 #include "sort/actionChronique/chroniqueDegatCumulatif.h"
@@ -96,7 +100,40 @@ Sort* UsineSort::fabriqueSort(string const& nom)
         retour->ajouterApplication(new AppliqueSoinAstral(7, true, false));
         retour->setDescription("Vous perder 25% de votre mana et la case cible gagne en defense sept fois ce que vous avez perdu en mana");
     }
+    else if(nom == "Regard Vampirique")
+    {
+        retour = new Sort("Regard Vampirique", 7, false, 5, 90, 1, 0, 0, 0, 0, 0, TENEBRE);
+        retour->ajouterApplication(new AppliqueDegat(40));
+        retour->ajouterApplication(new AppliqueBrulureMana(5, false, true, false, false, false));
+        retour->setDescription("Vous infligez 40 point de degat a la cible et son proprietaire perd 5 point de mana");
+    }
+    else if(nom == "Festin")
+     {
+        retour = new Sort("Festin", 6, false, 5, 90, 1, 0, 0, 0, 0, 0, TENEBRE);
+        retour->ajouterApplication(new AppliqueVolDefense(40, false, true, false, false));
+        retour->setDescription("Transfert 40 point de defense de la cible vers la case d'origine");
+    }
+    else if(nom == "Morsure Hivernale")
+     {
+        retour = new Sort("Morsure Hivernale", 17, false, 5, 90, 1, 0, 7, 0, 0, 0, EAU);
+        retour->ajouterApplication(new AppliquerSortDuree());
+        retour->ajouterApplication(new AppliqueBaseProtection(-50));
+        retour->ajouterApplication(new AppliqueDegat(40));
+        retour->setDescription("Sort infligeant 40 point de degat et diminuant pendant 7 tours de 50 la defense maximale de la cible");
+    }
+    else if(nom == "Eclaire de Zeus")
+    {
+        retour = new Sort("Eclaire de Zeus", 8, false, 7, 90, 1, 0, 0, 0, 0, 0, AIR);
+        AppliqueConditionPresenceSort* cond = new AppliqueConditionPresenceSort("Morsure Hivernale", false, true, false);
+        cond->ajouterApplication(new AppliqueDegat(70));
+        retour->ajouterApplication(cond);
+        retour->ajouterApplication(new AppliqueDegat(30));
+        retour->setDescription("Inflige 30 point de degats. Si la cible est possede le sort Morsure Hivernale, Eclaire de Zeus inflige 70 points de degat supplementaires");
 
+    }
+    //TODO Sort qui supprime un sort sur la case d'origine et inflige des degats
+    //TODO Sort de liaison des cases. SI l'une tombe à 0, l'autre aussi
+    //TODO Soin de groupe
     return retour;
 }
 
@@ -114,6 +151,10 @@ std::vector<string> UsineSort::liste()
     retour.push_back("Frappe Sournoise");
     retour.push_back("Choc Spirituel");
     retour.push_back("Soin Astral");
+    retour.push_back("Regard Vampirique");
+    retour.push_back("Festin");
+    retour.push_back("Morsure Hivernale");
+    retour.push_back("Eclaire de Zeus");
     return retour;
 }
 
