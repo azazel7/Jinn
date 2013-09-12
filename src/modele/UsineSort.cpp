@@ -18,6 +18,7 @@
 #include "sort/actionChronique/chroniqueDegatCumulatif.h"
 #include "sort/actionChronique/chroniqueSoin.h"
 #include "sort/actionChronique/chroniqueSoinCondVie.h"
+#include "sort/actionChronique/chroniqueVisionJoueur.h"
 
 Sort* UsineSort::fabriqueSort(string const& nom)
 {
@@ -129,7 +130,12 @@ Sort* UsineSort::fabriqueSort(string const& nom)
         retour->ajouterApplication(cond);
         retour->ajouterApplication(new AppliqueDegat(30));
         retour->setDescription("Inflige 30 point de degats. Si la cible est possede le sort Morsure Hivernale, Eclaire de Zeus inflige 70 points de degat supplementaires");
-
+    }
+    else if(nom == "Oeil Celeste")
+    {
+        retour = new Sort("Oeil Celeste", 8, false, 5, 90, 1, 0, 5, 0, 0, 0, AIR);
+        retour->ajouterApplication(new AppliquerSortDuree());
+        retour->ajouterActionChronique(new ChroniqueVisionJoueur());
     }
     //TODO Sort qui supprime un sort sur la case d'origine et inflige des degats
     //TODO Sort de liaison des cases. SI l'une tombe à 0, l'autre aussi
@@ -155,6 +161,8 @@ std::vector<string> UsineSort::liste()
     retour.push_back("Festin");
     retour.push_back("Morsure Hivernale");
     retour.push_back("Eclaire de Zeus");
+    retour.push_back("Oeil Celeste");
+
     return retour;
 }
 
