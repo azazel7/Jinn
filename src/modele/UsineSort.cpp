@@ -13,6 +13,7 @@
 #include "sort/actionApplique/AppliqueVolDeMana.h"
 #include "sort/actionApplique/AppliqueVolDefense.h"
 #include "sort/actionApplique/AppliqueConditionPresenceSort.h"
+#include "sort/actionApplique/AppliqueSuppressionSort.h"
 
 #include "sort/actionChronique/chroniqueDegat.h"
 #include "sort/actionChronique/chroniqueDegatCumulatif.h"
@@ -133,10 +134,17 @@ Sort* UsineSort::fabriqueSort(string const& nom)
     }
     else if(nom == "Oeil Celeste")
     {
-        retour = new Sort("Oeil Celeste", 8, false, 5, 90, 1, 0, 5, 0, 0, 0, AIR);
+        retour = new Sort("Oeil Celeste", 9, false, 5, 90, 1, 0, 5, 0, 0, 0, AIR);
         retour->ajouterApplication(new AppliquerSortDuree());
         retour->ajouterActionChronique(new ChroniqueVisionJoueur());
     }
+    else if(nom == "Dispersion Astrale")
+    {
+        retour = new Sort("Dispersion Astrale", 15, true, 5, 90, 1, 0, 5, 0, 0, 0, AIR);
+        retour->ajouterApplication(new AppliqueSuppressionSort(3, true, false));
+        retour->setDescription("Supprimme 3 sorts ennemis de la case cible");
+    }
+
     //TODO Sort qui supprime un sort sur la case d'origine et inflige des degats
     //TODO Sort de liaison des cases. SI l'une tombe à 0, l'autre aussi
     //TODO Soin de groupe
@@ -162,6 +170,8 @@ std::vector<string> UsineSort::liste()
     retour.push_back("Morsure Hivernale");
     retour.push_back("Eclaire de Zeus");
     retour.push_back("Oeil Celeste");
+    retour.push_back("Dispersion Astrale");
+
 
     return retour;
 }
