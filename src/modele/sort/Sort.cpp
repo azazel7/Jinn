@@ -15,6 +15,8 @@ Sort::Sort(string nom, int coupMana, bool elite, int porteeMax, int reussite, in
     this->nombreMaxSortDissipable = nbMaxSortDissip;
     this->typeSort = type;
     this->id = nextId;
+    this->proprietaire = NULL;
+    this->origine = NULL;
     nextId +=1;
 
 }
