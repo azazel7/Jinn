@@ -32,6 +32,8 @@ public:
      * @param newEffect L'effet
      */
     void ajouterApplication(SortAppliquerSurCase* newEffect);
+    //TODO Destructeur dans manipulation
+    virtual ~ManipulationAppliquerSurCase();
 };
 
 #endif

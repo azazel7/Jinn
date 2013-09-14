@@ -25,3 +25,11 @@ void ManipulationAppliquerSurCase::ajouterApplication(SortAppliquerSurCase* newE
 {
     this->listeApplicationSurCase.push_back(newEffect);
 }
+
+ManipulationAppliquerSurCase::~ManipulationAppliquerSurCase()
+{
+    for(auto it = this->listeApplicationSurCase.begin(); it != this->listeApplicationSurCase.end(); it++)
+    {
+        delete (*it);
+    }
+}

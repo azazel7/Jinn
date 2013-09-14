@@ -26,6 +26,9 @@ public:
      * @param newEffect Le nouvel effet
      */
     void ajouterActionChronique(SortActionChronique* newEffect);
+
+    virtual ~ManipulationActionChronique();
+    //TODO Destructeur dans manipulation
 };
 
 #endif

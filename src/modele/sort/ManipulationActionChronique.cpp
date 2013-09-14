@@ -13,3 +13,11 @@ void ManipulationActionChronique::ajouterActionChronique(SortActionChronique* ne
 {
     this->listeEffetChronique.push_back(newEffect);
 }
+
+ManipulationActionChronique::~ManipulationActionChronique()
+{
+    for(auto it = this->listeEffetChronique.begin(); it != this->listeEffetChronique.end(); it++)
+    {
+        delete (*it);
+    }
+}
