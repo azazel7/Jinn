@@ -13,6 +13,8 @@ class SortActionChronique
      * @param sortExecutant Le sort produisant cet effet
      */
     virtual void effectuerActionChronique(Case &cible, Sort *sortExecutant) = 0;
+
+    virtual ~SortActionChronique();
 };
 
 #endif

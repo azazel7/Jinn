@@ -1,7 +1,6 @@
 #ifndef SortAppliquerSurCase_h
 #define SortAppliquerSurCase_h
 
-
 class Case;
 class Sort;
 
@@ -21,6 +20,8 @@ class SortAppliquerSurCase
      * @param sortExecutant Le sort effectuant l'effet
      */
     virtual void retirerSortDeCase(Case &cible, Sort* sortExecutant) = 0;
+
+    virtual ~SortAppliquerSurCase();
 };
 
 #endif
