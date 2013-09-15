@@ -387,9 +387,9 @@ Equipe* Joueur::getEquipe()
 
 string Joueur::getNomEquipe() const
 {
-    if(equipe != NULL)
+    if(this->equipe != NULL)
     {
-        return equipe->getNom();
+        return this->equipe->getNom();
     }
     return "";
 }

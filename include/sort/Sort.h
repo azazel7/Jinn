@@ -12,6 +12,7 @@ enum TypeSort { FEU = 1, EAU = 2, TERRE = 3, AIR = 4, TENEBRE = 5, LUMIERE = 6, 
 
 using namespace std;
 class Joueur;
+class SortActionChronique;
 class Case;
 
 
