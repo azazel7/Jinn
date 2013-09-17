@@ -489,6 +489,7 @@ void ReceptionServeur::traitementAction(char *commande, int socketClient)
     action = new Action();
     nombreCible = nombreCible/2;
     sortAction->setProprietaire(listeClient[socketClient]->getJoueur());
+    sortAction->setOrigine(origine);
     action->setSort(sortAction);
     action->setOrigine(origine);
     for(int i = 0; i < nombreCible; i++)
