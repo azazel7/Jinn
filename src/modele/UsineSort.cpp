@@ -110,13 +110,13 @@ Sort* UsineSort::fabriqueSort(string const& nom)
         retour->setDescription("Vous infligez 40 point de degat a la cible et son proprietaire perd 5 point de mana");
     }
     else if(nom == "Festin")
-     {
+    {
         retour = new Sort("Festin", 6, false, 5, 90, 1, 0, 0, 0, 0, 0, TENEBRE);
         retour->ajouterApplication(new AppliqueVolDefense(40, false, true, false, false));
         retour->setDescription("Transfert 40 point de defense de la cible vers la case d'origine");
     }
     else if(nom == "Morsure Hivernale")
-     {
+    {
         retour = new Sort("Morsure Hivernale", 17, false, 5, 90, 1, 0, 7, 0, 0, 0, EAU);
         retour->ajouterApplication(new AppliquerSortDuree());
         retour->ajouterApplication(new AppliqueBaseProtection(-50));
@@ -137,6 +137,7 @@ Sort* UsineSort::fabriqueSort(string const& nom)
         retour = new Sort("Oeil Celeste", 9, false, 5, 90, 1, 0, 5, 0, 0, 0, AIR);
         retour->ajouterApplication(new AppliquerSortDuree());
         retour->ajouterActionChronique(new ChroniqueVisionJoueur());
+        retour->setDescription("Sort permettant d'espionner le proprietaire de la case pendant 5 tours");
     }
     else if(nom == "Dispersion Astrale")
     {
