@@ -39,7 +39,6 @@ bool AppliqueConditionPresenceSort::verifierCondition(Case &cible, Sort* sortExe
     {
         return false;
     }
-    //FIXME boucle infini dans le find_if
     auto trouve = find_if(cible.getListSort().begin(), cible.getListSort().end(), PredicatChercherSort(this->nom));
     if( trouve != cible.getListSort().end())
     {

@@ -20,9 +20,10 @@ namespace
     {
         bool sortEnnemi;
         Sort* sortExecutant;
+        int counter;
     public:
         PredicatCompterSort(bool sortEnnemi, Sort* sortExecutant);
-        bool operator()(pair<int, Sort*> const& paire) const;
+        bool operator()(pair<int, Sort*> const& paire);
         static bool estEligible(bool sortEnnemi, Sort* sortSurCase, Sort* sortExecutant);
     };
 }
