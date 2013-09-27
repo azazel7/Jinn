@@ -13,6 +13,8 @@ public:
     virtual void appliquerSortSurCase(Case &cible, Sort* sortExecutant);
     virtual void retirerSortDeCase(Case &cible, Sort* sortExecutant);
     void infliger(Case &cible, Sort* sortExecutant);
+    static int indiceConteneur(list<int> liste, int indice);
+    static void deleteIndice(list<int> &liste, int indice);
 };
 namespace
 {
@@ -20,9 +22,9 @@ namespace
     {
         bool sortEnnemi;
         Sort* sortExecutant;
-        int counter;
+        int taille, counter;
     public:
-        PredicatCompterSort(bool sortEnnemi, Sort* sortExecutant);
+        PredicatCompterSort(bool sortEnnemi, Sort* sortExecutant, int taille);
         bool operator()(pair<int, Sort*> const& paire);
         static bool estEligible(bool sortEnnemi, Sort* sortSurCase, Sort* sortExecutant);
     };

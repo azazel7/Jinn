@@ -28,59 +28,76 @@ void AppliqueSuppressionSort::retirerSortDeCase(Case &cible, Sort* sortExecutant
 
 void AppliqueSuppressionSort::infliger(Case &cible, Sort* sortExecutant)
 {
-    //compter le nombre de sort eligible
-    cout << "Compte : " << cible.getListSort().size() << endl;
-    int compteurSortEligible = count_if(cible.getListSort().begin(), cible.getListSort().end(), PredicatCompterSort(this->sortEnnemi, sortExecutant));
-    int nombreASortSuppr = this->nombreSort;
-    list<int> listId;
-    //Pour tous les sorts
+    list<int> listId, listEligible;
+    int i = 0, indiceAlea, j = 0;
     auto listeSort = cible.getListSort();
-    for(auto it = listeSort.begin(); it != listeSort.end(); it++)
+    for(auto it = listeSort.begin(); i < listeSort.size(); i++, it++)
     {
-        if(compteurSortEligible == 0 || nombreASortSuppr == 0)
-        {
-            break;
-        }
-        //Si un sort peut être supprimmé, on compare le nombre de sort restant à supprier et le nombre de sort encore supprimable
         if(PredicatCompterSort::estEligible(this->sortEnnemi, it->second, sortExecutant) == true)
         {
-            //Si il reste plus de sort supprimable, on fait un test sinon, on les supprime d'office
-            if(nombreASortSuppr < compteurSortEligible)
-            {
-                if(Sort::testerReussite(this->probabilite) == true)
-                {
-                    listId.push_front(it->second->getId());
-                    nombreASortSuppr--;
-                }
-            }
-            else
-            {
-                    listId.push_front(it->second->getId());
-                nombreASortSuppr--;
-            }
-            compteurSortEligible--;
+            listEligible.push_front(it->second->getId());
         }
+    }
+    for(i = 0; i < this->nombreSort && listEligible.size() > 0; i++)
+    {
+        cout << "taille : " << listEligible.size() << endl;
+        indiceAlea = rand()%listEligible.size();
+        listId.push_front(AppliqueSuppressionSort::indiceConteneur(listEligible, indiceAlea));
+        AppliqueSuppressionSort::deleteIndice(listEligible, indiceAlea);
+        cout << "taille1 : " << listEligible.size() << endl;
     }
     for(auto it = listId.begin(); it != listId.end(); it++)
     {
+        cout << "Supression : " << *it << endl;
         cible.retirerSortId(*it, true);
     }
-    //Si eligible et (nombre sort restant à supprimer < nombre de sort eligible restant), tester suppression
-    //Si eligible et (nombre sort restant à supprimer >= nombre de sort eligible restant), supprime
 }
 
-PredicatCompterSort::PredicatCompterSort(bool sortEnnemi, Sort* sortExecutant)
+void AppliqueSuppressionSort::deleteIndice(list<int> & liste, int indice)
+{
+    auto it = liste.begin();
+    int i = 0;
+    while(i != indice && it != liste.end())
+    {
+        it++;
+    }
+    if(it != liste.end())
+    {
+        liste.erase(it);
+    }
+}
+
+int AppliqueSuppressionSort::indiceConteneur(list<int> liste, int indice)
+{
+    int i = 0;
+    auto it = liste.begin();
+    for(; i != indice; i++, it++)
+    {
+        if(it == liste.end())
+        {
+            throw exception();
+        }
+    }
+    return *it;
+}
+
+PredicatCompterSort::PredicatCompterSort(bool sortEnnemi, Sort* sortExecutant, int taille)
 {
     this->sortEnnemi = sortEnnemi;
     this->sortExecutant = sortExecutant;
     this->counter = 0;
+    this->taille = taille;
 }
 
 bool PredicatCompterSort::operator()(pair<int, Sort*> const& paire)
 {
     //FIXME le count_if renvoi au moins un élément en plus qui n'est pas set -> valeur incohérente
-    cout << paire.first << endl;
-    return PredicatCompterSort::estEligible(this->sortEnnemi, paire.second, sortExecutant);
+    if(this->counter < this->taille)
+    {
+        this->counter++;
+        return PredicatCompterSort::estEligible(this->sortEnnemi, paire.second, sortExecutant);
+    }
+    return false;
 }
 
 bool PredicatCompterSort::estEligible(bool sortEnnemi, Sort* sortSurCase, Sort* sortExecutant)
@@ -89,7 +106,6 @@ bool PredicatCompterSort::estEligible(bool sortEnnemi, Sort* sortSurCase, Sort* 
     {
         return true;
     }
-    cout << sortSurCase->getNom() << endl;
     //FIXME bug sur le getNomEquipe
     if(sortSurCase->getProprietaire()->getNomEquipe() == sortExecutant->getProprietaire()->getNomEquipe())
     {
