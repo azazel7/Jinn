@@ -1,5 +1,91 @@
-Jinn
-====
+Jinn (English)
+=============
+The french version is behind.
+
+Description
+-----------
+Jinn is a turned-base wizard game. It is inspired from the bourbasse which is a game you could see in « The Magicians » by Lev Grossman.
+The init game put two wiard's teams against themselve which try to take over the squares on the ground in front of them.
+
+Game and rules
+--------------
+In Jinn it's nearly the same thing. There is two or more team and each player have to choose some spell in a list with what they could take over all the ground.
+Lev Grossman didn't really explain the rules so I had to create some.
+
+At the beginning, all the square are free and to win each team have to take over all square.
+If it left one team, this team win.
+A spell have to got target square.
+A spell without source square could only target an edge square on the ground.
+If a mana's player reach 0, he die. All his active spells are remove and all his square are free.
+Some spell was elite spell because they are very powerfull. A player can't have more than one elite spell. (This idea come from Guild Wars.)
+The cost of mana is in mana per square. That mean if you want to target a far square, the spell will cost more mana.
+
+Currently, there is few spell in the game but some future spell will be able to break those rules.
+
+Set up
+======
+
+Required
+--------
+Jinn require boost and ncurse on your computer.
+There is possible that the library of boost regex will not be found.
+Check if the path of it is « /usr/lib/libboost_regex.so » else change the Makefile
+
+Compilation
+-----------
+$ make Jinn
+$ make ClientJinn
+
+The first is the server and the second the client.
+
+Start
+=====
+$ ./Jinn
+or 
+$ ./ClientJinn
+
+If you want some help about option, try « -h » option.
+
+Use of the client
+=================
+
+Create a wizard
+---------------
+Use arrow keys to switch between each panel.
+On the spell panel, « + » key allow you to choose a spell.
+The same key allow you to choose an existing team in the first panel.
+
+If you want to cancel, use « F2 » key and if you want to validate, use « F3 » key.
+
+Play
+----
+Once there is enough player, the game begin.
+The escape key allow you to quit the game.
+
+The center panel is the map.
+You could use the arrow key to move the cursor.
+The space key allow you to add or remove a target.
+The « + » key allow you to choose a source square for your spell.
+Use the function key to perform a spell and « t » to declare your end's turn.
+
+Use the tab key to switch between the panels.
+
+Think to press a key to refresh the screen.
+
+Network protocol
+================
+
+Server
+------
+To fill
+
+Client
+------
+To fill
+
+
+Jinn (Français)
+===============
 
 Description
 -----------
@@ -13,7 +99,7 @@ Les régles fournis par Lev Grossman restant un peu obscures j'y ai inséré un 
 
 La partie débute avec toutes les cases libres et l'objéctif et de toutes les contrôler pour gagner.
 S'il ne reste qu'une équipe, elle gagne automatiquement la partie.
-Un sort doit avoir une case d'origine et une case cible. (Même si ce ne sera pas une régle absolue.)
+Un sort doit avoir une case cible. (Même si ce ne sera pas une régle absolue.)
 Un sort sans case d'origine ne peut viser que des cases en bordure du plateau.
 Si le mana d'un joueur atteint 0, il meurt. Ses sorts encore actifs sont retirés de la partie et les cases qu'il possédait deviennent sans propriétaire.
 Certains sorts sont appelé des sort élite, car trop puissant. Il n'est possible d'avoir qu'un seul sort élite par joueur. (Ce principe est issue de Guild Wars.)
