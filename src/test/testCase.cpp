@@ -17,6 +17,7 @@ bool testAjoutSort()
         assert(square.nombreDeSortEnCour() == 0);
         return true;
         */
+        return false;
 }
 
 void testRetirerJoueur()

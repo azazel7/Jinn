@@ -132,6 +132,7 @@ bool Partie::joueurExiste(string nom)
             return true;
         }
     }
+    return false;
 }
 
 bool Partie::prete()

@@ -40,15 +40,12 @@ void AppliqueSuppressionSort::infliger(Case &cible, Sort* sortExecutant)
     }
     for(i = 0; i < this->nombreSort && listEligible.size() > 0; i++)
     {
-        cout << "taille : " << listEligible.size() << endl;
         indiceAlea = rand()%listEligible.size();
         listId.push_front(AppliqueSuppressionSort::indiceConteneur(listEligible, indiceAlea));
         AppliqueSuppressionSort::deleteIndice(listEligible, indiceAlea);
-        cout << "taille1 : " << listEligible.size() << endl;
     }
     for(auto it = listId.begin(); it != listId.end(); it++)
     {
-        cout << "Supression : " << *it << endl;
         cible.retirerSortId(*it, true);
     }
 }

@@ -111,7 +111,7 @@ void Plateau::initialiserPlateau()
     {
         for(int y = 0; y < hauteur; y++)
         {
-            courante = new Case(500, 1, 0, 0, 1, 100, 0, Position::fabriquePosition(x, y));
+            courante = new Case(500, 1, 0, 0, 1, 0, 0, Position::fabriquePosition(x, y));
             listeCase.push_back(courante);
         }
     }

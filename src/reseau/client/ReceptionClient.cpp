@@ -76,6 +76,7 @@ bool ReceptionClient::miseEnEcoute()
             return false;
         }
     }
+    return true;
 }
 
 bool ReceptionClient::testerSelection(fd_set readfd)
@@ -282,7 +283,7 @@ void ReceptionClient::traitementInfoCase()
 
 string ReceptionClient::traitementInfoJoueur()
 {
-    char* argument[6] = {NULL};
+    char* argument[7] = {NULL};
     int manaActuel = -1, manaMax = -1, gainMana = -1, abilite = -1, niveauAbilite = -1;
     Joueur* joueur;
     for(int i = 0; i < 7; i++)

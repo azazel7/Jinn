@@ -82,6 +82,8 @@ int Case::dureeRestanteSort(Sort* sortCherche)
             return iterator->first;
         }
     }
+    //Songer pour une exception
+    return -1;
 }
 
 void Case::modifierDefense(int nombre)

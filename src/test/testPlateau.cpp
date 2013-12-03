@@ -2,5 +2,5 @@
 
 bool testActionSceauControle()
 {
-
+    return false;
 }
