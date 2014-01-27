@@ -1,8 +1,13 @@
 #ifndef SortActionChronique_h
 #define SortActionChronique_h
 
+#include <iostream>
+#include <map>
 #include "sort/Sort.h"
 #include "Case.h"
+#include "ManipulationActionChronique.h"
+#include "RecetteSort.h"
+
 
 class SortActionChronique
 {
@@ -17,4 +22,42 @@ class SortActionChronique
     virtual ~SortActionChronique();
 };
 
+class SortActionChroniqueFactory
+{
+public:
+    SortActionChroniqueFactory(string name);
+
+    virtual SortActionChronique* getNewInstance(NoeudRecetteSort* n) = 0;
+    static std::map<string, SortActionChroniqueFactory*>  liste;
+    static std::map<string, SortActionChroniqueFactory*> getListe();
+};
+
+template<class T>
+class SortActionChroniqueRegister : public SortActionChroniqueFactory
+{
+public:
+    SortActionChroniqueRegister(string name) : SortActionChroniqueFactory(name)
+    {}
+    virtual SortActionChronique* getNewInstance(NoeudRecetteSort* n)
+    {
+        SortActionChronique* tmp = new T(n);
+        ManipulationActionChronique* manip = NULL;
+        if((manip = dynamic_cast<ManipulationActionChronique*>(tmp)) != 0)
+        {
+            vector<NoeudRecetteSort*> const& fils = n->getListFils();
+            for(NoeudRecetteSort* enfant : fils)
+            {
+                if(enfant->getAttribut() == CHRONIQUE_CHAINE)
+                {
+                    if(SortActionChroniqueFactory::getListe().count(enfant->getValeur()) == 1)
+                    {
+                        SortActionChronique* s = SortActionChroniqueFactory::getListe()[enfant->getValeur()]->getNewInstance(enfant);
+                        manip->ajouterActionChronique(s);
+                    }
+                }
+            }
+        }
+        return tmp;
+    }
+};
 #endif

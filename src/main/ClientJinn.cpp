@@ -76,6 +76,8 @@ int main(int argc, char** argv)
         cout << "Erreur de connexion" << endl;
         return -1;
     }
+    //TODO trouver un moyen pour que le client n'ai pas a avoir les sorts
+    UsineSort::chargerConfiguration("tot");
     std::thread threadEcoute(ClientJinn::miseEnEcoute);
     threadEcoute.detach();
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));

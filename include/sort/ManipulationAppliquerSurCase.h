@@ -1,12 +1,12 @@
 #ifndef ManipulationAppliquerSurCase_h
 #define ManipulationAppliquerSurCase_h
 
-#include "sort/Sort.h"
-#include "sort/SortAppliquerSurCase.h"
-#include "Case.h"
 #include <vector>
 
 using namespace std;
+class SortAppliquerSurCase;
+class Case;
+class Sort;
 
 class ManipulationAppliquerSurCase
 {

@@ -1,6 +1,13 @@
 #ifndef SortAppliquerSurCase_h
 #define SortAppliquerSurCase_h
 
+#include <iostream>
+#include <map>
+#include "NoeudRecetteSort.h"
+#include "RecetteSort.h"
+#include "sort/ManipulationAppliquerSurCase.h"
+
+using namespace std;
 class Case;
 class Sort;
 
@@ -22,6 +29,45 @@ class SortAppliquerSurCase
     virtual void retirerSortDeCase(Case &cible, Sort* sortExecutant) = 0;
 
     virtual ~SortAppliquerSurCase();
+};
+
+class SortAppliquerSurCaseFactory
+{
+public:
+    SortAppliquerSurCaseFactory(string name);
+
+    virtual SortAppliquerSurCase* getNewInstance(NoeudRecetteSort* n) = 0;
+    static std::map<string, SortAppliquerSurCaseFactory*>  liste;
+    static std::map<string, SortAppliquerSurCaseFactory*> getListe();
+};
+
+template<class T>
+class SortAppliquerSurCaseRegister : public SortAppliquerSurCaseFactory
+{
+public:
+    SortAppliquerSurCaseRegister(string name) : SortAppliquerSurCaseFactory(name)
+    {}
+    virtual SortAppliquerSurCase* getNewInstance(NoeudRecetteSort* n)
+    {
+        SortAppliquerSurCase* tmp = new T(n);
+        ManipulationAppliquerSurCase* manip = NULL;
+        if((manip = dynamic_cast<ManipulationAppliquerSurCase*>(tmp)) != 0)
+        {
+            vector<NoeudRecetteSort*> const& fils = n->getListFils();
+            for(NoeudRecetteSort* enfant : fils)
+            {
+                if(enfant->getAttribut() == APPLICATION_CHAINE)
+                {
+                    if(SortAppliquerSurCaseFactory::getListe().count(enfant->getValeur()) == 1)
+                    {
+                        SortAppliquerSurCase* s = SortAppliquerSurCaseFactory::getListe()[enfant->getValeur()]->getNewInstance(enfant);
+                        manip->ajouterApplication(s);
+                    }
+                }
+            }
+        }
+        return tmp;
+    }
 };
 
 #endif

@@ -21,7 +21,11 @@
 #include "sort/actionChronique/chroniqueSoinCondVie.h"
 #include "sort/actionChronique/chroniqueVisionJoueur.h"
 
-Sort* UsineSort::fabriqueSort(string const& nom)
+#include "RecetteSort.h"
+
+map<string, RecetteSort> UsineSort::listeSort;
+
+Sort* UsineSort::fabriqueSort(string nom)
 {
     Sort* retour = NULL;
     if(nom == "Sceau de Controle")
@@ -145,7 +149,13 @@ Sort* UsineSort::fabriqueSort(string const& nom)
         retour->ajouterApplication(new AppliqueSuppressionSort(3, true, false));
         retour->setDescription("Supprimme 3 sorts ennemis de la case cible");
     }
-
+    else
+    {
+        if(UsineSort::listeSort.count(nom) == 1)
+        {
+            retour = listeSort[nom].creerSort();
+        }
+    }
     //TODO Sort qui supprime un sort sur la case d'origine et inflige des degats
     //TODO Sort de liaison des cases. SI l'une tombe à 0, l'autre aussi
     //TODO Soin de groupe
@@ -155,6 +165,11 @@ Sort* UsineSort::fabriqueSort(string const& nom)
 std::vector<string> UsineSort::liste()
 {
     vector<string> retour;
+    for(auto it = listeSort.begin(); it != listeSort.end(); it++)
+    {
+        retour.push_back(it->first);
+    }
+    return retour;
     retour.push_back("Sceau de Controle");
     retour.push_back("Boule de Feu");
     retour.push_back("Rune de Protection");
@@ -184,4 +199,66 @@ Sort* UsineSort::fabriqueSort(Sort* sortModele)
     sort->setOrigine(sortModele->getOrigine());
     sort->setId(sortModele->getId());
     return sort;
+}
+
+void UsineSort::chargerConfiguration(string nomDossier)
+{
+    DIR *rep = NULL;
+
+    rep = opendir(nomDossier.c_str());
+    if(rep != NULL)
+    {
+        struct dirent *lecture = NULL;
+
+        RecetteSort recette;
+        while ((lecture = readdir(rep)))
+        {
+            recette.setNomFichier(lecture->d_name);
+            if(recette.chargerRecette())
+            {
+                listeSort[recette.getNomSort()] = recette;
+            }
+        }
+    }
+   RecetteSort recette;
+   NoeudRecetteSort* r, *f, *a;
+   r=new NoeudRecetteSort(NULL);
+   f = new NoeudRecetteSort(r);
+   f->setAttribut("name");
+   f->setValeur("Blizzard");
+   r->addFils(f);
+   f = new NoeudRecetteSort(r);
+   f->setAttribut("mana");
+   f->setValeur("10");
+   r->addFils(f);
+   f = new NoeudRecetteSort(r);
+   f->setAttribut("reach");
+   f->setValeur("10");
+   r->addFils(f);
+   f = new NoeudRecetteSort(r);
+   f->setAttribut("counttarget");
+   f->setValeur("1");
+   r->addFils(f);
+   f = new NoeudRecetteSort(r);
+   f->setAttribut("successRate");
+   f->setValeur("100");
+   r->addFils(f);
+   f = new NoeudRecetteSort(r);
+   f->setAttribut("description");
+   f->setValeur("Otter racoon");
+   r->addFils(f);
+   f = new NoeudRecetteSort(r);
+   f->setAttribut("elite");
+   f->setValeur("0");
+   r->addFils(f);
+   a = new NoeudRecetteSort(r);
+   a->setAttribut(CHRONIQUE_CHAINE);
+   a->setValeur("chroniqueDegat");
+   r->addFils(a);
+   f = new NoeudRecetteSort(r);
+   f->setAttribut("degat");
+   f->setValeur("100");
+   a->addFils(f);
+   recette.setRacine(r);
+   listeSort["Blizzard"] = recette;
 }

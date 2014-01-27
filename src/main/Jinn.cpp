@@ -140,6 +140,7 @@ int main(int argc, char** argv)
     GestionnaireLogger::ecrirMessage(INFO, "Largeur : " + to_string(largeur));
     GestionnaireLogger::ecrirMessage(INFO, "Hauteur : " + to_string(hauteur));
     Partie *p = new Partie("p1", nombreJoueur, nombreSort);
+    UsineSort::chargerConfiguration("ala");
     p->initialiser(largeur, hauteur);
     serveur = new ReceptionServeur(p, ip, port);
     serveur->initialiserServeur();

@@ -1,3 +1,6 @@
+#include "sort/Sort.h"
+#include "sort/SortAppliquerSurCase.h"
+#include "Case.h"
 #include "sort/ManipulationAppliquerSurCase.h"
 
 ManipulationAppliquerSurCase::ManipulationAppliquerSurCase()
