@@ -39,7 +39,7 @@ Sort* RecetteSort::creerSort()
         }
         else if(enfant->getAttribut() == CHRONIQUE_CHAINE)
         {
-            SortActionChronique* s = NULL;
+            SortActionChronique* s = SortActionChroniqueFactory::getListe()[enfant->getValeur()]->getNewInstance(enfant);
             retour->ajouterActionChronique(s);
         }
     }
@@ -59,7 +59,7 @@ bool RecetteSort::chargerRecette()
             //Si rien, on empile sur le nom de l'attribu
             //Dès que l'on a un '=' on empile sur la valeur
             //TODO accolade
-            //
+            //dès que l'on a une virgule on ajoute le nouveau noeud
         }
     }
     fichier.close();
