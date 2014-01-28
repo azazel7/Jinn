@@ -1,4 +1,7 @@
 #include "sort/ManipulationActionChronique.h"
+#include "Case.h"
+#include "sort/Sort.h"
+#include "sort/SortActionChronique.h"
 
 
 void ManipulationActionChronique::effectuerActionChronique(Case &cible, Sort* sort)

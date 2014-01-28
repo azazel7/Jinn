@@ -30,8 +30,18 @@ void traitement_sigint(int sig)
         }
     }
 }
+
+void loutre(void)
+{
+    RecetteSort r("sort1.s");
+    r.chargerRecette();
+    r.print();
+}
+
 int main(int argc, char** argv)
 {
+//    loutre();
+//    return 0;
     int opth = 1;
     int port = -1;
     int nombreSort = -1;

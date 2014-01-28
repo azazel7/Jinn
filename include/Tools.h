@@ -13,6 +13,9 @@ class Tools
 {
     public:
     static vector<string> splitByNSize(const string &chaine, int tailleBloc);
+    static std::string& trim(std::string &s);
+    static std::string& rtrim(std::string &s);
+    static std::string& ltrim(std::string &s);
 };
 
 template<typename T>

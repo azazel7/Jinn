@@ -1,4 +1,7 @@
 #include "sort/actionApplique/AppliqueConditionMana.h"
+#include "Case.h"
+#include "Joueur.h"
+#include <math.h>
 
 AppliqueConditionMana::AppliqueConditionMana(int palier, bool type, bool ajout, bool retrait) //type = true = pourcentage
 {

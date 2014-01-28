@@ -22,6 +22,7 @@
 #include "sort/actionChronique/chroniqueVisionJoueur.h"
 
 #include "RecetteSort.h"
+#include "Tools.h"
 
 map<string, RecetteSort> UsineSort::listeSort;
 

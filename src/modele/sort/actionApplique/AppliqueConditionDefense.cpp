@@ -1,4 +1,5 @@
 #include "sort/actionApplique/AppliqueConditionDefense.h"
+#include "Case.h"
 
 AppliqueConditionDefense::AppliqueConditionDefense(int palier, bool type, bool ajout, bool retrait) //type = true = pourcentage
 {

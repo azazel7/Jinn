@@ -1,12 +1,11 @@
 #ifndef ManipulationActionChronique_h
 #define ManipulationActionChronique_h
 
-#include "sort/Sort.h"
-#include "sort/SortActionChronique.h"
-#include "Case.h"
 #include <vector>
 
 class SortActionChronique;
+class Sort;
+class Case;
 using namespace std;
 
 class ManipulationActionChronique

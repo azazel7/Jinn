@@ -1,4 +1,5 @@
 #include "sort/actionApplique/AppliqueConditionPresenceSort.h"
+#include "Case.h"
 
 AppliqueConditionPresenceSort::AppliqueConditionPresenceSort(string nom, bool proprioEgal, bool ajout, bool retrait)
 {

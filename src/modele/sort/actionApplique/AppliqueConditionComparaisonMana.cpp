@@ -1,4 +1,6 @@
 #include "sort/actionApplique/AppliqueConditionComparaisonMana.h"
+#include "Case.h"
+#include "Joueur.h"
 
 AppliqueConditionComparaisonMana::AppliqueConditionComparaisonMana(int difference, bool superieur, bool ajout, bool retrait) //type = true = pourcentage
 {
