@@ -15,5 +15,6 @@ std::map<string, SortActionChroniqueFactory*> SortActionChroniqueFactory::getLis
 
 SortActionChroniqueFactory::SortActionChroniqueFactory(string name)
 {
-    getListe().insert(make_pair(name, this));
+    SortActionChroniqueFactory::liste.insert(make_pair(name, this));
+    cerr << "Register chronique (" << getListe().size() << "): " << name << endl;
 }

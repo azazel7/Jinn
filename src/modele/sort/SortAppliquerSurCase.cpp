@@ -16,5 +16,6 @@ std::map<string, SortAppliquerSurCaseFactory*> SortAppliquerSurCaseFactory::getL
 
 SortAppliquerSurCaseFactory::SortAppliquerSurCaseFactory(string name)
 {
-    getListe().insert(make_pair(name, this));
+    SortAppliquerSurCaseFactory::liste.insert(make_pair(name, this));
+    cerr << "Register application(" << getListe().size() << "): " << name << endl;
 }

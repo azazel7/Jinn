@@ -34,16 +34,22 @@ Sort* RecetteSort::creerSort()
     {
         if(enfant->getAttribut() == APPLICATION_CHAINE)
         {
+            cout << "Attribut appli : " << enfant->getValeur() << endl;
+            cout << "Taille :" << SortAppliquerSurCaseFactory::getListe().size() << endl;
             if(SortAppliquerSurCaseFactory::getListe().count(enfant->getValeur()) == 1)
             {
+                cout << "Valide Attribut appli : " << enfant->getValeur() << endl;
                 SortAppliquerSurCase* s = SortAppliquerSurCaseFactory::getListe()[enfant->getValeur()]->getNewInstance(enfant);
                 retour->ajouterApplication(s);
             }
         }
         else if(enfant->getAttribut() == CHRONIQUE_CHAINE)
         {
+            cout << "Attribut : " << enfant->getValeur() << endl;
+            cout << "Taille :" << SortActionChroniqueFactory::getListe().size() << endl;
             if(SortActionChroniqueFactory::getListe().count(enfant->getValeur()) == 1)
             {
+                cout << "Validé Attribut : " << enfant->getValeur() << endl;
                 SortActionChronique* s = SortActionChroniqueFactory::getListe()[enfant->getValeur()]->getNewInstance(enfant);
                 retour->ajouterActionChronique(s);
             }
