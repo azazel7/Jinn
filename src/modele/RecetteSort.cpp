@@ -5,21 +5,6 @@
 #include <stack>
 #include "Tools.h"
 
-void racoon(NoeudRecetteSort* n, string s)
-{
-    cout << s << n->getAttribut() << " = " << n->getValeur() << endl;
-    for(NoeudRecetteSort* enfant : n->getListFils())
-    {
-        if(enfant->getListFils().size() == 0)
-        {
-            cout << s << "\t" << enfant->getAttribut() << " = " << enfant->getValeur() << endl;
-        }
-        else
-        {
-            racoon(enfant, s + "\t");
-        }
-    }
-}
 RecetteSort::RecetteSort()
 {
     this->racine = NULL;
@@ -34,6 +19,7 @@ RecetteSort::RecetteSort(const string &nomFichier)
 Sort* RecetteSort::creerSort()
 {
     //name, mana, type, elite, reach, counttarget
+    cerr << nomFichier << endl;
     string name = racine->getValeurFils("name");
     string description = racine->getValeurFils("description");
     int mana = racine->getValeurFilsInt("mana");
@@ -56,8 +42,11 @@ Sort* RecetteSort::creerSort()
         }
         else if(enfant->getAttribut() == CHRONIQUE_CHAINE)
         {
-            SortActionChronique* s = SortActionChroniqueFactory::getListe()[enfant->getValeur()]->getNewInstance(enfant);
-            retour->ajouterActionChronique(s);
+            if(SortActionChroniqueFactory::getListe().count(enfant->getValeur()) == 1)
+            {
+                SortActionChronique* s = SortActionChroniqueFactory::getListe()[enfant->getValeur()]->getNewInstance(enfant);
+                retour->ajouterActionChronique(s);
+            }
         }
     }
     return retour;
@@ -66,7 +55,10 @@ Sort* RecetteSort::creerSort()
 bool RecetteSort::chargerRecette()
 {
     ifstream fichier(nomFichier, ios::in);
-
+    if( ! fichier.is_open())
+    {
+        return false;
+    }
     string line;
     string attribut, valeur;
     string* currentBuffer = &attribut;
@@ -112,16 +104,15 @@ bool RecetteSort::chargerRecette()
                 racine = pile.top();
                 pile.pop();
             }
-            //Si rien, on empile sur le nom de l'attribu
-            //Dès que l'on a un '=' on empile sur la valeur
-            //TODO accolade
-            //dès que l'on a une virgule on ajoute le nouveau noeud au précédant dans la pile
-            //Retire les espaces en bordure des deux mots
-            //Si la pile est vide alors on a finis
         }
     }
     this->racine = racine;
     fichier.close();
+    if(racine->getListFils().size() == 0)
+    {
+        delete racine;
+        return false;
+    }
     return true;
 }
 
@@ -146,7 +137,23 @@ void RecetteSort::setRacine(NoeudRecetteSort* n)
 }
 
 
-void RecetteSort::print()
+void RecetteSort::printArbreRecette()
 {
-    racoon(racine, "");
+    printArbreRecetteRecursive(racine, "");
+}
+
+void RecetteSort::printArbreRecetteRecursive(NoeudRecetteSort* n, string s)
+{
+    cout << s << n->getAttribut() << " = " << n->getValeur() << endl;
+    for(NoeudRecetteSort* enfant : n->getListFils())
+    {
+        if(enfant->getListFils().size() == 0)
+        {
+            cout << s << "\t" << enfant->getAttribut() << " = " << enfant->getValeur() << endl;
+        }
+        else
+        {
+            printArbreRecetteRecursive(enfant, s + "\t");
+        }
+    }
 }

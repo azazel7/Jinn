@@ -17,7 +17,9 @@ public:
     void setNomFichier(const string n);
     string getNomSort();
     void setRacine(NoeudRecetteSort* n);
-    void print();
+    void printArbreRecette();
+    void printArbreRecetteRecursive(NoeudRecetteSort* n, string s);
+
 private:
     string nomFichier;
     NoeudRecetteSort* racine;

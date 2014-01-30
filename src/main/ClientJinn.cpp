@@ -77,7 +77,7 @@ int main(int argc, char** argv)
         return -1;
     }
     //TODO trouver un moyen pour que le client n'ai pas a avoir les sorts
-    UsineSort::chargerConfiguration("tot");
+    UsineSort::chargerConfiguration("data/sort");
     std::thread threadEcoute(ClientJinn::miseEnEcoute);
     threadEcoute.detach();
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));

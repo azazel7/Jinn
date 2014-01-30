@@ -1,8 +1,13 @@
 #include "sort/SortAppliquerSurCase.h"
+#include "sort/actionApplique/AppliqueDegat.h"
+#include "sort/actionApplique/AppliqueSortDuree.h"
+
+std::map<string, SortAppliquerSurCaseFactory*>  SortAppliquerSurCaseFactory::liste;
+SortAppliquerSurCaseRegister<AppliqueDegat> appliquerDegat("appliquerDegat");
+SortAppliquerSurCaseRegister<AppliquerSortDuree> appliquerDuree("appliquerDuree");
 
 SortAppliquerSurCase::~SortAppliquerSurCase(){}
 
-std::map<string, SortAppliquerSurCaseFactory*>  SortAppliquerSurCaseFactory::liste;
 
 std::map<string, SortAppliquerSurCaseFactory*> SortAppliquerSurCaseFactory::getListe()
 {

@@ -31,17 +31,8 @@ void traitement_sigint(int sig)
     }
 }
 
-void loutre(void)
-{
-    RecetteSort r("sort1.s");
-    r.chargerRecette();
-    r.print();
-}
-
 int main(int argc, char** argv)
 {
-//    loutre();
-//    return 0;
     int opth = 1;
     int port = -1;
     int nombreSort = -1;
@@ -50,6 +41,8 @@ int main(int argc, char** argv)
     string ip = "0.0.0.0";
     bool argumentBon = true;
     signal(SIGINT, &traitement_sigint);
+    UsineSort::chargerConfiguration("data/sort");
+
     while( (opth = getopt(argc, argv, "hp:a:j:s:L:H:")) != -1)
     {
         switch(opth)
@@ -150,7 +143,6 @@ int main(int argc, char** argv)
     GestionnaireLogger::ecrirMessage(INFO, "Largeur : " + to_string(largeur));
     GestionnaireLogger::ecrirMessage(INFO, "Hauteur : " + to_string(hauteur));
     Partie *p = new Partie("p1", nombreJoueur, nombreSort);
-    UsineSort::chargerConfiguration("ala");
     p->initialiser(largeur, hauteur);
     serveur = new ReceptionServeur(p, ip, port);
     serveur->initialiserServeur();

@@ -46,7 +46,8 @@ class SortAppliquerSurCaseRegister : public SortAppliquerSurCaseFactory
 {
 public:
     SortAppliquerSurCaseRegister(string name) : SortAppliquerSurCaseFactory(name)
-    {}
+    {
+    }
     virtual SortAppliquerSurCase* getNewInstance(NoeudRecetteSort* n)
     {
         SortAppliquerSurCase* tmp = new T(n);

@@ -7,8 +7,11 @@
 class AppliquerSortDuree: public SortAppliquerSurCase
 {
 public:
+    AppliquerSortDuree(NoeudRecetteSort* n);
     virtual void appliquerSortSurCase(Case &cible, Sort* sortExecutant);
     virtual void retirerSortDeCase(Case &cible, Sort* sortExecutant);
+private:
+    unsigned int duree;
 };
 
 #endif

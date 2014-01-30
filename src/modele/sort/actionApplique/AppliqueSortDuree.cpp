@@ -1,5 +1,10 @@
 #include "sort/actionApplique/AppliqueSortDuree.h"
 
+AppliquerSortDuree::AppliquerSortDuree(NoeudRecetteSort* n)
+{
+   duree = n->getValeurFilsInt("duree");
+}
+
 void AppliquerSortDuree::appliquerSortSurCase(Case &cible, Sort* sortExecutant)
 {
     Sort* sort = NULL;

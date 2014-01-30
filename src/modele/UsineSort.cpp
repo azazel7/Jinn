@@ -29,134 +29,134 @@ map<string, RecetteSort> UsineSort::listeSort;
 Sort* UsineSort::fabriqueSort(string nom)
 {
     Sort* retour = NULL;
-    if(nom == "Sceau de Controle")
+    //    if(nom == "Sceau de Controle")
+    //    {
+    //        retour = new Sort("Sceau de Controle", 1, false, 5, 100, 1, 0, 0, 0, 0, 0, NEUTRE);
+    //        retour->ajouterApplication(new AppliqueControle());
+    //        retour->setDescription("Sort permettant de prendre le controle d'une case");
+    //    }
+    //    else if(nom == "Boule de Feu")
+    //    {
+    //        retour = new Sort("Boule de Feu", 5, false, 5, 100, 1, 0, 0, 0, 0, 0, FEU);
+    //        retour->ajouterApplication(new AppliqueDegat(50));
+    //        retour->setDescription("Lance une boule de feu infligeant 50 degats");
+    //    }
+    //    else if(nom == "Rune de Protection")
+    //    {
+    //        retour = new Sort("Rune de Protection", 5, false, 5, 100, 1, 0, 3, 0, 0, 0, NEUTRE);
+    //        retour->ajouterApplication(new AppliquerSortDuree());
+    //        retour->ajouterApplication(new AppliqueBaseProtection(40));
+    //        retour->setDescription("Augmente la defense maximal d'une case de 1 pendant 3 tours");
+    //    }
+    //    else if(nom == "Sceau de Vision")
+    //    {
+    //        retour = new Sort("Sceau de Vision", 1, false, 5, 100, 1, 0, 0, 0, 0, 0, NEUTRE);
+    //        retour->ajouterApplication(new AppliqueRevelationCase());
+    //        retour->setDescription("Sort permettant de visualiser une case");
+    //    }
+    //    else if(nom == "Spirale de Feu")
+    //    {
+    //        retour = new Sort("Spirale de Feu", 7, false, 5, 90, 1, 0, 5, 0, 0, 0, FEU);
+    //        retour->ajouterActionChronique(new ChroniqueDegat(8));
+    //        retour->ajouterApplication(new AppliquerSortDuree());
+    //        retour->setDescription("Piege la case dans une spirale de feu infligeant 8 points de degats par tour");
+    //    }
+    //    else if(nom == "Esprit Patient")
+    //    {
+    //        retour = new Sort("Esprit Patient", 10, false, 5, 90, 1, 0, 2, 0, 0, 0, LUMIERE);
+    //        retour->ajouterApplication(new AppliquerSortDuree());
+    //        retour->ajouterApplication(new AppliqueSoin(120, false, true));
+    //        retour->setDescription("A la fin de la duree du sort, Esprit Patient redonne 120 point de defense a la case");
+    //    }
+    //    else if(nom == "Chaleur de Savane")
+    //    {
+    //        retour = new Sort("Chaleur de Savane", 20, true, 5, 90, 1, 0, 5, 0, 0, 0, FEU);
+    //        retour->ajouterApplication(new AppliquerSortDuree());
+    //        retour->ajouterActionChronique(new ChroniqueDegatCumulatif(8, 8));
+    //        retour->setDescription("Sort durant 5 tours et infligeant a la case 8 point de degat par tour d'activation");
+    //    }
+    //    else if(nom == "Esprit Gardien")
+    //    {
+    //        retour = new Sort("Esprit Gardien", 7, false, 5, 90, 1, 0, 10, 0, 0, 0, TERRE);
+    //        retour->ajouterApplication(new AppliquerSortDuree());
+    //        retour->ajouterActionChronique(new ChroniqueSoinCondVie(30, 50, true));
+    //        retour->setDescription("Pendant 10 tours, si la case cible a moins de 50% de sa defense, le sort lui redonne 30 point de vie");
+    //    }
+    //    else if(nom == "Frappe Sournoise")
+    //    {
+    //        retour = new Sort("Frappe Sournoise", 6, false, 5, 90, 1, 0, 0, 0, 0, 0, TENEBRE);
+    //        AppliqueConditionDefense* cond = new AppliqueConditionDefense(90, true, true, false);
+    //        cond->ajouterApplication(new AppliqueDegat(70));
+    //        retour->ajouterApplication(new AppliqueDegat(30));
+    //        retour->ajouterApplication(cond);
+    //        retour->setDescription("Inflige 30 points de degat. Si la cible a plus de 90% de sa vie, inflige 70 points de degat supplementaire");
+    //    }
+    //    else if(nom == "Choc Spirituel")
+    //    {
+    //        retour = new Sort("Choc Spirituel", 10, true, 5, 90, 1, 0, 0, 0, 0, 0, AIR);
+    //        AppliqueConditionComparaisonMana* cond = new AppliqueConditionComparaisonMana(0, false, true, false);
+    //        cond->ajouterApplication(new AppliqueDegat(120));
+    //        retour->ajouterApplication(new AppliqueDegat(120));
+    //        retour->ajouterApplication(cond);
+    //        retour->setDescription("Inflige 120 points de degat. Si vous avez plus de mana que le proprietaire, Choc Sprirituel inflige 120 points de degat supplementaire");
+    //    }
+    //    else if(nom == "Soin Astral")
+    //    {
+    //        retour = new Sort("Soin Astral", 0, true, 5, 90, 1, 0, 0, 0, 0, 0, LUMIERE);
+    //        retour->ajouterApplication(new AppliqueConsommerMana(25, true, true, false));
+    //        retour->ajouterApplication(new AppliqueSoinAstral(7, true, false));
+    //        retour->setDescription("Vous perder 25% de votre mana et la case cible gagne en defense sept fois ce que vous avez perdu en mana");
+    //    }
+    //    else if(nom == "Regard Vampirique")
+    //    {
+    //        retour = new Sort("Regard Vampirique", 7, false, 5, 90, 1, 0, 0, 0, 0, 0, TENEBRE);
+    //        retour->ajouterApplication(new AppliqueDegat(40));
+    //        retour->ajouterApplication(new AppliqueBrulureMana(5, false, true, false, false, false));
+    //        retour->setDescription("Vous infligez 40 point de degat a la cible et son proprietaire perd 5 point de mana");
+    //    }
+    //    else if(nom == "Festin")
+    //    {
+    //        retour = new Sort("Festin", 6, false, 5, 90, 1, 0, 0, 0, 0, 0, TENEBRE);
+    //        retour->ajouterApplication(new AppliqueVolDefense(40, false, true, false, false));
+    //        retour->setDescription("Transfert 40 point de defense de la cible vers la case d'origine");
+    //    }
+    //    else if(nom == "Morsure Hivernale")
+    //    {
+    //        retour = new Sort("Morsure Hivernale", 17, false, 5, 90, 1, 0, 7, 0, 0, 0, EAU);
+    //        retour->ajouterApplication(new AppliquerSortDuree());
+    //        retour->ajouterApplication(new AppliqueBaseProtection(-50));
+    //        retour->ajouterApplication(new AppliqueDegat(40));
+    //        retour->setDescription("Sort infligeant 40 point de degat et diminuant pendant 7 tours de 50 la defense maximale de la cible");
+    //    }
+    //    else if(nom == "Eclaire de Zeus")
+    //    {
+    //        retour = new Sort("Eclaire de Zeus", 8, false, 7, 90, 1, 0, 0, 0, 0, 0, AIR);
+    //        AppliqueConditionPresenceSort* cond = new AppliqueConditionPresenceSort("Morsure Hivernale", false, true, false);
+    //        cond->ajouterApplication(new AppliqueDegat(70));
+    //        retour->ajouterApplication(cond);
+    //        retour->ajouterApplication(new AppliqueDegat(30));
+    //        retour->setDescription("Inflige 30 point de degats. Si la cible est possede le sort Morsure Hivernale, Eclaire de Zeus inflige 70 points de degat supplementaires");
+    //    }
+    //    else if(nom == "Oeil Celeste")
+    //    {
+    //        retour = new Sort("Oeil Celeste", 9, false, 5, 90, 1, 0, 5, 0, 0, 0, AIR);
+    //        retour->ajouterApplication(new AppliquerSortDuree());
+    //        retour->ajouterActionChronique(new ChroniqueVisionJoueur());
+    //        retour->setDescription("Sort permettant d'espionner le proprietaire de la case pendant 5 tours");
+    //    }
+    //    else if(nom == "Dispersion Astrale")
+    //    {
+    //        retour = new Sort("Dispersion Astrale", 15, true, 5, 90, 1, 0, 5, 0, 0, 0, AIR);
+    //        retour->ajouterApplication(new AppliqueSuppressionSort(3, true, false));
+    //        retour->setDescription("Supprimme 3 sorts ennemis de la case cible");
+    //    }
+    //    else
+    //    {
+    if(UsineSort::listeSort.count(nom) == 1)
     {
-        retour = new Sort("Sceau de Controle", 1, false, 5, 100, 1, 0, 0, 0, 0, 0, NEUTRE);
-        retour->ajouterApplication(new AppliqueControle());
-        retour->setDescription("Sort permettant de prendre le controle d'une case");
+        retour = listeSort[nom].creerSort();
     }
-    else if(nom == "Boule de Feu")
-    {
-        retour = new Sort("Boule de Feu", 5, false, 5, 100, 1, 0, 0, 0, 0, 0, FEU);
-        retour->ajouterApplication(new AppliqueDegat(50));
-        retour->setDescription("Lance une boule de feu infligeant 50 degats");
-    }
-    else if(nom == "Rune de Protection")
-    {
-        retour = new Sort("Rune de Protection", 5, false, 5, 100, 1, 0, 3, 0, 0, 0, NEUTRE);
-        retour->ajouterApplication(new AppliquerSortDuree());
-        retour->ajouterApplication(new AppliqueBaseProtection(40));
-        retour->setDescription("Augmente la defense maximal d'une case de 1 pendant 3 tours");
-    }
-    else if(nom == "Sceau de Vision")
-    {
-        retour = new Sort("Sceau de Vision", 1, false, 5, 100, 1, 0, 0, 0, 0, 0, NEUTRE);
-        retour->ajouterApplication(new AppliqueRevelationCase());
-        retour->setDescription("Sort permettant de visualiser une case");
-    }
-    else if(nom == "Spirale de Feu")
-    {
-        retour = new Sort("Spirale de Feu", 7, false, 5, 90, 1, 0, 5, 0, 0, 0, FEU);
-        retour->ajouterActionChronique(new ChroniqueDegat(8));
-        retour->ajouterApplication(new AppliquerSortDuree());
-        retour->setDescription("Piege la case dans une spirale de feu infligeant 8 points de degats par tour");
-    }
-    else if(nom == "Esprit Patient")
-    {
-        retour = new Sort("Esprit Patient", 10, false, 5, 90, 1, 0, 2, 0, 0, 0, LUMIERE);
-        retour->ajouterApplication(new AppliquerSortDuree());
-        retour->ajouterApplication(new AppliqueSoin(120, false, true));
-        retour->setDescription("A la fin de la duree du sort, Esprit Patient redonne 120 point de defense a la case");
-    }
-    else if(nom == "Chaleur de Savane")
-    {
-        retour = new Sort("Chaleur de Savane", 20, true, 5, 90, 1, 0, 5, 0, 0, 0, FEU);
-        retour->ajouterApplication(new AppliquerSortDuree());
-        retour->ajouterActionChronique(new ChroniqueDegatCumulatif(8, 8));
-        retour->setDescription("Sort durant 5 tours et infligeant a la case 8 point de degat par tour d'activation");
-    }
-    else if(nom == "Esprit Gardien")
-    {
-        retour = new Sort("Esprit Gardien", 7, false, 5, 90, 1, 0, 10, 0, 0, 0, TERRE);
-        retour->ajouterApplication(new AppliquerSortDuree());
-        retour->ajouterActionChronique(new ChroniqueSoinCondVie(30, 50, true));
-        retour->setDescription("Pendant 10 tours, si la case cible a moins de 50% de sa defense, le sort lui redonne 30 point de vie");
-    }
-    else if(nom == "Frappe Sournoise")
-    {
-        retour = new Sort("Frappe Sournoise", 6, false, 5, 90, 1, 0, 0, 0, 0, 0, TENEBRE);
-        AppliqueConditionDefense* cond = new AppliqueConditionDefense(90, true, true, false);
-        cond->ajouterApplication(new AppliqueDegat(70));
-        retour->ajouterApplication(new AppliqueDegat(30));
-        retour->ajouterApplication(cond);
-        retour->setDescription("Inflige 30 points de degat. Si la cible a plus de 90% de sa vie, inflige 70 points de degat supplementaire");
-    }
-    else if(nom == "Choc Spirituel")
-    {
-        retour = new Sort("Choc Spirituel", 10, true, 5, 90, 1, 0, 0, 0, 0, 0, AIR);
-        AppliqueConditionComparaisonMana* cond = new AppliqueConditionComparaisonMana(0, false, true, false);
-        cond->ajouterApplication(new AppliqueDegat(120));
-        retour->ajouterApplication(new AppliqueDegat(120));
-        retour->ajouterApplication(cond);
-        retour->setDescription("Inflige 120 points de degat. Si vous avez plus de mana que le proprietaire, Choc Sprirituel inflige 120 points de degat supplementaire");
-    }
-    else if(nom == "Soin Astral")
-    {
-        retour = new Sort("Soin Astral", 0, true, 5, 90, 1, 0, 0, 0, 0, 0, LUMIERE);
-        retour->ajouterApplication(new AppliqueConsommerMana(25, true, true, false));
-        retour->ajouterApplication(new AppliqueSoinAstral(7, true, false));
-        retour->setDescription("Vous perder 25% de votre mana et la case cible gagne en defense sept fois ce que vous avez perdu en mana");
-    }
-    else if(nom == "Regard Vampirique")
-    {
-        retour = new Sort("Regard Vampirique", 7, false, 5, 90, 1, 0, 0, 0, 0, 0, TENEBRE);
-        retour->ajouterApplication(new AppliqueDegat(40));
-        retour->ajouterApplication(new AppliqueBrulureMana(5, false, true, false, false, false));
-        retour->setDescription("Vous infligez 40 point de degat a la cible et son proprietaire perd 5 point de mana");
-    }
-    else if(nom == "Festin")
-    {
-        retour = new Sort("Festin", 6, false, 5, 90, 1, 0, 0, 0, 0, 0, TENEBRE);
-        retour->ajouterApplication(new AppliqueVolDefense(40, false, true, false, false));
-        retour->setDescription("Transfert 40 point de defense de la cible vers la case d'origine");
-    }
-    else if(nom == "Morsure Hivernale")
-    {
-        retour = new Sort("Morsure Hivernale", 17, false, 5, 90, 1, 0, 7, 0, 0, 0, EAU);
-        retour->ajouterApplication(new AppliquerSortDuree());
-        retour->ajouterApplication(new AppliqueBaseProtection(-50));
-        retour->ajouterApplication(new AppliqueDegat(40));
-        retour->setDescription("Sort infligeant 40 point de degat et diminuant pendant 7 tours de 50 la defense maximale de la cible");
-    }
-    else if(nom == "Eclaire de Zeus")
-    {
-        retour = new Sort("Eclaire de Zeus", 8, false, 7, 90, 1, 0, 0, 0, 0, 0, AIR);
-        AppliqueConditionPresenceSort* cond = new AppliqueConditionPresenceSort("Morsure Hivernale", false, true, false);
-        cond->ajouterApplication(new AppliqueDegat(70));
-        retour->ajouterApplication(cond);
-        retour->ajouterApplication(new AppliqueDegat(30));
-        retour->setDescription("Inflige 30 point de degats. Si la cible est possede le sort Morsure Hivernale, Eclaire de Zeus inflige 70 points de degat supplementaires");
-    }
-    else if(nom == "Oeil Celeste")
-    {
-        retour = new Sort("Oeil Celeste", 9, false, 5, 90, 1, 0, 5, 0, 0, 0, AIR);
-        retour->ajouterApplication(new AppliquerSortDuree());
-        retour->ajouterActionChronique(new ChroniqueVisionJoueur());
-        retour->setDescription("Sort permettant d'espionner le proprietaire de la case pendant 5 tours");
-    }
-    else if(nom == "Dispersion Astrale")
-    {
-        retour = new Sort("Dispersion Astrale", 15, true, 5, 90, 1, 0, 5, 0, 0, 0, AIR);
-        retour->ajouterApplication(new AppliqueSuppressionSort(3, true, false));
-        retour->setDescription("Supprimme 3 sorts ennemis de la case cible");
-    }
-    else
-    {
-        if(UsineSort::listeSort.count(nom) == 1)
-        {
-            retour = listeSort[nom].creerSort();
-        }
-    }
+    //    }
     //TODO Sort qui supprime un sort sur la case d'origine et inflige des degats
     //TODO Sort de liaison des cases. SI l'une tombe à 0, l'autre aussi
     //TODO Soin de groupe
@@ -210,56 +210,21 @@ void UsineSort::chargerConfiguration(string nomDossier)
     if(rep != NULL)
     {
         struct dirent *lecture = NULL;
-
         RecetteSort recette;
         while ((lecture = readdir(rep)))
         {
-            recette.setNomFichier(lecture->d_name);
-            if(recette.chargerRecette())
+            if(lecture->d_name[0] != '.')
             {
-                listeSort[recette.getNomSort()] = recette;
+                string chemin_fichier = nomDossier;
+                chemin_fichier += "/";
+                chemin_fichier += lecture->d_name;
+                recette.setNomFichier(chemin_fichier);
+                if(recette.chargerRecette())
+                {
+                    listeSort[recette.getNomSort()] = recette;
+                }
+
             }
         }
     }
-   RecetteSort recette;
-   NoeudRecetteSort* r, *f, *a;
-   r=new NoeudRecetteSort(NULL);
-   f = new NoeudRecetteSort(r);
-   f->setAttribut("name");
-   f->setValeur("Blizzard");
-   r->addFils(f);
-   f = new NoeudRecetteSort(r);
-   f->setAttribut("mana");
-   f->setValeur("10");
-   r->addFils(f);
-   f = new NoeudRecetteSort(r);
-   f->setAttribut("reach");
-   f->setValeur("10");
-   r->addFils(f);
-   f = new NoeudRecetteSort(r);
-   f->setAttribut("counttarget");
-   f->setValeur("1");
-   r->addFils(f);
-   f = new NoeudRecetteSort(r);
-   f->setAttribut("successRate");
-   f->setValeur("100");
-   r->addFils(f);
-   f = new NoeudRecetteSort(r);
-   f->setAttribut("description");
-   f->setValeur("Otter racoon");
-   r->addFils(f);
-   f = new NoeudRecetteSort(r);
-   f->setAttribut("elite");
-   f->setValeur("0");
-   r->addFils(f);
-   a = new NoeudRecetteSort(r);
-   a->setAttribut(CHRONIQUE_CHAINE);
-   a->setValeur("chroniqueDegat");
-   r->addFils(a);
-   f = new NoeudRecetteSort(r);
-   f->setAttribut("degat");
-   f->setValeur("100");
-   a->addFils(f);
-   recette.setRacine(r);
-   listeSort["Blizzard"] = recette;
 }

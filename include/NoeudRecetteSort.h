@@ -21,6 +21,7 @@ public:
     bool getValeurFilsBool(string attribut);
     vector<NoeudRecetteSort*>const& getListFils();
     void addFils(NoeudRecetteSort* n);
+
 private:
     vector<NoeudRecetteSort*> fils;
     NoeudRecetteSort* pere;

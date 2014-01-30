@@ -1,4 +1,5 @@
 #include "sort/actionApplique/AppliqueDegat.h"
+#include "NoeudRecetteSort.h"
 
 AppliqueDegat::AppliqueDegat(int degat)
 {
@@ -12,4 +13,9 @@ void AppliqueDegat::appliquerSortSurCase(Case &cible, Sort* sortExecutant)
 void AppliqueDegat::retirerSortDeCase(Case &cible, Sort* sortExecutant)
 {
 
+}
+
+AppliqueDegat::AppliqueDegat(NoeudRecetteSort* n)
+{
+    this->degat = n->getValeurFilsInt("degat");
 }
