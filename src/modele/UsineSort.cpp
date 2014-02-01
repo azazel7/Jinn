@@ -171,26 +171,6 @@ std::vector<string> UsineSort::liste()
         retour.push_back(it->first);
     }
     return retour;
-    retour.push_back("Sceau de Controle");
-    retour.push_back("Boule de Feu");
-    retour.push_back("Rune de Protection");
-    retour.push_back("Sceau de Vision");
-    retour.push_back("Spirale de Feu");
-    retour.push_back("Esprit Patient");
-    retour.push_back("Chaleur de Savane");
-    retour.push_back("Esprit Gardien");
-    retour.push_back("Frappe Sournoise");
-    retour.push_back("Choc Spirituel");
-    retour.push_back("Soin Astral");
-    retour.push_back("Regard Vampirique");
-    retour.push_back("Festin");
-    retour.push_back("Morsure Hivernale");
-    retour.push_back("Eclaire de Zeus");
-    retour.push_back("Oeil Celeste");
-    retour.push_back("Dispersion Astrale");
-
-
-    return retour;
 }
 
 Sort* UsineSort::fabriqueSort(Sort* sortModele)
@@ -210,21 +190,31 @@ void UsineSort::chargerConfiguration(string nomDossier)
     if(rep != NULL)
     {
         struct dirent *lecture = NULL;
-        RecetteSort recette;
         while ((lecture = readdir(rep)))
         {
-            if(lecture->d_name[0] != '.')
+            string chemin_fichier = nomDossier;
+            chemin_fichier += "/";
+            chemin_fichier += lecture->d_name;
+            if(lecture->d_name[0] != '.' && ! Tools::isDir(chemin_fichier))
             {
-                string chemin_fichier = nomDossier;
-                chemin_fichier += "/";
-                chemin_fichier += lecture->d_name;
+                cerr << "Chargement fichier : " << chemin_fichier<<  endl;
+                RecetteSort recette;
                 recette.setNomFichier(chemin_fichier);
                 if(recette.chargerRecette())
                 {
                     listeSort[recette.getNomSort()] = recette;
                 }
-
+            }
+            else if (lecture->d_name[0] != '.' && Tools::isDir(chemin_fichier))
+            {
+                chargerConfiguration(chemin_fichier);
             }
         }
+        closedir(rep);
     }
+}
+
+void UsineSort::libererConfiguration()
+{
+    UsineSort::listeSort.clear();
 }
