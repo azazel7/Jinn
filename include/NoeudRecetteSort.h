@@ -9,22 +9,22 @@ using namespace std;
 class NoeudRecetteSort
 {
 public:
-    NoeudRecetteSort(NoeudRecetteSort* pere);
+    NoeudRecetteSort();
+    NoeudRecetteSort(NoeudRecetteSort* n);
     string getAttribut();
     string getValeur();
     void setAttribut(string a);
     void setValeur(string a);
-    NoeudRecetteSort* getPere();
     NoeudRecetteSort* getFils(string attribut);
     string getValeurFils(string attribut);
     int getValeurFilsInt(string attribut);
     bool getValeurFilsBool(string attribut);
     vector<NoeudRecetteSort*>const& getListFils();
     void addFils(NoeudRecetteSort* n);
+    ~NoeudRecetteSort();
 
 private:
     vector<NoeudRecetteSort*> fils;
-    NoeudRecetteSort* pere;
     string attribut;
     string valeur;
 };

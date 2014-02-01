@@ -1,8 +1,16 @@
 #include "NoeudRecetteSort.h"
 
-NoeudRecetteSort::NoeudRecetteSort(NoeudRecetteSort *pere)
+NoeudRecetteSort::NoeudRecetteSort()
 {
-    this->pere = pere;
+}
+NoeudRecetteSort::NoeudRecetteSort(NoeudRecetteSort* n)
+{
+    this->attribut = n->attribut;
+    this->valeur = n->valeur;
+    for(NoeudRecetteSort* enfant : n->fils)
+    {
+        fils.push_back(new NoeudRecetteSort(enfant));
+    }
 }
 
 string NoeudRecetteSort::getAttribut()
@@ -13,11 +21,6 @@ string NoeudRecetteSort::getAttribut()
 string NoeudRecetteSort::getValeur()
 {
     return this->valeur;
-}
-
-NoeudRecetteSort* NoeudRecetteSort::getPere()
-{
-    return this->pere;
 }
 
 NoeudRecetteSort* NoeudRecetteSort::getFils(string attribut)
@@ -59,7 +62,7 @@ int NoeudRecetteSort::getValeurFilsInt(string attribut)
 
 bool NoeudRecetteSort::getValeurFilsBool(string attribut)
 {
-    return getValeurFils(attribut)[0] == 1;
+    return getValeurFils(attribut)[0] == '1';
 }
 
 vector<NoeudRecetteSort*>const& NoeudRecetteSort::getListFils()
@@ -70,4 +73,12 @@ vector<NoeudRecetteSort*>const& NoeudRecetteSort::getListFils()
 void NoeudRecetteSort::addFils(NoeudRecetteSort* n)
 {
     fils.push_back(n);
+}
+
+NoeudRecetteSort::~NoeudRecetteSort()
+{
+    for(NoeudRecetteSort* enfant : fils)
+    {
+        delete enfant;
+    }
 }
