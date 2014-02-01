@@ -540,6 +540,7 @@ void ReceptionServeur::fermerServeur()
 
 void ReceptionServeur::finirServeur()
 {
+    this->eteindre = true;
     GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Destruction de la partie");
     delete this->partie;
     this->partie = NULL;
@@ -558,7 +559,6 @@ void ReceptionServeur::finirServeur()
         close(it->first);
     }
     this->listeClient.clear();
-    this->eteindre = true;
     GestionnaireLogger::ecrirMessage(TypeMessage::INFO, "Fin du serveur");
 }
 
@@ -574,4 +574,9 @@ void ReceptionServeur::traitementInformationPartie(int socketClient)
     final += SEPARATEUR_ELEMENT;
     final += SEPARATEUR_COMMANDE;
     send(socketClient, final.c_str(), final.size(), 0);
+}
+
+void ReceptionServeur::setEteindre(bool v)
+{
+    this->eteindre = v;
 }

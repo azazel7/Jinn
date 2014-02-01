@@ -32,6 +32,7 @@ public:
     void miseEnEcoute();
     void finirServeur();
     void fermerServeur();
+    void setEteindre(bool v);
 
 private:
     void remplirSelection(fd_set& readfd);
