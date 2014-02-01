@@ -15,7 +15,7 @@ OPTION=-std=c++11
 WARNINGFLAG=
 
 ifeq ($(DEBUG),1)
-DEBUGFLAG=-g3 -O0 -pg
+DEBUGFLAG=-g3 -O0
 CC=clang++
 endif
 
