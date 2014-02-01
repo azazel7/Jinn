@@ -16,6 +16,8 @@ class Tools
     static std::string& trim(std::string &s);
     static std::string& rtrim(std::string &s);
     static std::string& ltrim(std::string &s);
+    static bool isDir(std::string &s);
+    static bool isDir(char* s);
 };
 
 template<typename T>

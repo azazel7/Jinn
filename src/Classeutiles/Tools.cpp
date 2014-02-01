@@ -1,4 +1,5 @@
 #include "Tools.h"
+#include <sys/stat.h>
 
 vector<string> Tools::splitByNSize(string const& chaine, int tailleBloc)
 {
@@ -32,4 +33,21 @@ std::string & Tools::rtrim(std::string &s) {
 // trim from both ends
 std::string & Tools::trim(std::string &s) {
     return ltrim(rtrim(s));
+}
+
+bool Tools::isDir(std::string &s)
+{
+    struct stat st;
+    lstat(s.c_str(), &st);
+    if(S_ISDIR(st.st_mode))
+    {
+        return true;
+    }
+    return false;
+}
+
+bool Tools::isDir(char *s)
+{
+    string l = s;
+    return Tools::isDir(l);
 }
