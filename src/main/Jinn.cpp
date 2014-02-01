@@ -12,6 +12,7 @@
 #include "ui/Demarrage.h"
 using namespace std;
 
+//TODO rendre ce truc globale plus propre !!!
 ReceptionServeur *serveur = NULL;
 void traitement_sigint(int sig)
 {
@@ -20,12 +21,15 @@ void traitement_sigint(int sig)
         GestionnaireLogger::ecrirMessage(INFO, "Reception du signal SIGINT");
         if(serveur != NULL)
         {
+//            serveur->setEteindre(true);
+            //FIXME Le exit(0) provoque une fuite de mémoire car le ip du main n'est pas désallouer -> Trouver une solution
             serveur->finirServeur();
             serveur->fermerServeur();
             delete serveur;
             serveur = NULL;
             GestionnaireLogger::viderRegistre();
             Position::libererPositions();
+            UsineSort::libererConfiguration();
             exit(0);
         }
     }
@@ -147,11 +151,13 @@ int main(int argc, char** argv)
     serveur = new ReceptionServeur(p, ip, port);
     serveur->initialiserServeur();
     serveur->miseEnEcoute();
+    serveur->finirServeur();
     serveur->fermerServeur();
     delete serveur;
     serveur = NULL;
     GestionnaireLogger::viderRegistre();
     Position::libererPositions();
+    UsineSort::libererConfiguration();
     return 0;
 }
 

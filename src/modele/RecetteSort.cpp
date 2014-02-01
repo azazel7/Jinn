@@ -19,7 +19,6 @@ RecetteSort::RecetteSort(const string &nomFichier)
 Sort* RecetteSort::creerSort()
 {
     //name, mana, type, elite, reach, counttarget
-    cerr << nomFichier << endl;
     string name = racine->getValeurFils("name");
     string description = racine->getValeurFils("description");
     int mana = racine->getValeurFilsInt("mana");
@@ -34,22 +33,16 @@ Sort* RecetteSort::creerSort()
     {
         if(enfant->getAttribut() == APPLICATION_CHAINE)
         {
-            cout << "Attribut appli : " << enfant->getValeur() << endl;
-            cout << "Taille :" << SortAppliquerSurCaseFactory::getListe().size() << endl;
             if(SortAppliquerSurCaseFactory::getListe().count(enfant->getValeur()) == 1)
             {
-                cout << "Valide Attribut appli : " << enfant->getValeur() << endl;
                 SortAppliquerSurCase* s = SortAppliquerSurCaseFactory::getListe()[enfant->getValeur()]->getNewInstance(enfant);
                 retour->ajouterApplication(s);
             }
         }
         else if(enfant->getAttribut() == CHRONIQUE_CHAINE)
         {
-            cout << "Attribut : " << enfant->getValeur() << endl;
-            cout << "Taille :" << SortActionChroniqueFactory::getListe().size() << endl;
             if(SortActionChroniqueFactory::getListe().count(enfant->getValeur()) == 1)
             {
-                cout << "Validé Attribut : " << enfant->getValeur() << endl;
                 SortActionChronique* s = SortActionChroniqueFactory::getListe()[enfant->getValeur()]->getNewInstance(enfant);
                 retour->ajouterActionChronique(s);
             }
@@ -68,7 +61,7 @@ bool RecetteSort::chargerRecette()
     string line;
     string attribut, valeur;
     string* currentBuffer = &attribut;
-    NoeudRecetteSort* racine = new NoeudRecetteSort(NULL);
+    racine = new NoeudRecetteSort();
     NoeudRecetteSort* fils = NULL;
     stack<NoeudRecetteSort*> pile;
     while(getline(fichier, line))
@@ -83,7 +76,7 @@ bool RecetteSort::chargerRecette()
             {
                 if(! attribut.empty() && ! valeur.empty())
                 {
-                    fils = new NoeudRecetteSort(racine);
+                    fils = new NoeudRecetteSort();
                     attribut = Tools::trim(attribut);
                     valeur = Tools::trim(valeur);
                     fils->setAttribut(attribut);
@@ -112,7 +105,6 @@ bool RecetteSort::chargerRecette()
             }
         }
     }
-    this->racine = racine;
     fichier.close();
     if(racine->getListFils().size() == 0)
     {
@@ -162,4 +154,19 @@ void RecetteSort::printArbreRecetteRecursive(NoeudRecetteSort* n, string s)
             printArbreRecetteRecursive(enfant, s + "\t");
         }
     }
+}
+
+RecetteSort::~RecetteSort()
+{
+    delete racine;
+}
+
+RecetteSort& RecetteSort::operator=(const RecetteSort& r)
+{
+    if(this != &r)
+    {
+        this->nomFichier = r.nomFichier;
+        this->racine = new NoeudRecetteSort(r.racine);//FIXME
+    }
+    return *this;
 }

@@ -37,8 +37,10 @@ public:
     SortAppliquerSurCaseFactory(string name);
 
     virtual SortAppliquerSurCase* getNewInstance(NoeudRecetteSort* n) = 0;
-    static std::map<string, SortAppliquerSurCaseFactory*>  liste;
     static std::map<string, SortAppliquerSurCaseFactory*> getListe();
+private:
+    static std::map<string, SortAppliquerSurCaseFactory*>  liste;
+
 };
 
 template<class T>

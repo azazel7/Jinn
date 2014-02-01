@@ -22,7 +22,7 @@ using namespace std;
 class Action;
 class Equipe;
 class Partie;
-
+//TODO Think Faire un sytéme de chargement de puissance quand on lance des sorts (c.f épuisement et puissance dans GW)
 class Joueur
 {
 

@@ -28,8 +28,10 @@ public:
     SortActionChroniqueFactory(string name);
 
     virtual SortActionChronique* getNewInstance(NoeudRecetteSort* n) = 0;
-    static std::map<string, SortActionChroniqueFactory*>  liste;
     static std::map<string, SortActionChroniqueFactory*> getListe();
+private:
+    static std::map<string, SortActionChroniqueFactory*>  liste;
+
 };
 
 template<class T>

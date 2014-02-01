@@ -19,7 +19,8 @@ public:
     void setRacine(NoeudRecetteSort* n);
     void printArbreRecette();
     void printArbreRecetteRecursive(NoeudRecetteSort* n, string s);
-
+    RecetteSort& operator=(const RecetteSort& r);
+    ~RecetteSort();
 private:
     string nomFichier;
     NoeudRecetteSort* racine;
