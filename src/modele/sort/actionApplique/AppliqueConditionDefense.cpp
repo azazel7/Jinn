@@ -1,6 +1,16 @@
 #include "sort/actionApplique/AppliqueConditionDefense.h"
 #include "Case.h"
 
+AppliqueConditionDefense::AppliqueConditionDefense(NoeudRecetteSort* n)
+{
+    palier = n->getValeurFilsInt("floor");
+    type = n->getValeurFilsBool("type");
+    ajout = n->getValeurFilsBool("onAdd");
+    retrait = n->getValeurFilsBool("onWithdraw");
+    inferieur = n->getValeurFilsBool("inferieur");
+    egal = n->getValeurFilsBool("egal");
+}
+
 AppliqueConditionDefense::AppliqueConditionDefense(int palier, bool type, bool ajout, bool retrait) //type = true = pourcentage
 {
     this->palier = palier;
@@ -36,20 +46,30 @@ void AppliqueConditionDefense::retirerSortDeCase(Case &cible, Sort* sortExecutan
 
 bool AppliqueConditionDefense::verifierCondition(Case &cible, Sort* sortExecutant)
 {
+    int pourcentage;
     if(type == true)
     {
-        int pourcentage = floor((cible.getDefenseActuelle()*100)/cible.getDefenseReel());
-        if(pourcentage > this->palier)
-        {
-            return true;
-        }
+        pourcentage = floor((cible.getDefenseActuelle()*100)/cible.getDefenseReel());
     }
     else
     {
-        if(cible.getDefenseActuelle() < this->palier)
-        {
-            return true;
-        }
+        pourcentage = cible.getDefenseActuelle();
+    }
+    if(this->inferieur == true && this->egal == false && pourcentage < this->palier)
+    {
+        return true;
+    }
+    else if(this->inferieur == true && this->egal == true && pourcentage <= this->palier)
+    {
+        return true;
+    }
+    else if(this->inferieur == false && this->egal == false && pourcentage > this->palier)
+    {
+        return true;
+    }
+    else if(this->inferieur == false && this->egal == true && pourcentage >= this->palier)
+    {
+        return true;
     }
     return false;
 }
