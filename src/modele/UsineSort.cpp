@@ -200,9 +200,22 @@ void UsineSort::chargerConfiguration(string nomDossier)
                 cerr << "Chargement fichier : " << chemin_fichier<<  endl;
                 RecetteSort recette;
                 recette.setNomFichier(chemin_fichier);
-                if(recette.chargerRecette())
+                try
                 {
-                    listeSort[recette.getNomSort()] = recette;
+                    if(recette.chargerRecette())
+                    {
+                        Sort* s = recette.creerSort();
+                        if(s != NULL)
+                        {
+                            delete s;
+                            listeSort[recette.getNomSort()] = recette;
+                        }
+                    }
+
+                }
+                catch(exception const& e)
+                {
+                    cerr << "Erreur de chargement : " << chemin_fichier << " (" << e.what() << ")" << endl;
                 }
             }
             else if (lecture->d_name[0] != '.' && Tools::isDir(chemin_fichier))

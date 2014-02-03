@@ -1,4 +1,6 @@
 #include "NoeudRecetteSort.h"
+#include <algorithm>
+
 
 NoeudRecetteSort::NoeudRecetteSort()
 {
@@ -50,7 +52,7 @@ string NoeudRecetteSort::getValeurFils(string attribut)
     NoeudRecetteSort* fils = getFils(attribut);
     if(fils == NULL)
     {
-        throw new string("Erreur");
+        throw invalid_argument("Attribut inexistant");
     }
     return fils->getValeur();
 }

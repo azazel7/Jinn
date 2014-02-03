@@ -3,6 +3,7 @@
 #include "RecetteSort.h"
 #include <fstream>
 #include <stack>
+#include <algorithm>
 #include "Tools.h"
 
 RecetteSort::RecetteSort()
@@ -102,6 +103,10 @@ bool RecetteSort::chargerRecette()
                 fils = racine;
                 racine = pile.top();
                 pile.pop();
+            }
+            else if(line[i] == '}' && pile.empty())
+            {
+                throw invalid_argument("Accolade innatendue");
             }
         }
     }
