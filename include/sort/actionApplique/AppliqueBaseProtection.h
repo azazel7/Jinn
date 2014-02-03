@@ -7,12 +7,14 @@
 class AppliqueBaseProtection: public SortAppliquerSurCase
 {
 public:
-    AppliqueBaseProtection(int valeur);
+    AppliqueBaseProtection(NoeudRecetteSort* n);
     virtual void appliquerSortSurCase(Case &cible, Sort* sortExecutant);
     virtual void retirerSortDeCase(Case &cible, Sort* sortExecutant);
 
 private:
     int valeur;
+    bool type; //true = pourcentage
+    bool augmentation;
 };
 
 #endif
